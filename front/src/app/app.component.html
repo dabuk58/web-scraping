@@ -22,13 +22,22 @@
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Select source</mat-label>
+                    <mat-select formControlName="source">
+                        <mat-option value="rozkladJazdyPKP">Rozkład jazdy PKP</mat-option>
+                        <mat-option value="portalPasazera"> Portal pasażera</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formGroup.get('source')?.invalid">You must make a selection</mat-error>
+                </mat-form-field>
             </form>
             <button color="primary" mat-raised-button [disabled]="formGroup.invalid" (click)="onSearch()">Search</button>
         </mat-card-content>
     </mat-card>
     <mat-card class="result" *ngFor="let connection of connections | async">
         <mat-card-header>
-            <mat-card-title>Przyjazd - Odjazd</mat-card-title>
+            <mat-card-title>Data odjazdu - Data przyjazdu</mat-card-title>
         </mat-card-header>
         <mat-card-content>
             {{ connection.fromTime}} {{ connection.dateFrom }} - {{ connection.toTime }} {{ connection.dateTo }}
