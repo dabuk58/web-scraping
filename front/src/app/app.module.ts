@@ -17,10 +17,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
+import { DomPipe } from './dom.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DomPipe,
   ],
   imports: [
     BrowserModule,

@@ -41,6 +41,9 @@
         </mat-card-header>
         <mat-card-content>
             {{ connection.fromTime}} {{ connection.dateFrom }} - {{ connection.toTime }} {{ connection.dateTo }}
+
+            <a [href]="connection.link" *ngIf="connection.link" target="_blank">Kup Bilet</a>
+            <div *ngIf="connection.form" [innerHTML]="connection.form | domPipe"></div>
         </mat-card-content>
     </mat-card>
 </div>

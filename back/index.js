@@ -77,6 +77,8 @@ const searchRozkladJazdyPKP = async (from, to, departureDate, departureTime) => 
   
     await page.click('#singlebutton');
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+    // await page.waitForSelector("button[class='buy-ticket']")
   
     const results = await page.evaluate(() => Array.from(document.querySelector('tbody').querySelectorAll('tr'), (e) => ({
     //   from: e.children[1].children[0].innerText,
@@ -84,7 +86,9 @@ const searchRozkladJazdyPKP = async (from, to, departureDate, departureTime) => 
       dateFrom: e.children[2].innerText.slice(0, 8),
       fromTime: e.children[3].children[0].children[0].children[2].innerText,
       toTime: e.children[3].children[1].children[0].children[2].innerText,
-      dateTo: e.children[2].innerText.slice(0, 8)
+      dateTo: e.children[2].innerText.slice(0, 8),
+      link: e.children[7].querySelector('a') ? e.children[7].querySelector('a').href : null,
+      form: e.children[7].querySelector('form') ? e.children[7].querySelector('form').outerHTML : null
     //   totalTime: e.children[4].innerText,
     //   interchanges: e.children[5].innerText,
     })));
