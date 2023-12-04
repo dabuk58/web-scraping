@@ -15,6 +15,19 @@ const corsOptions = {
 
 puppeteer.use(stealthPlugin());
 
+
+const searchDB = async () => {
+    const browser = await puppeteer.launch({ headless: false });
+    const page = await browser.newPage()
+
+    await page.goto('https://int.bahn.de/pl');
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    await browser.close();
+}
+
+searchDB();
+
 const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage()
@@ -46,11 +59,8 @@ const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     
     await browser.close();
 
-    console.log(results);
     return results;
 }
-
-searchPortalPasazera('Katowice', 'Warszawa', '01.12.2023', '20:00');
 
 const searchRozkladJazdyPKP = async (from, to, departureDate, departureTime) => {
     const browser = await puppeteer.launch({ headless: true });
