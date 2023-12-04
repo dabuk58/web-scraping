@@ -10,10 +10,8 @@ const corsOptions = {
     origin: 'http://localhost:4200'
 };
 
-app.listen(3000);
-app.use(cors(corsOptions));
-  
-
+//app.listen(3000);
+//app.use(cors(corsOptions));
 
 puppeteer.use(stealthPlugin());
 
@@ -35,22 +33,27 @@ const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
 
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-    const results = await page.$$eval('.search-results__item', (elements) =>
-        elements.map((e) => ({
-            fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
-            toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
-            dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
-            dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
-        }))
-    );
+    await page.click('')
+
+    // const results = await page.$$eval('.search-results__item', (elements) =>
+    //     elements.map((e) => ({
+    //         fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
+    //         toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
+    //         dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
+    //         dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
+    //     }))
+    // );
     
     await browser.close();
 
-    return results;
+    console.log(results);
+    //return results;
 }
 
+searchPortalPasazera('Katowice', 'Warszawa', '01.12.2023', '20:00');
+
 const searchRozkladJazdyPKP = async (from, to, departureDate, departureTime) => {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage()
 
     await page.goto('https://rozklad-pkp.pl/');
