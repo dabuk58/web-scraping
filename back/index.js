@@ -47,7 +47,7 @@ const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     await browser.close();
 
     console.log(results);
-    //return results;
+    return results;
 }
 
 searchPortalPasazera('Katowice', 'Warszawa', '01.12.2023', '20:00');
