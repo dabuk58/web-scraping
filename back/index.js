@@ -16,17 +16,35 @@ const corsOptions = {
 puppeteer.use(stealthPlugin());
 
 
-const searchDB = async () => {
-    const browser = await puppeteer.launch({ headless: false });
+const searchDB = async (from, to, departureDate, departureTime) => {
+    const browser = await puppeteer.launch({ headless: false, args: ['--start-fullscreen'] });
     const page = await browser.newPage()
-
+    
     await page.goto('https://int.bahn.de/pl');
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    const button = await (await page.evaluateHandle(`document.querySelector("body > div:nth-child(1)").shadowRoot.querySelector("#consent-layer > div.consent-layer__btn-container > button.btn.btn--secondary.js-accept-all-cookies")`)).asElement();
+    button.click();
+
+    await page.waitForSelector('[placeholder="Z"]');
+    
+    await page.type('[placeholder="Z"]', from);
+    await page.type('[placeholder="Do"]', to);
+    
+    await page.click('[placeholder="Z"]');
+    await page.click('[placeholder="Do"]');
+    await page.waitForTimeout(1000);
+    
+    console.log(123);
+    
+    await page.click('.db-web-button.test-db-web-button.quick-finder-basic__search-btn.quick-finder-basic__search-btn--desktop.db-web-button--type-primary.db-web-button--size-large');
+    
+    
+    await new Promise((resolve) => setTimeout(resolve, 50000));
 
     await browser.close();
 }
 
-searchDB();
+searchDB('Katowice', 'Warszawa', '20.12.2023', '20:00');
 
 const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     const browser = await puppeteer.launch({ headless: false });
