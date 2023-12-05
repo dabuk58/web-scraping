@@ -32,14 +32,21 @@ const searchDB = async (from, to, departureDate, departureTime) => {
     
     await page.click('[placeholder="Z"]');
     await page.click('[placeholder="Do"]');
-    await page.waitForTimeout(1000);
-    
-    console.log(123);
-    
+    await page.waitForTimeout(5000);
+
     await page.click('.db-web-button.test-db-web-button.quick-finder-basic__search-btn.quick-finder-basic__search-btn--desktop.db-web-button--type-primary.db-web-button--size-large');
     
-    
-    await new Promise((resolve) => setTimeout(resolve, 50000));
+    await page.waitForNavigation({ waitUntil: 'networkidle0' });
+
+
+    const results = await page.$$eval('.verbindung-list__result-item', (elements) => {
+        return elements.map((e) => ({
+            fromTime: e.querySelector('.reiseplan__uebersicht-uhrzeit-von .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
+            toTime: e.querySelector('.reiseplan__uebersicht-uhrzeit-nach .reiseplan__uebersicht-uhrzeit-sollzeit').innerText
+        }));
+    });
+
+    console.log(results);
 
     await browser.close();
 }
@@ -64,16 +71,14 @@ const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
 
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-    await page.click('')
-
-    // const results = await page.$$eval('.search-results__item', (elements) =>
-    //     elements.map((e) => ({
-    //         fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
-    //         toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
-    //         dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
-    //         dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
-    //     }))
-    // );
+    const results = await page.$$eval('.search-results__item', (elements) =>
+        elements.map((e) => ({
+            fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
+            toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
+            dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
+            dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
+        }))
+    );
     
     await browser.close();
 
