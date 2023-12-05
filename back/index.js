@@ -22,8 +22,8 @@ const searchDB = async (from, to, departureDate, departureTime) => {
     
     await page.goto('https://int.bahn.de/pl');
 
-    const button = await (await page.evaluateHandle(`document.querySelector("body > div:nth-child(1)").shadowRoot.querySelector("#consent-layer > div.consent-layer__btn-container > button.btn.btn--secondary.js-accept-all-cookies")`)).asElement();
-    button.click();
+    const buttonAcceptCookies = await (await page.evaluateHandle(`document.querySelector("body > div:nth-child(1)").shadowRoot.querySelector("#consent-layer > div.consent-layer__btn-container > button.btn.btn--secondary.js-accept-all-cookies")`)).asElement();
+    buttonAcceptCookies.click();
 
     await page.waitForSelector('[placeholder="Z"]');
     
@@ -32,22 +32,47 @@ const searchDB = async (from, to, departureDate, departureTime) => {
     
     await page.click('[placeholder="Z"]');
     await page.click('[placeholder="Do"]');
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(1500);
 
     await page.click('.db-web-button.test-db-web-button.quick-finder-basic__search-btn.quick-finder-basic__search-btn--desktop.db-web-button--type-primary.db-web-button--size-large');
     
     await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-
-    const results = await page.$$eval('.verbindung-list__result-item', (elements) => {
-        return elements.map((e) => ({
-            fromTime: e.querySelector('.reiseplan__uebersicht-uhrzeit-von .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
-            toTime: e.querySelector('.reiseplan__uebersicht-uhrzeit-nach .reiseplan__uebersicht-uhrzeit-sollzeit').innerText
-        }));
+    await page.$$eval('span', (elements) => {
+        Array.from(elements).find(e => e.textContent.trim() === 'Dodaj wiek podróżnych').click();
     });
 
-    console.log(results);
+    await page.type('.db-web-text-input__input-field.db-web-text-input__input-field--dark', '30');
 
+    const buttonAcceptAge = await (await page.evaluateHandle(`document.querySelector("#dialog-content > div.db-web-plugin-dialog__footer > button.db-web-button.test-db-web-button.db-web-plugin-dialog__footer-button.db-web-plugin-dialog__footer-button--primary.db-web-button--type-primary.db-web-button--size-regular")`)).asElement();
+    buttonAcceptAge.click();
+
+    await page.waitForSelector('.reiseloesung-list-page__wrapper');
+    
+    const results = await page.$$eval('.verbindung-list__result-item', (items) => {
+        return items.map((item) => {
+            const countPriceElement = item.querySelector('.reise-preis__link-text');
+
+            if(countPriceElement){
+                return {
+                    fromTime: item.querySelector('.reiseplan__uebersicht-uhrzeit-von .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
+                    toTime: item.querySelector('.reiseplan__uebersicht-uhrzeit-nach .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
+                    ticketUrl: item.querySelector('.db-web-link.test-link.reiseloesung-button-container__link-waehlen.reiseloesung-button-container__desktop.db-web-link--type-button-primary').href
+                }
+            } else {
+                return {
+                    fromTime: item.querySelector('.reiseplan__uebersicht-uhrzeit-von .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
+                    toTime: item.querySelector('.reiseplan__uebersicht-uhrzeit-nach .reiseplan__uebersicht-uhrzeit-sollzeit').innerText,
+                    ticketUrl: null
+                }
+            }
+        });
+    });
+    
+    console.log(results);
+    
+    await page.waitForTimeout(100000);
+    
     await browser.close();
 }
 
