@@ -68,15 +68,15 @@ const searchDB = async (from, to, departureDate, departureTime) => {
             }
         });
     });
-    
-    console.log(results);
-    
-    await page.waitForTimeout(100000);
-    
+
     await browser.close();
+    
+    return results;
 }
 
-searchDB('Katowice', 'Warszawa', '20.12.2023', '20:00');
+searchDB('Katowice', 'Warszawa', '20.12.2023', '20:00').then(results => {
+    console.log(results);
+});
 
 const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     const browser = await puppeteer.launch({ headless: false });
