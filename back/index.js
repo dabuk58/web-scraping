@@ -149,10 +149,6 @@ function monthNumberToNameForDB(monthNumber){
     }
 }
 
-searchDB('Katowice', 'Warszawa', '01.05.2024', '20:00').then(results => {
-    console.log(results);
-});
-
 const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
     const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage()
@@ -238,7 +234,7 @@ const search = async (from, to, departureDate, departureTime, source) => {
         case 'rozkladJazdyPKP':
             return searchRozkladJazdyPKP(from, to, departureDate, departureTime);
         case 'portalPasazera':
-            return searchPortalPasazera(from, to, departureDate, departureTime); 
+            return searchPortalPasazera(from, to, departureDate, departureTime);
     }
 }
 
