@@ -64,6 +64,12 @@ export class AppComponent implements OnInit{
         year = date.getFullYear();
         return `${day}.${month}.${year}`;
 
+      case 'DeutscheBahn':
+        day = ('0' + date.getDate()).slice(-2);
+        month = ('0' + (date.getMonth() + 1)).slice(-2);
+        year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+
       case 'rozkladJazdyPKP':
         day = date.getDate();
         month = date.getMonth() + 1; 

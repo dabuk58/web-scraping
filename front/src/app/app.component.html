@@ -27,7 +27,8 @@
                     <mat-label>Select source</mat-label>
                     <mat-select formControlName="source">
                         <mat-option value="rozkladJazdyPKP">Rozkład jazdy PKP</mat-option>
-                        <mat-option value="portalPasazera"> Portal pasażera</mat-option>
+                        <mat-option value="portalPasazera">Portal pasażera</mat-option>
+                        <mat-option value="DeutscheBahn">Deutsche Bahn</mat-option>
                     </mat-select>
                     <mat-error *ngIf="formGroup.get('source')?.invalid">You must make a selection</mat-error>
                 </mat-form-field>
