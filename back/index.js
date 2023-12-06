@@ -24,15 +24,61 @@ const searchDB = async (from, to, departureDate, departureTime) => {
 
     const buttonAcceptCookies = await (await page.evaluateHandle(`document.querySelector("body > div:nth-child(1)").shadowRoot.querySelector("#consent-layer > div.consent-layer__btn-container > button.btn.btn--secondary.js-accept-all-cookies")`)).asElement();
     buttonAcceptCookies.click();
-
+    
     await page.waitForSelector('[placeholder="Z"]');
     
     await page.type('[placeholder="Z"]', from);
-    await page.type('[placeholder="Do"]', to);
-    
     await page.click('[placeholder="Z"]');
+
+    await page.type('[placeholder="Do"]', to);
     await page.click('[placeholder="Do"]');
-    await page.waitForTimeout(1500);
+    
+    await page.waitForTimeout(2000);
+    
+    await page.$$eval('h2.quick-finder-option-area__heading', (h2) => {
+        h2.map((h2) => {
+            if(h2.innerText.indexOf("Dzisiaj od") != -1){
+                h2.click();
+            }
+        });
+    });
+    
+    departureDate = departureDate.split(".");
+    departureDate[1] = monthNumberToNameForDB(departureDate[1]);
+
+    await page.waitForSelector(".db-web-date-picker-input__field-overlay");
+
+    let isProperDate = false;
+
+    while(!isProperDate){
+        const date = await page.evaluate(() => {
+            const element = document.querySelector(".db-web-date-picker-input__field-overlay");
+            return element.innerText;
+        });
+
+        if(date.indexOf(departureDate[1] + ' ' + departureDate[2]) != -1){
+            isProperDate = true;
+        } else {
+            await page.click('span.db-web-icon.icon-next2');
+        }
+    }
+    
+    const departureDay = departureDate[0];
+    
+    await page.$$eval(
+        '.swiper-slide-active .db-web-date-picker-calendar-day.db-web-date-picker-calendar-day--day-in-month-or-selectable span.db-web-date-picker-calendar-day--label',
+        (days, departureDay) => {
+            days.forEach((day) => {
+                console.log(day.innerText);
+                if (day.innerText === departureDay) {
+                    day.click();
+                }
+            });
+        },
+        departureDay
+    );
+
+    await page.click('.db-web-button.test-db-web-button.db-web-button--type-primary.db-web-button--size-regular.quick-finder-overlay-control-buttons__button.quick-finder-overlay-control-buttons__button--commit');
 
     await page.click('.db-web-button.test-db-web-button.quick-finder-basic__search-btn.quick-finder-basic__search-btn--desktop.db-web-button--type-primary.db-web-button--size-large');
     
@@ -74,7 +120,36 @@ const searchDB = async (from, to, departureDate, departureTime) => {
     return results;
 }
 
-searchDB('Katowice', 'Warszawa', '20.12.2023', '20:00').then(results => {
+function monthNumberToNameForDB(monthNumber){
+    switch(monthNumber){
+        case "01":
+            return 'stycznia';
+        case "02":
+            return 'lutego';
+        case "03":
+            return 'marca';
+        case "04":
+            return 'kwietnia';
+        case "05":
+            return 'maja';
+        case "06":
+            return 'czerwca';
+        case "07":
+            return 'lipca';
+        case "08":
+            return 'sierpnia';
+        case "09":
+            return 'września';
+        case "10":
+            return 'października';
+        case "11":
+            return 'listopada';
+        case "12":
+            return 'grudnia';
+    }
+}
+
+searchDB('Katowice', 'Warszawa', '01.05.2024', '20:00').then(results => {
     console.log(results);
 });
 
