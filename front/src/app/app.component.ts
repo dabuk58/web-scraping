@@ -7,7 +7,9 @@ interface connection{
   fromTime: string,
   toTime: string,
   dateFrom: string,
-  dateTo: string
+  dateTo: string,
+  link?: string,
+  form?: string,
 }
 
 @Component({

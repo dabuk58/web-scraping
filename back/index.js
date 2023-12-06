@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer-extra');
+const config = require('./config.js')
 const stealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 const express = require('express');
@@ -12,97 +13,93 @@ const corsOptions = {
 
 app.listen(3000);
 app.use(cors(corsOptions));
-  
-
 
 puppeteer.use(stealthPlugin());
 
-const searchPortalPasazera = async (from, to, departureDate, departureTime) => {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage()
+const scrapRozkladJazdyPKP = async (from, to, departureDate, departureTime, config, page, browser) => {
+  const {modal, inputFrom, inputTo, inputDate, inputTime, submit} = config
 
-    await page.goto('https://portalpasazera.pl/');
-    await page.type('#departureFrom', from);
-    await page.type('#arrivalTo', to);
+  await page.click(modal);
+  await page.type(inputFrom, from);
+  await page.type(inputTo, to);
 
-    await page.evaluate((date, time) => {
-        document.getElementById('main-search__dateStart').value = date;
-        document.getElementById('main-search__timeStart').value = time;
-    }, departureDate, departureTime);
-    
-    await page.click('.main-search__connection-directCheck');
-    await page.click('.btn-start-search');
+  await page.evaluate((departureDate, departureTime, inputDate, inputTime) => {
+    const day1 = document.querySelector(inputDate[0]);
+    const day2 = document.querySelector(inputDate[1]);
+    const day3 = document.querySelector(inputDate[2]);
+    const day4 = document.querySelector(inputDate[3]);
+    day1.value = departureDate;
+    day2.value = departureDate;
+    day3.value = departureDate;
+    day4.value = departureDate;
 
-    await page.waitForNavigation({ waitUntil: 'networkidle0' });
+    const time1 = document.querySelector(inputTime[0]);
+    const time2 = document.querySelector(inputTime[1]);
+    time1.value = departureTime;
+    time2.value = departureTime;
+  }, departureDate, departureTime, inputDate, inputTime);
 
-    const results = await page.$$eval('.search-results__item', (elements) =>
-        elements.map((e) => ({
-            fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
-            toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
-            dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
-            dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
-        }))
-    );
-    
-    await browser.close();
+  await page.click(submit[0]);
+  await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-    return results;
+  const results = await page.evaluate(() => Array.from(document.querySelector('tbody').querySelectorAll('tr'), (e) => ({
+    dateFrom: e.children[2].innerText.slice(0, 8),
+    fromTime: e.children[3].children[0].children[0].children[2].innerText,
+    toTime: e.children[3].children[1].children[0].children[2].innerText,
+    dateTo: e.children[2].innerText.slice(0, 8),
+    link: e.children[7].querySelector('a') ? e.children[7].querySelector('a').href : null,
+    form: e.children[7].querySelector('form') ? e.children[7].querySelector('form').outerHTML : null
+  })));
+
+  await browser.close();
+
+  return results;
 }
 
-const searchRozkladJazdyPKP = async (from, to, departureDate, departureTime) => {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage()
+const scrapPortalPasazera = async (from, to, departureDate, departureTime, config, page, browser) => {
+  const {modal, inputFrom, inputTo, inputDate, inputTime, submit} = config
 
-    await page.goto('https://rozklad-pkp.pl/');
+  await page.type(inputFrom, from);
+  await page.type(inputTo, to);
 
-    await page.click('.css-47sehv');
-    await page.type('#from-station', from);
-    await page.type('#to-station', to);
+  await page.evaluate((date, time, inputDate, inputTime) => {
+      document.getElementById(inputDate[0]).value = date;
+      document.getElementById(inputTime[0]).value = time;
+  }, departureDate, departureTime, inputDate, inputTime);
   
-    await page.evaluate((departureDate, departureTime) => {
-      const day1 = document.querySelector('input[name="date"]');
-      const day2 = document.querySelector('input[name="dateStart"]');
-      const day3 = document.querySelector('input[name="dateEnd"]');
-      const day4 = document.querySelector('input[name="REQ0JourneyDate"]');
-      day1.value = departureDate;
-      day2.value = departureDate;
-      day3.value = departureDate;
-      day4.value = departureDate;
-  
-      const time1 = document.querySelector('input[name="time"]');
-      const time2 = document.querySelector('input[name="REQ0JourneyTime"]');
-      time1.value = departureTime;
-      time2.value = departureTime;
-    }, departureDate, departureTime);
-  
-    await page.click('#singlebutton');
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
-  
-    const results = await page.evaluate(() => Array.from(document.querySelector('tbody').querySelectorAll('tr'), (e) => ({
-    //   from: e.children[1].children[0].innerText,
-    //   to: e.children[1].children[1].innerText,
-      dateFrom: e.children[2].innerText.slice(0, 8),
-      fromTime: e.children[3].children[0].children[0].children[2].innerText,
-      toTime: e.children[3].children[1].children[0].children[2].innerText,
-      dateTo: e.children[2].innerText.slice(0, 8)
-    //   totalTime: e.children[4].innerText,
-    //   interchanges: e.children[5].innerText,
-    })));
+  await page.click(submit[0]);
+  await page.click(submit[1]);
 
-    await browser.close();
+  await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
-    console.log(results);
+  const results = await page.$$eval('.search-results__item', (elements) =>
+      elements.map((e) => ({
+          fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
+          toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
+          dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
+          dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
+      }))
+  );
+  
+  await browser.close();
 
-    return results;
+  return results;
+}
+ 
+const searchTrain = async (from, to, departureDate, departureTime, config, scrapWebsite) => {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage()
+  await page.goto(config.url);
+
+  return scrapWebsite(from, to, departureDate, departureTime, config, page, browser)
 }
 
 const search = async (from, to, departureDate, departureTime, source) => {
-
     switch(source) {
         case 'rozkladJazdyPKP':
-            return searchRozkladJazdyPKP(from, to, departureDate, departureTime);
+            return searchTrain(from, to, departureDate, departureTime, config[0], scrapRozkladJazdyPKP);
         case 'portalPasazera':
-            return searchPortalPasazera(from, to, departureDate, departureTime); 
+            return searchTrain(from, to, departureDate, departureTime, config[1], scrapPortalPasazera); 
     }
 }
 
