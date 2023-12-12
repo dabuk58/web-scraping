@@ -1,211 +1,3 @@
-// const inputs = [
-//        //portalpasazera
-//        '<input id="tw-odjazd" type="radio" class="mate-input" placeholder="">',
-//        '<input id="tw-przyjazd" type="radio" class="mate-input" placeholder="">',
-//        '<input id="departureFrom" type="text" class="field-with-floating-label k-input" placeholder="">',
-//        '<input id="arrivalTo" type="text" class="field-with-floating-label k-input" placeholder="">',
-//        '<input id="main-search__dateStart" type="text" class="kendoDatePicker field-with-floating-label" placeholder="">',
-//        '<input id="main-search__timeStart" type="text" class="kendoTimePicker field-with-floating-label" placeholder="">',
-//        '<input id="dirChck" type="checkbox" class="mate-input" placeholder="">',
-//        '<input id="direct-connection" type="radio" class="mate-input" placeholder="">',
-//        '<input id="indirect-connection" type="radio" class="mate-input" placeholder="">',
-//        //rozkladjazdypkp
-//        '<input id="search-content" type="text" class="form-control search" placeholder="Szukaj w serwisie…">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="from-station" type="text" class="form-control form-control--switch station-autocomplete z1 ui-autocomplete-input" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="wcag-via" type="text" class="form-control form-control--switch station-autocomplete ui-autocomplete-input" placeholder="">',
-//        '<input id="hour2" type="text" class="form-control md-1" placeholder="00:15">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="text" class="form-control form-control--switch station-autocomplete ui-autocomplete-input" placeholder="">',
-//        '<input id="" type="text" class="form-control md-1" placeholder="00:15">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="to-station" type="text" class="form-control form-control--switch station-autocomplete z1 ui-autocomplete-input" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="hour0" type="text" class="day-hour form-control" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="hour" type="text" class="day-hour form-control" placeholder="">',
-//        '<input id="odj" type="radio" class="" placeholder="">',
-//        '<input id="prz" type="radio" class="" placeholder="">',
-//        '<input id="directCheckbox" type="checkbox" class="checkbox directConnectionsOnlyCheckbox" placeholder="">',
-//        '<input id="globalBike" type="checkbox" class="checkbox" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="disabledTravellersCheckbox" type="checkbox" class="checkbox" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="kidsCheckbox" type="checkbox" class="checkbox" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="product_0_0" type="checkbox" class="multicheck" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="product_0_1" type="checkbox" class="multicheck" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="product_0_2" type="checkbox" class="multicheck" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="product_0_3" type="checkbox" class="multicheck" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="" type="hidden" class="multicheck-suboption" placeholder="">',
-//        '<input id="subOp" type="checkbox" class="" placeholder="">',
-//        '<input id="withoutReservationServiceCheckbox" type="checkbox" class="checkbox" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="skipLongChg" type="checkbox" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="allProvidersCheckbox" type="checkbox" class="" placeholder="">',
-//        '<input id="P1" type="checkbox" class="" placeholder="">',
-//        '<input id="P1FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P5" type="checkbox" class="" placeholder="">',
-//        '<input id="P5FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P2" type="checkbox" class="" placeholder="">',
-//        '<input id="P2FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P7" type="checkbox" class="" placeholder="">',
-//        '<input id="P7FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P3" type="checkbox" class="" placeholder="">',
-//        '<input id="P3FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P4" type="checkbox" class="" placeholder="">',
-//        '<input id="P4FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P0" type="checkbox" class="" placeholder="">',
-//        '<input id="P0FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P9" type="checkbox" class="" placeholder="">',
-//        '<input id="P9FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P8" type="checkbox" class="" placeholder="">',
-//        '<input id="P8FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="P6" type="checkbox" class="" placeholder="">',
-//        '<input id="P6FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="O1" type="checkbox" class="" placeholder="">',
-//        '<input id="O1FinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="PZ" type="checkbox" class="" placeholder="">',
-//        '<input id="PZFinalValue" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        //intercity
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="stname-0" type="search" class="jsStationTypeaheadItem jsNearestStationItem form-control" placeholder="np. Poznań Gł.">',
-//        '<input id="stid-0" type="hidden" class="jsTypeaheadItem-Value" placeholder="">',
-//        '<input id="vianame-0" type="search" class="jsStationTypeaheadItem  form-control" placeholder="np. Szczecin Gł.">',
-//        '<input id="" type="hidden" class="jsTypeaheadItem-Value" placeholder="">',
-//        '<input id="stname-1" type="search" class="jsStationTypeaheadItem  form-control" placeholder="np. Szczecin Gł.">',
-//        '<input id="stid-1" type="hidden" class="jsTypeaheadItem-Value" placeholder="">',
-//        '<input id="inlineRadio1" type="radio" class="form-check-input" placeholder="">',
-//        '<input id="inlineRadio2" type="radio" class="form-check-input" placeholder="">',
-//        '<input id="date_picker" type="text" class="form-control datepicker-input" placeholder="RRRR-MM-DD">',
-//        '<input id="ic-seek-time" type="text" class="jsTimepickerItem form-control clock-icon ui-timepicker-input" placeholder="">',
-//        '<input id="inlineCheckbox1" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="inlineCheckbox2" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="inlineCheckbox3" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="inlineCheckbox4" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="inlineCheckbox5" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-direct" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-bike" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-couchette" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-sleeper" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-for_disabled" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-braille" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="ic-seek-unsharp" type="checkbox" class="form-check-input" placeholder="">',
-//        '<input id="" type="hidden" class="jsVariable-HafasPage" placeholder="">',
-//        '<input id="" type="hidden" class="jsVariable-HafasSort" placeholder="">',
-//        '<input id="" type="hidden" class="jsVariable-HafasSort" placeholder="">',
-//        //kolejeslaskie
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="search" class="search-field" placeholder="">',
-//        '<input id="" type="submit" class="search-submit" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="fromCityId_1702023216921" type="hidden" class="" placeholder="">',
-//        '<input id="toCityId_1702023216921" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="fromText_1702023216921" type="text" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
-//        '<input id="toText_1702023216921" type="text" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
-//        '<input id="dateV_1702023216921" type="text" class="fldText" placeholder="">',
-//        '<input id="ommitDate_1702023216921" type="checkbox" class="fldCheckbox" placeholder="">',
-//        '<input id="timeV_1702023216921" type="text" class="fldText" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="ommitTime_1702023216921" type="checkbox" class="fldCheckbox" placeholder="">',
-//        '<input id="returnDateV_1702023216921" type="text" class="fldText" placeholder="">',
-//        '<input id="ommitReturnDate_1702023216921" type="checkbox" class="fldCheckbox" placeholder="">',
-//        '<input id="returnTimeV_1702023216921" type="text" class="fldText" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="" type="radio" class="fldRadio" placeholder="">',
-//        '<input id="ommitReturnTime_1702023216921" type="checkbox" class="fldCheckbox" placeholder="">',
-//        '<input id="" type="checkbox" class="fldCheckbox fldPreferDirects" placeholder="">',
-//        '<input id="" type="checkbox" class="fldCheckbox fldPreferSellable" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="radio" class="radio" placeholder="">',
-//        '<input id="" type="hidden" class="" placeholder="">',
-//        //kolejemazowieckie
-//        '<input id="search" type="text" class="form-search form-control" placeholder="">',
-//        '<input id="station-from" type="text" class="stations form-control ui-autocomplete-input" placeholder="Stacja początkowa">',
-//        '<input id="station-from-id" type="hidden" class="" placeholder="">',
-//        '<input id="station-to" type="text" class="stations form-control ui-autocomplete-input" placeholder="Stacja końcowa">',
-//        '<input id="station-to-id" type="hidden" class="" placeholder="">',
-//        '<input id="date" type="text" class="form-control" placeholder="Data odjazdu">',
-//        '<input id="hour" type="text" class="form-control" placeholder="Godzina odjazdu">',
-//        //kolejepomorskie
-//        '<input id="" type="text" class="start_station" placeholder="Z">',
-//        '<input id="" type="text" class="end_station" placeholder="DO">',
-//        '<input id="" type="text" class="date" placeholder="KIEDY">',
-//        '<input id="" type="submit" class="submit" placeholder="">',
-//        //koleo.pl
-//        '<input id="query_start_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon" placeholder="Z">',
-//        '<input id="query_end_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon-medium-down" placeholder="DO">',
-//        '<input id="query_date" type="text" class="ember-view ember-text-field string optional" placeholder="KIEDY">',
-//         //omio.com
-//         '<input id="" type="text" class="_82da8 _df5b8 _b355f" placeholder="Z: Miejscowość, dworzec, lotnisko lub port">',
-//         '<input id="" type="text" class="_82da8 _df5b8" placeholder="Do: Miejscowość, dworzec, lotnisko lub port">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="hidden" class="" placeholder="">',
-//         '<input id="" type="checkbox" class="react-toggle-screenreader-only" placeholder="">',
-//         //polregio
-//         '<input id="menu-search" type="text" class="form-control" placeholder="Wpisz szukaną frazę">',
-//         '<input id="" type="text" class="start_station" placeholder="Stacja Odjazdu">',
-//         '<input id="" type="text" class="end_station" placeholder="Stacja Przyjazdu">',
-//         '<input id="" type="text" class="date" placeholder="KIEDY">',
-//         '<input id="" type="submit" class="submit" placeholder="">',
-//         '<input id="fromLocation" type="text" class="" placeholder="Wyjazd z">',
-//         '<input id="toLocation" type="text" class="" placeholder="Przyjazd do">',
-//         '<input id="departuredate" type="text" class="form-control js-datepicker" placeholder="">',
-//         '<input id="departuretime" type="text" class="form-control js-timepicker" placeholder="">',
-//         '<input id="arrivedepart" type="checkbox" class="" placeholder="">',
-//         '<input id="autocompletetype" type="checkbox" class="" placeholder="">',
-//         '<input id="showhidestations" type="checkbox" class="" placeholder="">'
-// ]
 
 const inputs = [
     //portalpasazera
@@ -442,22 +234,22 @@ const inputs = [
     '<input id="query_start_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon" placeholder="Z">',
     '<input id="query_end_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon-medium-down" placeholder="DO">',
     '<input id="query_date" type="text" class="ember-view ember-text-field string optional" placeholder="KIEDY">',
-     //omio.com
+     //omio.com modified 
      '<input id="" type="text" class="_82da8 _df5b8 _b355f" placeholder="Z: Miejscowość, dworzec, lotnisko lub port">',
      '<input id="" type="text" class="_82da8 _df5b8" placeholder="Do: Miejscowość, dworzec, lotnisko lub port">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
+     '<input id="departureTo" type="hidden" class="" placeholder="">',
+     '<input id="departureFrom" type="hidden" class="" placeholder="">',
+     '<input id="toStation" type="hidden" class="" placeholder="">',
+     '<input id="fromStation" type="hidden" class="" placeholder="">',
+     '<input id="locationFrom" type="hidden" class="" placeholder="">',
+     '<input id="locationTo" type="hidden" class="" placeholder="">',
+     '<input id="from" type="hidden" class="" placeholder="">',
+     '<input id="to" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
+     '<input id="to" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="checkbox" class="react-toggle-screenreader-only" placeholder="">',
      //polregio
@@ -472,9 +264,45 @@ const inputs = [
      '<input id="departuretime" type="text" class="form-control js-timepicker" placeholder="">',
      '<input id="arrivedepart" type="checkbox" class="" placeholder="">',
      '<input id="autocompletetype" type="checkbox" class="" placeholder="">',
-     '<input id="showhidestations" type="checkbox" class="" placeholder="">'
+     '<input id="showhidestations" type="checkbox" class="" placeholder="">',
+     //random true
+     '<input id="departureStation" type="text" class="station-input" placeholder="Wpisz stację odjazdu">',
+     '<input id="arrivalStation" type="text" class="station-input" placeholder="Wpisz stację przyjazdu">',
+     '<input id="fromStation" type="text" class="form-control" placeholder="Odjazd z...">',
+     '<input id="toStation" type="text" class="form-control" placeholder="Przyjazd do...">',
+     '<input id="startStation" type="text" class="search-field" placeholder="Stacja startowa">',
+     '<input id="endStation" type="text" class="search-field" placeholder="Stacja końcowa">',
+     '<input id="originStation" type="text" class="input-field" placeholder="Podaj stację początkową">',
+     '<input id="destinationStation" type="text" class="input-field" placeholder="Podaj stację docelową">',
+     '<input id="trainDeparture" type="text" class="station-search" placeholder="Stacja odjazdu">',
+     '<input id="trainArrival" type="text" class="station-search" placeholder="Stacja przyjazdu">',
+     '<input id="routeFrom" type="text" class="route-input" placeholder="Początek trasy">',
+     '<input id="routeTo" type="text" class="route-input" placeholder="Koniec trasy">',
+     '<input id="stationOrigin" type="text" class="travel-input" placeholder="Stacja wyjściowa">',
+     '<input id="stationDestination" type="text" class="travel-input" placeholder="Stacja docelowa">',
+     '<input id="trainOrigin" type="text" class="route-field" placeholder="Punkt startowy">',
+     '<input id="trainDestination" type="text" class="route-field" placeholder="Cel podróży"></input>',
+     '<input id="Abfahrtsbahnhof" type="text" class="station-input" placeholder="Abfahrtsbahnhof eingeben">',
+     '<input id="journeyStart" type="text" class="location-input" placeholder="Enter starting point">',
+     '<input id="nextStop" type="text" class="search-station" placeholder="Next station">',
+     '<input id="travelFrom" type="text" class="departure-field" placeholder="Travel from">',
+     '<input id="firstStation" type="text" class="initial-station" placeholder="First station of your trip">',
+     '<input id="boarding" type="text" class="boarding-location" placeholder="Boarding location">',
+     '<input id="leaveFrom" type="text" class="departure-place" placeholder="Where are you leaving from?">',
+     '<input id="destinationPoint" type="text" class="arrival-field" placeholder="Your destination point">',
+     '<input id="endOfJourney" type="text" class="final-stop" placeholder="End of your journey">',
+     '<input id="stationLookup" type="text" class="station-finder" placeholder="Find a station">',
+     '<input id="routeBeginning" type="text" class="route-start" placeholder="Beginning of route">',
+     '<input id="terminalStation" type="text" class="end-station" placeholder="Terminal station">',
+     '<input id="exitStation" type="text" class="exit-point" placeholder="Exit at station">',
+     '<input id="commuteFrom" type="text" class="commute-start" placeholder="Commute starting point">',
+     '<input id="approachStation" type="text" class="approach-field" placeholder="Approach station">',
+     '<input id="transitPoint" type="text" class="transit-field" placeholder="Transit station">',
+     //random wrong
+     '<input id="fromText_1702023216921" type="hidden" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
+     '<input id="toText_1702023216921" type="hidden" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
+     
 ]
-
 
 function convertStringToAscii(inputs, fixedLength = 175){
     return inputs.map(inputString => {
@@ -490,20 +318,14 @@ function convertStringToAscii(inputs, fixedLength = 175){
     });
 }
 
-const bad = ['<input id="departureFrom" type="text" class="field-with-floating-label k-input">'];
-const badConverted = convertStringToAscii(bad);
-console.log(badConverted);
-
 const inputsAsciiRepresentation = convertStringToAscii(inputs);
 
-console.log(inputsAsciiRepresentation);
-
-const X = tf.tensor2d(inputsAsciiRepresentation, [256, 175]);
+const X = tf.tensor2d(inputsAsciiRepresentation, [290, 175]);
 
 const Y = tf.tensor2d([
     //portal pasazera
     0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -539,107 +361,37 @@ const Y = tf.tensor2d([
     0, 0, 0, 0, 0, 0, 0,
     //polregio
     0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
-    0, 0
-], [256, 1]);
+    0, 0,
+    //random true
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1,
+    //random wrong
+    0, 0,
+], [290, 1]);
 
-// const Y = tf.tensor2d([
-//     //portal pasazera
-//     0, 0, 1, 1, 0, 0, 0, 0, 0,
-//     //rozkladjazdypkp
-//     0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-//     0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0,
-//     //intercity
-//     0, 0, 1, 0, 0, 0, 1, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0,
-//     //kolejeslaskie
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0,
-//     //kolejemazowieckie
-//     0, 1, 0, 1, 0, 0, 0,
-//     //kolejepomorskie
-//     1, 1, 0, 0,
-//     //koleo.pl
-//     1, 1, 0,
-//     //omio.com
-//     1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-//     0, 0, 0, 0, 0, 0, 0,
-//     //polregio
-//     0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
-//     0, 0
-// ], [256, 1]);
 
 const model = tf.sequential();
 model.add(tf.layers.dense({units: 1, inputShape: [175]}));
 
 model.compile({loss: 'meanSquaredError', optimizer: 'adam'});
 
-tfvis.visor().open();
-
 async function trainModel() {
-    const surface = {name: 'Loss', tab: 'Training'};
-    const history = [];
-
     await model.fit(X, Y,{
-        epochs:  1000,
+        epochs:  10000,
         callbacks: {
             onEpochEnd: (epoch, logs) => {
                 console.log(`Epoka ${epoch + 1}: strata = ${logs.loss}`);
-                history.push(logs);
-                tfvis.show.history(surface, history, ['loss']);
             }
         }});
     console.log("koniec treningu");
-
-    model.predict(tf.tensor2d(badConverted, [1, 175])).print();
+    model.save('downloads://model');
 }
 
 trainModel();
 
 
-
-// const tab = inputs.map((input) => {
-//     let idPass, typePass, classPass;
-//     idPass = checkId(extractId(input)) ? 1 : 0;
-//     typePass = checkType(extractType(input)) ? 1 : 0;
-//     classPass = checkClass(extractClass(input)) ? 1 : 0;
-//     return [idPass, typePass, classPass];
-// });
-
-// console.log(tab);
-
-// function extractId(inputTag) {
-//     const idMatch = inputTag.match(/id="([^"]+)"/);
-//     return idMatch ? idMatch[1] : '';
-// }
-
-// function extractType(inputTag) {
-//     const typeMatch = inputTag.match(/type="([^"]+)"/);
-//     return typeMatch ? typeMatch[1] : '';
-// }
-
-// function extractClass(inputTag) {
-//     const classMatch = inputTag.match(/class="([^"]+)"/);
-//     return classMatch ? classMatch[1] : '';
-// }
-
-// function checkId(id){
-//     return (id.includes('from') || id.includes('station')|| id.includes('train')|| id.includes('departure') || id.includes('arrival')) ? true : false;
-// }
-
-// function checkType(type){
-//     return (type === 'text' || type === 'search') ? true : false;
-// }
-
-// function checkClass(className){
-//     return false;
-// }
+// const bad = ['<input id="departureFrom" type="text" class="field-with-floating-label k-input">'];
+// const badConverted = convertStringToAscii(bad);
+// model.predict(tf.tensor2d(badConverted, [1, 175])).print();
