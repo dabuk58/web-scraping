@@ -332,19 +332,6 @@ const scrapPortalPasazera = async (from, to, departureDate, departureTime, confi
 
   return results;
 }
-
-
-app.post('/buy', async (req, res) => {
-  try{
-      const name = req.query.name;
-      const surname = req.query.surname;
-      const email = req.query.email;
-      
-  } catch (error) {
-    console.error(error);
-  }
-})
-
  
 const searchTrain = async (from, to, departureDate, departureTime, config, scrapWebsite) => {
   const browser = await puppeteer.launch({ headless: false, args: ['--window-size=1920,1080']});
@@ -384,4 +371,26 @@ app.get('/search', async (req, res) => {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
+})
+
+app.post('/buy', async (req, res) => {
+  try{
+      const name = req.query.name;
+      const surname = req.query.surname;
+      const email = req.query.email;
+      const ifBothWays = req.query.ifBothWays;
+      const ifDog = req.query.ifDog;
+      const ticketUrl = req.query.ticketUrl;
+
+      if(!name || !surname || !email || !ifBothWays || !ifDog || !ticketUrl){
+        return res.status(400).send("Please provide proper data");
+      }
+
+      const results = await buyTicketKS(name, surname, email, ifBothWays, ifDog, ticketUrl);
+
+      res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 })
