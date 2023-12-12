@@ -234,22 +234,22 @@ const inputs = [
     '<input id="query_start_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon" placeholder="Z">',
     '<input id="query_end_station" type="text" class="ember-view ember-text-field string optional stations-autocomplete has-right-icon-medium-down" placeholder="DO">',
     '<input id="query_date" type="text" class="ember-view ember-text-field string optional" placeholder="KIEDY">',
-     //omio.com
+     //omio.com modified 
      '<input id="" type="text" class="_82da8 _df5b8 _b355f" placeholder="Z: Miejscowość, dworzec, lotnisko lub port">',
      '<input id="" type="text" class="_82da8 _df5b8" placeholder="Do: Miejscowość, dworzec, lotnisko lub port">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
+     '<input id="departureTo" type="hidden" class="" placeholder="">',
+     '<input id="departureFrom" type="hidden" class="" placeholder="">',
+     '<input id="toStation" type="hidden" class="" placeholder="">',
+     '<input id="fromStation" type="hidden" class="" placeholder="">',
+     '<input id="locationFrom" type="hidden" class="" placeholder="">',
+     '<input id="locationTo" type="hidden" class="" placeholder="">',
+     '<input id="from" type="hidden" class="" placeholder="">',
+     '<input id="to" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
-     '<input id="" type="hidden" class="" placeholder="">',
+     '<input id="to" type="hidden" class="" placeholder="">',
      '<input id="" type="hidden" class="" placeholder="">',
      '<input id="" type="checkbox" class="react-toggle-screenreader-only" placeholder="">',
      //polregio
@@ -264,7 +264,44 @@ const inputs = [
      '<input id="departuretime" type="text" class="form-control js-timepicker" placeholder="">',
      '<input id="arrivedepart" type="checkbox" class="" placeholder="">',
      '<input id="autocompletetype" type="checkbox" class="" placeholder="">',
-     '<input id="showhidestations" type="checkbox" class="" placeholder="">'
+     '<input id="showhidestations" type="checkbox" class="" placeholder="">',
+     //random true
+     '<input id="departureStation" type="text" class="station-input" placeholder="Wpisz stację odjazdu">',
+     '<input id="arrivalStation" type="text" class="station-input" placeholder="Wpisz stację przyjazdu">',
+     '<input id="fromStation" type="text" class="form-control" placeholder="Odjazd z...">',
+     '<input id="toStation" type="text" class="form-control" placeholder="Przyjazd do...">',
+     '<input id="startStation" type="text" class="search-field" placeholder="Stacja startowa">',
+     '<input id="endStation" type="text" class="search-field" placeholder="Stacja końcowa">',
+     '<input id="originStation" type="text" class="input-field" placeholder="Podaj stację początkową">',
+     '<input id="destinationStation" type="text" class="input-field" placeholder="Podaj stację docelową">',
+     '<input id="trainDeparture" type="text" class="station-search" placeholder="Stacja odjazdu">',
+     '<input id="trainArrival" type="text" class="station-search" placeholder="Stacja przyjazdu">',
+     '<input id="routeFrom" type="text" class="route-input" placeholder="Początek trasy">',
+     '<input id="routeTo" type="text" class="route-input" placeholder="Koniec trasy">',
+     '<input id="stationOrigin" type="text" class="travel-input" placeholder="Stacja wyjściowa">',
+     '<input id="stationDestination" type="text" class="travel-input" placeholder="Stacja docelowa">',
+     '<input id="trainOrigin" type="text" class="route-field" placeholder="Punkt startowy">',
+     '<input id="trainDestination" type="text" class="route-field" placeholder="Cel podróży"></input>',
+     '<input id="Abfahrtsbahnhof" type="text" class="station-input" placeholder="Abfahrtsbahnhof eingeben">',
+     '<input id="journeyStart" type="text" class="location-input" placeholder="Enter starting point">',
+     '<input id="nextStop" type="text" class="search-station" placeholder="Next station">',
+     '<input id="travelFrom" type="text" class="departure-field" placeholder="Travel from">',
+     '<input id="firstStation" type="text" class="initial-station" placeholder="First station of your trip">',
+     '<input id="boarding" type="text" class="boarding-location" placeholder="Boarding location">',
+     '<input id="leaveFrom" type="text" class="departure-place" placeholder="Where are you leaving from?">',
+     '<input id="destinationPoint" type="text" class="arrival-field" placeholder="Your destination point">',
+     '<input id="endOfJourney" type="text" class="final-stop" placeholder="End of your journey">',
+     '<input id="stationLookup" type="text" class="station-finder" placeholder="Find a station">',
+     '<input id="routeBeginning" type="text" class="route-start" placeholder="Beginning of route">',
+     '<input id="terminalStation" type="text" class="end-station" placeholder="Terminal station">',
+     '<input id="exitStation" type="text" class="exit-point" placeholder="Exit at station">',
+     '<input id="commuteFrom" type="text" class="commute-start" placeholder="Commute starting point">',
+     '<input id="approachStation" type="text" class="approach-field" placeholder="Approach station">',
+     '<input id="transitPoint" type="text" class="transit-field" placeholder="Transit station">',
+     //random wrong
+     '<input id="fromText_1702023216921" type="hidden" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
+     '<input id="toText_1702023216921" type="hidden" class="fldText ac_input" placeholder="Wpisz stację, miasto">',
+     
 ]
 
 function convertStringToAscii(inputs, fixedLength = 175){
@@ -283,12 +320,12 @@ function convertStringToAscii(inputs, fixedLength = 175){
 
 const inputsAsciiRepresentation = convertStringToAscii(inputs);
 
-const X = tf.tensor2d(inputsAsciiRepresentation, [256, 175]);
+const X = tf.tensor2d(inputsAsciiRepresentation, [290, 175]);
 
 const Y = tf.tensor2d([
     //portal pasazera
     0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -324,8 +361,15 @@ const Y = tf.tensor2d([
     0, 0, 0, 0, 0, 0, 0,
     //polregio
     0, 1, 1, 0, 0, 1, 1, 0, 0, 0,
-    0, 0
-], [256, 1]);
+    0, 0,
+    //random true
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1,
+    //random wrong
+    0, 0,
+], [290, 1]);
 
 
 const model = tf.sequential();

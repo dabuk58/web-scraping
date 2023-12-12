@@ -137,8 +137,8 @@ const scrapDeutscheBahn = async (from, to, departureDate, departureTime, config,
   const predictedInputs = await runPredictions(await takeInputs(url))
   const content = await page.content()
 
-  inputFrom = !content.includes(inputFrom) ? extractClasses(predictedInputs[0]) : inputFrom
-  inputTo = !content.includes(inputTo) ? extractClasses(predictedInputs[1]) : inputTo
+  inputFrom = !content.includes(inputFrom.slice(1,inputFrom.length-1)) ? extractClasses(predictedInputs[0]) : inputFrom
+  inputTo = !content.includes(inputTo.slice(1,inputTo.length-1)) ? extractClasses(predictedInputs[1]) : inputTo
 
   const buttonAcceptCookies = await (await page.evaluateHandle(modal)).asElement();
   buttonAcceptCookies.click();
@@ -289,35 +289,43 @@ const scrapRozkladJazdyPKP = async (from, to, departureDate, departureTime, conf
 }
 
 const scrapPortalPasazera = async (from, to, departureDate, departureTime, config, page, browser) => {
-  const {url, modal, inputFrom, inputTo, inputDate, inputTime, submit} = config
+  let {url, modal, inputFrom, inputTo, inputDate, inputTime, submit} = config
 
-  const predictedInputs = await runPredictions(await takeInputs(url))
-  const content = await page.content()
+  const inputsToPredict = await takeInputs(url);
+  console.log(inputsToPredict);
 
-
-  inputFrom = !content.includes(inputFrom.slice(1)) ? extractClasses(predictedInputs[0]) : inputFrom
-  inputTo = !content.includes(inputTo.slice(1)) ? extractClasses(predictedInputs[1]) : inputTo
+  const predictedInputs = await runPredictions(inputsToPredict);
+  console.log(predictedInputs);
+  const content = await page.content();
+  
+  inputFrom = (!content.includes(inputFrom.slice(1)) ? extractClasses(predictedInputs[0]) : inputFrom);
+  inputTo = (!content.includes(inputTo.slice(1)) ? extractClasses(predictedInputs[1]) : inputTo);
 
   await page.type(inputFrom, from);
+//   await page.waitForTimeout(1000);
   await page.type(inputTo, to);
+//   await page.waitForTimeout(1000);
 
   await page.evaluate((date, time, inputDate, inputTime) => {
       document.getElementById(inputDate[0]).value = date;
       document.getElementById(inputTime[0]).value = time;
   }, departureDate, departureTime, inputDate, inputTime);
-  
-  await page.click(submit[0]);
-  await page.click(submit[1]);
+
+  await page.evaluate((directTrain, search) => {
+    document.querySelector(directTrain).click();
+    document.querySelector(search).click();
+  }, submit[0], submit[1]);
 
   await page.waitForNavigation({ waitUntil: 'networkidle0' });
+  await page.waitForTimeout(3000);
 
   const results = await page.$$eval('.search-results__item', (elements) =>
-      elements.map((e) => ({
-          fromTime: e.querySelector('.search-results__item-times--start .search-results__item-hour').innerText,
-          toTime: e.querySelector('.search-results__item-times--end .search-results__item-hour').innerText,
-          dateFrom: e.querySelector('.search-results__item-times--start .search-results__item-date').innerText,
-          dateTo: e.querySelector('.search-results__item-times--end .search-results__item-date').innerText
-      }))
+    elements.map((e) => ({
+        fromTime: e.querySelectorAll('.search-results__item-hour')[0].innerText,
+        toTime: e.querySelectorAll('.search-results__item-hour')[1].innerText,
+        dateFrom: e.querySelectorAll('.search-results__item-date')[0].innerText,
+        dateTo: e.querySelectorAll('.search-results__item-date')[1].innerText
+    }))
   );
   
   await browser.close();
@@ -328,8 +336,8 @@ const scrapPortalPasazera = async (from, to, departureDate, departureTime, confi
 
  
 const searchTrain = async (from, to, departureDate, departureTime, config, scrapWebsite) => {
-  const browser = await puppeteer.launch({ headless: true, args: ['--window-size=1920,1080']});
-  const page = await browser.newPage()
+  const browser = await puppeteer.launch({ headless: false, args: ['--window-size=1920,1080']});
+  const page = await browser.newPage();
   await page.goto(config.url);
 
   return scrapWebsite(from, to, departureDate, departureTime, config, page, browser)

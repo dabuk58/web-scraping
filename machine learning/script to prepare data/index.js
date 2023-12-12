@@ -21,7 +21,7 @@ const takeInputs = async(url) => {
       return input.offsetWidth > 0 && input.offsetHeight > 0;
     });
     
-    return visibleInputs.map(input => {
+    return inputElements.map(input => {
       return '<input id="' + input.id + '" type="' + input.type + '" class="' + input.className +'" placeholder="' + input.placeholder + '">';
     });
   });
@@ -32,15 +32,16 @@ const takeInputs = async(url) => {
 }
 
 const pages = [
-  'https://portalpasazera.pl/',
-  'https://rozklad-pkp.pl/',
-  'https://www.intercity.pl/pl/',
-  'https://www.kolejeslaskie.com/',
-  'https://www.mazowieckie.com.pl/pl',
-  'https://www.pkm-sa.pl/',
-  'https://koleo.pl/',
-  'https://pl.omio.com/pociagi',
-  'https://polregio.pl/pl/',
+  // 'https://portalpasazera.pl/',
+  // 'https://rozklad-pkp.pl/',
+  // 'https://www.intercity.pl/pl/',
+  // 'https://www.kolejeslaskie.com/',
+  // 'https://www.mazowieckie.com.pl/pl',
+  // 'https://www.pkm-sa.pl/',
+  // 'https://koleo.pl/',
+  // 'https://pl.omio.com/pociagi',
+  // 'https://polregio.pl/pl/',
+  'https://int.bahn.de/pl'
 ];
 
 const getAllInputs = async () => {
