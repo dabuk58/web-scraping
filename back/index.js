@@ -410,14 +410,12 @@ const buyTicketKS = async(name, surname, email, ifBothWays, ifDog, ticketUrl) =>
     await page.click('#pies_1');
   }
   
-  await page.waitForTimeout(3000);
   await page.click('.btn_yellow');
   
   await page.waitForSelector('#podrozny_imie');
   await page.type('#podrozny_imie', name);
   await page.type('#podrozny_nazwisko', surname);
   
-  await page.waitForTimeout(3000);
   await page.click('.btn_yellow');
 
   await page.waitForSelector('#email');
@@ -425,10 +423,7 @@ const buyTicketKS = async(name, surname, email, ifBothWays, ifDog, ticketUrl) =>
   await page.click('#akceptuje_regulamin');
   await page.click('#przetwarzanie_danych_osobowych');
 
-  await page.waitForTimeout(3000);
   await page.click('.btn_yellow');
-
- await page.waitForTimeout(5000); 
 
   await browser.close();
 }
