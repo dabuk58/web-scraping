@@ -394,3 +394,43 @@ app.post('/buy', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 })
+
+const buyTicketKS = async(name, surname, email, ifBothWays, ifDog, ticketUrl) => {
+  const browser = await puppeteer.launch({ headless: false, args: ['--window-size=1920,1080']});
+  const page = await browser.newPage();
+
+  await page.goto(ticketUrl);
+  await page.waitForNavigation();
+
+  if(ifBothWays == 'true'){
+    await page.click('#bilet_powrotny_1');
+  }
+
+  if(ifDog == 'true'){
+    await page.click('#pies_1');
+  }
+  
+  await page.waitForTimeout(3000);
+  await page.click('.btn_yellow');
+  
+  await page.waitForSelector('#podrozny_imie');
+  await page.type('#podrozny_imie', name);
+  await page.type('#podrozny_nazwisko', surname);
+  
+  await page.waitForTimeout(3000);
+  await page.click('.btn_yellow');
+
+  await page.waitForSelector('#email');
+  await page.type('#email', email);
+  await page.click('#akceptuje_regulamin');
+  await page.click('#przetwarzanie_danych_osobowych');
+
+  await page.waitForTimeout(3000);
+  await page.click('.btn_yellow');
+
+ await page.waitForTimeout(5000); 
+
+  await browser.close();
+}
+
+buyTicketKS('Jacek', 'Jaworek', 'email@email.pl', 'true', 'true', 'https://bilet.kolejeslaskie.com/BiletHafas/pp?items%5B0%5D.fromStation=5100011&items%5B0%5D.toStation=5100020&items%5B0%5D.date=141220232000&items%5B0%5D.number=40836');
