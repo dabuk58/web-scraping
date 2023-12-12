@@ -334,6 +334,17 @@ const scrapPortalPasazera = async (from, to, departureDate, departureTime, confi
 }
 
 
+app.post('/buy', async (req, res) => {
+  try{
+      const name = req.query.name;
+      const surname = req.query.surname;
+      const email = req.query.email;
+      
+  } catch (error) {
+    console.error(error);
+  }
+})
+
  
 const searchTrain = async (from, to, departureDate, departureTime, config, scrapWebsite) => {
   const browser = await puppeteer.launch({ headless: false, args: ['--window-size=1920,1080']});
