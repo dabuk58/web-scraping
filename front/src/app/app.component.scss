@@ -35,3 +35,36 @@ button{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+.buy-ticket {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: rgb(55, 39, 150);
+  width: 40vw;
+  height: auto;
+
+  padding: 20px;
+
+  &__form {
+    display: grid;
+    align-content: flex-start;
+    gap: 5px;
+
+    & input {
+      padding: 12px;
+    }
+
+    & label {
+      color: white;
+    }
+
+    & button {
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+}
