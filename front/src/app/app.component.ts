@@ -87,7 +87,7 @@ export class AppComponent implements OnInit{
 
     console.log(url)
 
-    // this.isBuyFormDone = this.http.get<connection[]>(url);
+    this.isBuyFormDone = this.http.get<connection[]>(url);
   }
 
   showModal(link: string) {
