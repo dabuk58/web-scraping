@@ -62,11 +62,13 @@
           <input type="checkbox" formControlName="ifBothWays">
         </label>
         <label>
-          Z presm?
+          Z psem?
           <input type="checkbox" formControlName="ifDog">
         </label>
     
         <button type="button" (click)="onBuyTicket()">Kup Bilet</button>
+
+        <div>{{isBuyFormDone | async}}</div>
       </form>
     </div>
 </div>
