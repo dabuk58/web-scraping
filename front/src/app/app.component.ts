@@ -85,7 +85,7 @@ export class AppComponent implements OnInit{
     
     const url = `http://localhost:3000/buy?name=${name}&surname=${surname}&email=${email}&ifBothWay=${ifBothWays}&ifDog=${ifDog}&ticketUrl=${this.ticketUrl}`
 
-    console.log(url)
+    console.log(url);
 
     this.isBuyFormDone = this.http.get<connection[]>(url);
   }
