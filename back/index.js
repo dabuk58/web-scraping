@@ -407,11 +407,11 @@ const buyTicketKS = async(name, surname, email, ifBothWays, ifDog, ticketUrl) =>
   await page.goto(ticketUrl);
   await page.waitForNavigation();
 
-  if(ifBothWays == 'true'){
+  if(ifBothWays == true){
     await page.click('#bilet_powrotny_1');
   }
 
-  if(ifDog == 'true'){
+  if(ifDog == true){
     await page.click('#pies_1');
   }
   
