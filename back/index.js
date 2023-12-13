@@ -373,7 +373,7 @@ app.get('/search', async (req, res) => {
     }
 })
 
-app.post('/buy', async (req, res) => {
+app.get('/buy', async (req, res) => {
   try{
       const name = req.query.name;
       const surname = req.query.surname;
