@@ -426,6 +426,8 @@ const buyTicketKS = async(name, surname, email, ifBothWays, ifDog, ticketUrl) =>
   await page.click('.btn_yellow');
 
   await browser.close();
+
+  return "done";
 }
 
-buyTicketKS('Jacek', 'Jaworek', 'email@email.pl', 'true', 'true', 'https://bilet.kolejeslaskie.com/BiletHafas/pp?items%5B0%5D.fromStation=5100011&items%5B0%5D.toStation=5100020&items%5B0%5D.date=141220232000&items%5B0%5D.number=40836');
+//buyTicketKS('j', 'j', 'email@email.pl', 'true', 'true', 'https://bilet.kolejeslaskie.com/BiletHafas/pp?items%5B0%5D.fromStation=5100011&items%5B0%5D.toStation=5100020&items%5B0%5D.date=141220232000&items%5B0%5D.number=40836');
