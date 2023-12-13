@@ -87,12 +87,14 @@ export class AppComponent implements OnInit{
 
     console.log(url);
 
+    console.log(ifDog)
+
     const body = {
       name: name,
       surname: surname,
       email: email,
-      ifBothWays: ifBothWays,
-      ifDog: ifDog,
+      ifBothWays: ifBothWays ? ifBothWays : 'false',
+      ifDog: ifDog ? ifDog : 'false',
       ticketUrl: this.ticketUrl
     };
   
