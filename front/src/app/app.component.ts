@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
   formGroup!: FormGroup;
   buyGroup!: FormGroup;
   connections!: Observable<connection[]>;
-  isBuyFormDone!: Observable<connection[]>;
+  isBuyFormDone!: Observable<string>;
   isModal = false
   ticketUrl = ''
 
@@ -83,11 +83,21 @@ export class AppComponent implements OnInit{
     const ifBothWays: string = this.buyGroup.get('ifBothWays')?.value;
     const ifDog: string = this.buyGroup.get('ifDog')?.value;
     
-    const url = `http://localhost:3000/buy?name=${name}&surname=${surname}&email=${email}&ifBothWay=${ifBothWays}&ifDog=${ifDog}&ticketUrl=${this.ticketUrl}`
+    const url = `http://localhost:3000/buy?name=${name}&surname=${surname}&email=${email}&ifBothWays=${ifBothWays}&ifDog=${ifDog}&ticketUrl=${this.ticketUrl}`
 
     console.log(url)
 
-    this.isBuyFormDone = this.http.get<connection[]>(url);
+    const body = {
+      name: name,
+      surname: surname,
+      email: email,
+      ifBothWays: ifBothWays,
+      ifDog: ifDog,
+      ticketUrl: this.ticketUrl
+    };
+  
+
+    this.isBuyFormDone = this.http.post<string>(url, body);
   }
 
   showModal(link: string) {
