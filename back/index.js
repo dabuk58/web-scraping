@@ -9,6 +9,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json());
 
 const corsOptions = {
     origin: 'http://localhost:4200'
@@ -375,6 +376,10 @@ app.get('/search', async (req, res) => {
 
 app.post('/buy', async (req, res) => {
   try{
+
+    if(!req.body){
+      return res.status(400).send("body is undefined");
+    }
       const name = req.body.name;
       const surname = req.body.surname;
       const email = req.body.email;

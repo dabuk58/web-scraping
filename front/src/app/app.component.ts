@@ -83,7 +83,7 @@ export class AppComponent implements OnInit{
     const ifBothWays: string = this.buyGroup.get('ifBothWays')?.value;
     const ifDog: string = this.buyGroup.get('ifDog')?.value;
     
-    const url = `http://localhost:3000/buy?name=${name}&surname=${surname}&email=${email}&ifBothWays=${ifBothWays}&ifDog=${ifDog}&ticketUrl=${this.ticketUrl}`
+    const url = `http://localhost:3000/buy`
 
     console.log(url);
 
