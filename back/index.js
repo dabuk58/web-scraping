@@ -373,14 +373,14 @@ app.get('/search', async (req, res) => {
     }
 })
 
-app.get('/buy', async (req, res) => {
+app.post('/buy', async (req, res) => {
   try{
-      const name = req.query.name;
-      const surname = req.query.surname;
-      const email = req.query.email;
-      const ifBothWays = req.query.ifBothWays;
-      const ifDog = req.query.ifDog;
-      const ticketUrl = req.query.ticketUrl;
+      const name = req.body.name;
+      const surname = req.body.surname;
+      const email = req.body.email;
+      const ifBothWays = req.body.ifBothWays;
+      const ifDog = req.body.ifDog;
+      const ticketUrl = req.body.ticketUrl;
 
       if(!name || !surname || !email || !ifBothWays || !ifDog || !ticketUrl){
         return res.status(400).send("Please provide proper data");
