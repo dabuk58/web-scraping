@@ -43,8 +43,30 @@
         <mat-card-content>
             {{ connection.fromTime}} {{ connection.dateFrom }} - {{ connection.toTime }} {{ connection.dateTo }}
 
-            <a [href]="connection.link" *ngIf="connection.link" target="_blank">Kup Bilet</a>
-            <div *ngIf="connection.form" [innerHTML]="connection.form | domPipe"></div>
+            <!-- <a [href]="connection.link" *ngIf="connection.link" target="_blank">Kup Bilet</a> -->
+
+            <!-- <div *ngIf="connection.form" [innerHTML]="connection.form | domPipe"></div> -->
         </mat-card-content>
+        <button (click)="showModal(connection.link)" *ngIf="connection.link">Kup Bilet</button>
     </mat-card>
+
+    <div class="buy-ticket" *ngIf="isModal">
+      <button (click)="hideModal()">X</button>
+    
+      <form class="buy-ticket__form" [formGroup]="buyGroup">
+        <input type="text" placeholder="Name" formControlName="name">
+        <input type="text" placeholder="Surname" formControlName="surname">
+        <input type="text" placeholder="Email" formControlName="email">
+        <label>
+          W obie strony?
+          <input type="checkbox" formControlName="ifBothWays">
+        </label>
+        <label>
+          Z presm?
+          <input type="checkbox" formControlName="ifDog">
+        </label>
+    
+        <button type="button" (click)="onBuyTicket()">Kup Bilet</button>
+      </form>
+    </div>
 </div>

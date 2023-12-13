@@ -19,7 +19,11 @@ interface connection{
 })
 export class AppComponent implements OnInit{
   formGroup!: FormGroup;
+  buyGroup!: FormGroup;
   connections!: Observable<connection[]>;
+  isBuyFormDone!: Observable<connection[]>;
+  isModal = false
+  ticketUrl = ''
 
   constructor(private http: HttpClient){}
 
@@ -38,6 +42,27 @@ export class AppComponent implements OnInit{
         validators: Validators.required
       })
     })
+
+    this.buyGroup = new FormGroup({
+      name: new FormControl(null, {
+        updateOn: 'change',
+        validators: Validators.required
+      }),
+      surname: new FormControl(null, {
+        updateOn: 'change',
+        validators: Validators.required
+      }),
+      email: new FormControl(null, {
+        updateOn: 'change',
+        validators: Validators.required
+      }),
+      ifBothWays: new FormControl(null, {
+        updateOn: 'change',
+      }),
+      ifDog: new FormControl(null, {
+        updateOn: 'change',
+      }),
+    })
   }
 
   onSearch(){
@@ -49,6 +74,29 @@ export class AppComponent implements OnInit{
     const url = `http://localhost:3000/search?from=${fromCity}&to=${toCity}&departureDate=${date}&departureTime=20:00&source=${source}`;
     
     this.connections = this.http.get<connection[]>(url);
+  }
+
+  onBuyTicket() {
+    const name: string = this.buyGroup.get('name')?.value;
+    const surname: string = this.buyGroup.get('surname')?.value;
+    const email: string = this.buyGroup.get('email')?.value;
+    const ifBothWays: string = this.buyGroup.get('ifBothWays')?.value;
+    const ifDog: string = this.buyGroup.get('ifDog')?.value;
+    
+    const url = `http://localhost:3000/buy?name=${name}&surname=${surname}&email=${email}&ifBothWay=${ifBothWays}&ifDog=${ifDog}&ticketUrl=${this.ticketUrl}`
+
+    console.log(url)
+
+    // this.isBuyFormDone = this.http.get<connection[]>(url);
+  }
+
+  showModal(link: string) {
+    this.ticketUrl = link;
+    this.isModal = true
+  }
+
+  hideModal() {
+    this.isModal = false
   }
 
   formatDate(date: Date, source: string){
