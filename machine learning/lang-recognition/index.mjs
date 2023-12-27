@@ -1,6 +1,6 @@
 import { franc } from 'franc';
-import langs from 'langs';
 import puppeteer from 'puppeteer';
+import languages from './languages.json' with { type: "json" };
 
 async function fetchWebsiteText(url) {
     try {
@@ -24,21 +24,13 @@ async function fetchWebsiteText(url) {
 function detectLanguage(text) {
     const langCode = franc(text);
 
-    switch(langCode){
-        case 'arb':
-            return 'Arabic';
-        case 'cmn': 
-            return 'Mandarin Chinese';
-        case 'und':
-            return 'not found language'; 
-        default: 
-            const language = langs.where("3", langCode);
-            if(language == undefined){
-                return langCode;
-            }
-            return language.name;
+    if(langCode === 'und'){
+        return 'not found language';
     }
+
+    return languages[langCode];
 }
+
 
 const url = [
     'https://www.onet.pl',
@@ -57,7 +49,7 @@ const url = [
 for(let i=0 ; i<url.length ; i++){
     fetchWebsiteText(url[i]).then(text => {
         if (text) {
-            console.log(url[i], ": " + detectLanguage(text));
+            console.log(url[i] + ": " + detectLanguage(text));
         }
     });
 }
