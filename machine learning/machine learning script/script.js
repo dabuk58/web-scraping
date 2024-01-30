@@ -1,4 +1,4 @@
-
+//const tf = require('@tensorflow/tfjs');
 const inputs = [
     //portalpasazera
     '<input id="tw-odjazd" type="radio" class="mate-input" placeholder="">',
@@ -386,7 +386,7 @@ async function trainModel() {
             }
         }});
     console.log("koniec treningu");
-    model.save('downloads://model');
+    await model.save('downloads://model');
 }
 
 trainModel();

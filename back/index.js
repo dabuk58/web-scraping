@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-extra');
+const puppeteer = require('c-extra');
 const config = require('./config.js')
 const tf = require('@tensorflow/tfjs')
 const path = require('path');

@@ -1,29 +1,33 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
-const findTypeOfDoctors = async () => {
-  const browser = await puppeteer.launch()
+const findTypeOfDoctors = async (webName) => {
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://centrum.med.pl/znajdz-lekarza/')
+  await page.goto(webName);
 
   const selects = await page.evaluate(() => {
     const selectElements = Array.from(document.querySelectorAll('select'));
 
     return selectElements.map(select => {
-      const options = []
+      const options = [];
 
       if (select.innerText.includes('olog')) {
         for (let i = 0; i < select.children.length; i++) {
-          options.push(select.children[i].innerText)
+          options.push(select.children[i].innerText);
         }
       }
 
-      return options
-    })
-  })
+      return options;
+    });
+  });
 
-  await browser.close()
+  await browser.close();
 
-  console.log(selects)
-}
+  const optionsString = JSON.stringify(selects, null, 2);
 
-findTypeOfDoctors()
+  fs.writeFileSync('result/fromSelect.txt', optionsString, 'utf-8');
+  console.log(`Options saved to file: fromSelect.txt`);
+};
+
+findTypeOfDoctors(process.argv[2]);
