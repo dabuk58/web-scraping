@@ -1,0 +1,1425 @@
+Znajdź lekarza - Umów wizytę - ZnanyLekarz.pl
+  function OptanonWrapper() {}
+	var ZLApp = {
+		'APICredentials': {},
+		'AppConfig': {},
+		'Roles' : {
+      'IS_CALL_CENTER_AGENT': false,
+			'IS_ZLWORKER' : false,
+			'IS_DOCTOR': false		},
+		'Routes' : {},
+		'Storage' : {
+			session: sessionStorage,
+			local: localStorage
+		},
+		'Modules': {
+			CalendarEditionPage : function() {},
+			AlgoliaIndexes : {},
+			MapsLoader : {}
+		},
+		'Experiments': {},
+		'pushGAEvent': function(options) {
+			$(document).ready(function() {
+				// Universal Google Analytics Events
+				var layerData = $.extend({
+					'event': 'gaTriggerEvent',
+					'gaEventCategory': options[0],
+					'gaEventAction': options[1],
+					'gaEventLabel': options[2],
+					'gaEventInteraction': options[4]
+				}, options[5]);
+				dataLayer.push(layerData);
+			});
+		},
+    'pushHSEvent': function(eventValue) {
+		  if (window._hsq && _hsq.push) {
+				_hsq.push(["trackEvent", eventValue]);
+			}
+		},
+		"Routing" : {
+			"generate" : function(name, object) {
+				return ZLApp.NativeRouting.generate(name, object);
+			}
+		},
+		'setStorage': function(type, key, value) {
+			try {
+				var storage = this.Storage[type];
+				storage.setItem( key, JSON.stringify(value) );
+				return true;
+			} catch (exception) {
+				return false;
+			}
+		},
+		'getStorage': function(type, key) {
+			try {
+				var storage = this.Storage[type];
+				if (storage && storage.getItem(key) !== undefined && storage.hasOwnProperty(key) === true) {
+					return JSON.parse(storage.getItem(key));
+				} else {
+					return undefined;
+				}
+			} catch (exception) {
+				return undefined;
+			}
+		},
+		'clearStorage': function(type, key) {
+			try {
+				var storage = this.Storage[type];
+				storage.removeItem( key );
+				return true;
+			} catch (exception) {
+				return false;
+			}
+		},
+	};
+	// Object container for old stuff
+	window.ZL = {};
+	ZLApp.CrmConfig = {
+		DEFAULT_CURRENCY_CODE: 'PLN',
+		DEFAULT_VAT_RATE: 23,
+		WITH_ZEROS: false,
+		PRICE_TYPE: 'net',
+		WEBSOCKET_DOMAIN: 'ws.znanylekarz.pl',
+		WEBSOCKET_TOKEN: '2c595f7e-ef38-492e-b088-73e553cf86dd',
+	};
+	ZLApp.Const = {
+		'AJAX_ROOT_ROUTE': 'www.znanylekarz.pl',
+		'ALGOLIA_API_KEY': '90a529da12d7e81ae6c1fae029ed6c8f',
+		'ALGOLIA_APP_ID': 'docplanner',
+		'ALGOLIA_PREFIX': '',
+		'ALGOLIA_SUFFIX': '',
+		'TESTING_NAME': '',
+		'BASE_DOMAIN': 'znanylekarz.pl',
+		'BOOKING_APP_BOOK_VISIT': 'umow-wizyte',
+		'BOOKING_APP_BOOK_VISIT_SLOTS': 'wybierz-wizyte',
+		'BREAKPOINTS': {
+			'SCREEN_LG_MIN': 1200,
+			'SCREEN_MD_MAX': 1199,
+			'SCREEN_MD_MIN': 992,
+			'SCREEN_SM_MAX': 991,
+			'SCREEN_SM_MIN': 768,
+			'SCREEN_XS_MAX': 767,
+		},
+		'RECAPTCHA_SITE_KEY': '6LdoFUseAAAAAEZyELW_Eg38q3kL1A8OaDPwQa5o',
+		'COVID_TEST_ID': '185',
+		'FLU_VACCINATION_ID': '',
+		'CURRENCY': '0 - 0 zł',
+		'CURRENT_COUNTRY_NAME': 'Polska',
+		'CURRENT_COUNTRY_PHONE_PREFIX': '+48',
+		'CURRENT_ROUTE': 'route_homepage',
+		'DOCTOR_REGISTRATION_WITHOUT_VERIFICATION': true,
+		'DOMAIN': 'www.znanylekarz.pl',
+		'DWH_STATISTICS_URL': 'https://dwh-statistics.znanylekarz.pl',
+		'EVENT_TRACKER_URL': 'https://event-tracker.docplanner.com',
+		'FACEBOOK_FANPAGE_URL': 'https://www.facebook.com/ZnanyLekarz',
+		'FACEBOOK_LOCALE': 'pl_PL',
+		'FACILITY_URL': 'https://www.znanylekarz.pl/placowki/__urlname__',
+		'FIRST_SOCIAL_LOGIN':  false ,
+		'GEOCODER_DOMAIN': 'geocoder.znanylekarz.pl',
+		'GOOGLE_API_KEY': 'AIzaSyAPEkgzgNuQ7h-PLlGo4YqglJ0Ht9RIiPk',
+		'GOOGLE_APP_ID': '965288796332-0h7v07k49r7ggo08nggbg2sdop6eop7d.apps.googleusercontent.com',
+		'GOOGLE_ONE_TAP_REDIRECT_URL': 'https://www.znanylekarz.pl/social-connect/pl_sso?_redirect=https%3A//www.znanylekarz.pl/',
+		'HAS_UNIFIED_NAVIGATION': false,
+		'HERE_MAPS': {
+			'APP_CODE': 'udJpN12Lhrj_QTtf0ELoOQ',
+			'APP_ID': 'MmF8B5LYRYSsH0yb1LuT',
+		},
+		'HUBSPOT_ECOMMERCE_CONTACT': '07420eff-a356-467c-a0b1-a89894bba8a1',
+		'HUBSPOT_ID': '442271',
+		'ISO_LOCALE': 'pl',
+		'IS_LOGGED': false,
+		'IS_LOGGED_DOCTOR': false,
+		'IS_LOGGED_FACILITY_MANAGER': false,
+		'IS_PATIENT_APP': false,
+		'IS_PHONE': false,
+		'IS_STAGING': false,
+		'LANGUAGE_CODE': 'pl_PL',
+		'LOADER_IMAGE': '
+',
+		'LOADER_URL': "//platform.docplanner.com/img/general/user-interface/loader-ready-white.gif?1799301098",
+		'LOCALE': 'pl',
+		'MARKETING_CONSENT_IS_INFO': false,
+		'MARKETING_CONSENT_PRECHECKED': true,
+		'MIN_QUESTION_CHARACTERS': 50,
+		'PAGE_TYPE': 'homepage',
+		'PATIENT_APP_VERSION': '',
+		'PATIENT_REQUEST_BASE_URL': 'https://patient-request.znanylekarz.pl',
+		'PLATFORM_LINK': '//platform.docplanner.com/',
+		'POST_CODE_MASK': '99-999',
+		'PROTOCOL': 'https',
+		'REFERER': '',
+		'SAAS_BASE_DOMAIN': 'docplanner.znanylekarz.pl',
+		'SAAS_MANAGEMENT_WIDGET_DOMAIN': 'booking-management.znanylekarz.pl',
+		'SEARCH_PATH': "https:\/\/www.znanylekarz.pl\/szukaj",
+		'SITE_LANG': 'pl',
+		'SITE_NAME': 'ZnanyLekarz',
+		'SSO_DOMAIN': 'l.znanylekarz.pl',
+		'SSO_SOCIAL_CONNECT': 'https://www.znanylekarz.pl/social-connect/pl_sso?_redirect=',
+		'SSO_SOCIAL_CONNECT_REDIRECT_URL': 'https://www.znanylekarz.pl/social-connect/pl_sso?_redirect=https%3A//www.znanylekarz.pl/',
+		'TERMS_URL': 'https://www.znanylekarz.pl/regulamin',
+		'TIMEZONE': '+01:00',
+		'UPPERCASE_RATIO_ON_OPINIONS': 50,
+		'USER_ID': null,
+		'VISIT_URL': '',
+		'WIDGETS_APP_URL': 'widgets.znanylekarz.pl',
+	};
+	ZLApp.isRoute = function(route) {
+		if (Array.isArray(route)) {
+			return route.indexOf(this.Const.CURRENT_ROUTE) > -1;
+		}
+		return this.Const.CURRENT_ROUTE === route;
+	};
+	ZLApp.Gate = {"GATE_ADDRESS_EDITION_CUSTOM_REFUND_POLICY":true,"GATE_ADDRESS_ONLINE_CONSULTATION":true,"GATE_ADMIN_CHAT_GDPR":true,"GATE_BOOKING_INSURANCE":false,"GATE_BOOKING_DIRECT_INSURANCE":false,"GATE_SHOW_DISABLED_FACILITY_WIDGET":false,"GATE_AGENDA_FACILITY_CALENDAR_SERVICES_FROM_CALENDAR_APP":false,"GATE_AGENDA_NON_DOCTORS_FRONTEND_TEST":false,"GATE_PB_FACILTY_CALENDAR_EXPERIMENTAL":false,"GATE_PB_SEND_REQUEST_FOR_SLOTS_WITHOUT_INSURANCE_FILTER":true,"GATE_CALENDAR_NOTIFICATION_FIND_OTHER_DOCTOR":true,"GATE_CHECK_YOUR_INSURANCE":false,"GATE_CONTEXTUAL_SEARCH_AT_HOMEPAGE":true,"GATE_COOKIE_CONSENT":true,"GATE_PREVENT_AUTOBLOCKING_GTM":true,"GATE_COVID_TEST_SEARCH":false,"GATE_FLU_VACCINATION_SEARCH":false,"GATE_CRM_ECOMMERCE_BLACK_FRIDAY":false,"GATE_CRM_ECOMMERCE_BOLETO":false,"GATE_CRM_ECOMMERCE_IBAN":false,"GATE_CRM_ECOMMERCE_IYZICO_ONE_TIME":false,"GATE_CRM_ECOMMERCE_PAYMENTS_TESTIMONIALS":false,"GATE_CRM_ECOMMERCE_PIX":false,"GATE_CRM_ECOMMERCE_PSE":false,"GATE_CRM_ECOMMERCE_SERVIPAG":false,"GATE_CRM_ECOMMERCE_SHOW_CPL_PRICING_DETAILS":true,"GATE_CRM_ECOMMERCE_WEBSITE":false,"GATE_CRM_ECOMMERCE_WEB_PAY":false,"GATE_CRM_IYZICO":false,"GATE_CRM_MARKETPLACE_ACCOUNT_ACTION_REQUIRED_MODAL":true,"GATE_CRM_PAYU":true,"GATE_CRM_USE_SCA_AUTHENTICATION_FLOW":true,"GATE_DIRECT_INSURANCES":false,"GATE_DOCTOR_CALENDAR_FILTERS":true,"GATE_DOCTOR_LICENSE_NUMBER":true,"GATE_DOCTOR_PROFILE_TOP_BANNER_TOUCHPOINT":true,"GATE_DOCTOR_REGISTRATION_EMAIL_CONFIRMATION":false,"GATE_DOCTOR_STATISTICS_VIDEO":true,"GATE_OPENING_HOURS":false,"GATE_ECOMMERCE_CAMPAIGNS_LANDING_PAGE":true,"GATE_ECOMMERCE_PREMIUM_LANDING_MODAL":false,"GATE_ECOMMERCE_PREMIUM_LANDING_MODAL_MARKETING":false,"GATE_ECOMMERCE_PRICING_WEBSITE_ON_DEFAULT":false,"GATE_ECOMMERCE_THANK_YOU_PAGE_NEW_ONBOARDING_WIZARD":false,"GATE_ECOMMERCE_UNPAID_INVOICES_MODAL":true,"GATE_PRELOAD_GTM":true,"GATE_ENABLE_LICENSE_NUMBER_VERIFICATION":false,"GATE_ENABLE_MIXPANEL_TRACKING":true,"GATE_FACILITY_CALENDAR_SERVICE_STEP":true,"GATE_FACILITY_CALENDAR_SORT_BY_NAME":false,"GATE_FACILITY_PROFILE_TOP_BANNER_TOUCHPOINT":true,"GATE_FACILITY_REGISTRATION":true,"GATE_FACILITY_REGISTRATION_EMAIL_CONFIRMATION":true,"GATE_FACILITY_SERVICES_TABLE":true,"GATE_REFACTORED_FACILITY_ITEM_ABOUT":false,"GATE_FIND_ANOTHER_SPECIALIST_WHEN_NO_AVAILABILITY":false,"GATE_GDPR_MARKETING_CONSENT_MANDATORY":false,"GATE_GDPR_REGISTRATION_INFORMATION":false,"GATE_GENERAL_MARKETING_AGREEMENT":false,"GATE_GOOGLE_ONE_TAP_LOGIN":true,"GATE_HIDE_NEARBY_DOCTORS_ON_NON_COMMERCIAL_PROFILE":false,"GATE_HIDE_PRICES_FOR_PATIENTS_WITH_INSURANCE":false,"GATE_HOMEPAGE_PATIENT_APP_BANNER":true,"GATE_HUBSPOT":true,"GATE_INSURANCE_PLANS":false,"GATE_INSURANCE_REFUND":false,"GATE_INSURANCE_REFUND_DOCUMENTS":false,"GATE_LOCATION_DETAILS":true,"GATE_MODERATION_DOCTOR_ITEM_REQUIRED":false,"GATE_MODERATION_DOCTOR_ITEM_SPECIALIZATION":false,"GATE_MODERATION_DOCTOR_SPECIALIZATION":true,"GATE_MODERATION_EDIT_OPINION_BY_MODERATOR":true,"GATE_MODERATION_HIGHLIGHT_IN_OPINION":false,"GATE_MODERATION_OPINION_TRUST_SCORE_DISPLAY":true,"GATE_MODERATION_PANEL_DOCTOR_NEW_BY_SELF":false,"GATE_MODERATION_SPECIALIZATION_DOCUMENT_VERIFICATION":true,"GATE_NEW_SEARCH_DISTRICT_FILTERS":false,"GATE_NEW_SEARCH_FORCE_DOCTORS_ON_LANDING_PAGES":false,"GATE_NEW_SEARCH_ONLINE_CONSULTATION_BANNER":true,"GATE_NEW_SEARCH_PATIENT_APP_BANNER":true,"GATE_ONLINE_CONSULTATION_CALENDAR_PAYMENT_TIP":true,"GATE_ONLINE_LANDING_REAL_TESTIMONIALS":true,"GATE_OPINIONS_NEW_FLOW_SAMPLE_OPINIONS":false,"GATE_OPINIONS_NEW_FLOW_REQUIRE_LOGIN_JUST_BEFORE_SUBMIT":false,"GATE_OPINION_SIGNATURE_HIDE":false,"GATE_OPINION_SORTING_SHOW":true,"GATE_PANEL_PATIENT_APP_BANNER":true,"GATE_PB_BOOKING_SOURCE":true,"GATE_PB_DECIMAL_PART_IN_PRICES":true,"GATE_PB_DOCTOR_CALENDAR_WITH_FILTERS_WIDGET":false,"GATE_PB_INTEGRATED_DOCTOR_CALENDAR":false,"GATE_PROFILE_NO_CALENDAR_PATIENT_APP_BANNER":true,"GATE_ENABLE_ALL_PATIENT_APP_BANNER":true,"GATE_ENABLE_BROWSER_CHAT_PATIENT_APP_BANNER":true,"GATE_QA_PATIENT_APP_BANNER":true,"GATE_CHAT_ENABLE_NEW_ON_LOAD_BANNER":true,"GATE_Q_AND_A":true,"GATE_Q_AND_A_ALLOW_PRIVATE_QUESTIONS":false,"GATE_Q_AND_A_ANSWER_MODERATION":false,"GATE_Q_AND_A_PRIVATE_QUESTIONS_PANEL_VUE":false,"GATE_RECURRING_CREDIT_CARD_PAYMENT":true,"GATE_SAVE_DOCTOR_PROFILE":true,"GATE_SAVE_DOCTOR_PROFILE_NON_LOGGED":true,"GATE_SENTRY_JS":true,"GATE_SENTRY_PERFORMANCE_TRACING":true,"GATE_SEO_ENABLE_NEW_DOCTOR_HOMEPAGE_SECTION":true,"GATE_SHOW_ADDRESS_FACILITY_WARNING":true,"GATE_SHOW_DOCTOR_PROFILE_EDITION_DESCRIPTION":true,"GATE_HIDE_REQUEST_SERVICES":true,"GATE_SHOW_GDPR_CHECKBOX":false,"GATE_SHOW_PHONE_ON_NON_COMMERCIAL_DOCTORS":false,"GATE_SLOT_RELEASED":true,"GATE_STRONG_PASSWORD_VALIDATOR":true,"GATE_TIMEZONE_ONLINE_CONSULTATION":false,"GATE_TURKISH_LAW_COMPLIANCE":false,"GATE_USER_REGISTRATION_EMAIL_CONFIRMATION":true,"GATE_VUE_LOCATION_AUTOCOMPLETE_LOGS":false,"GATE_VUE_WIDGETS":true,"GATE_WEBSOCKETS":true,"GATE_MODERATION_SPECIALIZATION_DOCUMENT_VERIFICATION_SENT_EMAIL":true,"GATE_TEST_ACCOUNTS_DASHBOARD_FACILITY_ACCOUNTS_TOGGLE":true,"GATE_OPINION_ACTIVATION_AND_EMAIL_VERIFICATION_VIA_EMAIL":false,"GATE_RECAPTCHA_ENTERPRISE_OPINIONS_FLOW":true,"GATE_OPINIONS_REMOVE_OTHER_FROM_LOCATION_DROPDOWN":false,"GATE_ECOMMERCE_USE_IFRAME":false,"GATE_DOCTOR_REGISTRATION_MODERATION_PANEL":true,"GATE_CRM_FIRST_CLASS_ECOMMERCE_PROMOTION":false,"GATE_OPINIONS_FOR_FACILITIES":false,"GATE_UNSUBSCRIBE_SMS_FOOTER":true,"GATE_OPINIONS_FACILITY_DOCTOR_DROPDOWN":false,"GATE_OPINIONS_FACILITY_ADDRESSES_DROPDOWN":false,"GATE_PATIENT_REQUEST_BUTTON":false,"GATE_PATIENT_REQUEST_VERIFICATION_STEP":false,"GATE_DOCTOR_OUT_OF_OFFICE":false,"GATE_GET_DOCTOR_CERTIFICATE":true,"GATE_CRM_ECOMMERCE_PACKAGING_LANDING":true,"GATE_CRM_ECOMMERCE_PACKAGING_LANDING_HIDE_ICONS":false,"GATE_CRM_ECOMMERCE_CUSTOMER_SUPPORT_SECTION":true,"GATE_ENABLE_GA4_ENHANCED_ECOMMERCE":false,"GATE_CLINIC_PROFILE_NEW_BOOKING_WIDGET":true,"GATE_CLINIC_PROFILE_NEW_BOOKING_WIDGET_NON_DOCTORS_EXPERIMENT":false,"GATE_PB_DISPLAY_GET_APP_BANNER_IN_ASK_FOR_CONTACT_MODAL":false,"GATE_STATS_PV_REPORT_FROM_DECEMBER_2022":false,"GATE_REQUEST_PROFILE_CHANGES_WITH_TEXT_BOX":false,"GATE_FETCH_CUSTOMER_DATA_BY_TAX_NUMBER":true,"GATE_ECOMMERCE_ACCEPT_COMPANY_GMB":true,"GATE_CRM_CUSTOMER_TAX_NUMBER_NOT_REQUIRED":false,"GATE_BULK_OBJECT_VERIFICATION":true,"GATE_PB_USE_FULL_LIST_OF_INSURANCES_IN_CALENDAR_WIDGET":false,"GATE_PB_IS_BOOKING_REQUEST":false,"GATE_PB_SHOW_BOOKING_REQUEST_MODAL":false,"GATE_BANNER_REDIRECT_TO_LISTING":true,"GATE_SHOULD_CHECK_BOOKABLE_SERVICES_ON_FACILITY_PROFILE":true,"GATE_SHOULD_CHECK_BOOKABLE_DOCTORS_ON_FACILITY_PROFILE":true,"GATE_NEW_SEARCH_HIDE_DOCTOR_SERVICES":false,"GATE_SHOW_PRICE_INCREASE_MODAL":false,"GATE_MODERATION_OPINION_ABUSE_V2_FLOW":true,"GATE_SHOW_SERVICES_LEGAL_DISCLAIMER":true,"GATE_FACILITY_INSURANCES_EXPERIMENT":false,"GATE_TRUST_BANNER_CERTIFICATES_PL":true,"GATE_USE_TEST_COOKIEPRO":false,"GATE_CHAT_SEND_HEALTH_PROFILE_BUTTON":false,"GATE_DOCTOR_SPECIALIZATION_IN_PROGRESS":true,"GATE_PATIENT_APP_EVENT_INTERCEPTOR":false,"GATE_DP_SPACES_HEADER":false,"GATE_PATIENT_APP_BANNER_ON_SCROLL":false,"GATE_ECOMMERCE_PACKAGING_TR_TERMS_AND_CONDITIONS":false,"GATE_DE_SEARCH_FILTER_SLOTS_BY_INSURANCE_PROVIDER":false,"GATE_ENABLE_EFR_DEEPLINK_PARAM":true,"GATE_FACILITY_OPINIONS_MANAGEMENT_PAGE":false};
+	ZLApp.isGranted = function(gate) {
+		return this.Gate[gate];
+	};
+		ZLApp.Lang = {
+						"@Disease": "choroba",
+			"@List": "lista",
+			"@Map": "mapa",
+			"abandoned_cart_button": "Potwierd\u017a termin",
+			"abandoned_cart_description": "Aby um\u00f3wi\u0107 wizyt\u0119, doko\u0144cz proces rezerwacji.",
+			"abandoned_cart_header": "Twoja wizyta nie zosta\u0142a jeszcze potwierdzona",
+			"add": "Dodaj",
+			"add_patient": "Dopisz pacjenta",
+			"address": "Adres",
+			"addresses_with_no_online_booking": "Adresy bez mo\u017cliwo\u015bci rezerwacji online (%{count})",
+			"advance_schedule_calendar_address": "Adres",
+			"agenda_visit_manage_cancel_visit_modal": "Twoja wizyta zosta\u0142a anulowana.",
+			"agenda_visit_manage_confirm_visit_modal": "Dzi\u0119kujemy! Prosimy o punktualne przybycie.",
+			"are_you_sure": "Jeste\u015b pewien?",
+			"autocomplete_disease": "choroba",
+			"autocomplete_loading": "Szukamy wynik\u00f3w",
+			"autocomplete_search_empty": "Czego szukasz?",
+			"autocomplete_search_prefix": "Wyszukaj",
+			"autocomplete_specialization": "Specjalizacja",
+			"booking_sms_conf_after_resend_hint": "Wys\u0142ali\u015bmy SMS ponownie! Tym razem powinien doj\u015b\u0107 szybciej ni\u017c w 2 minuty. ",
+			"brand_doctors": "lekarzy",
+			"calendar_placeholder_title": "Umawianie na ZnanyLekarz",
+			"call": "Zadzwo\u0144",
+			"cancel": "Anuluj",
+			"changes_sent_to_moderation": "Zmiana zosta\u0142a wys\u0142ana do moderacji. Tre\u015b\u0107 nie b\u0119dzie widoczna na profilu do momentu akceptacji przez moderatora.",
+			"chat_error_message": "Spr\u00f3buj od\u015bwierzy\u0107 stron\u0119 aby zobaczy\u0107 najnowsze wiadomo\u015bci.",
+			"check_other_calendars": "Poka\u017c adresy z kalendarzem",
+			"clinics_autocomplete": "Centrum medyczne",
+			"close": "Zamknij",
+			"comment_should_not_capitalize": "Komentarz nie powinien by\u0107 pisany wielkimi literami",
+			"comment_to_short": "Opinia musi mie\u0107 przynajmniej %minCharacters% znak\u00f3w, aktualnie ma %currentCount%.",
+			"common_refresh": "Od\u015bwie\u017c",
+			"components.question.doctor.book": "Um\u00f3w wizyt\u0119",
+			"confirm_when_slot_remove": "Na pewno chcesz usun\u0105\u0107 te terminy?",
+			"congratulations_reminders_set": "Gratulujemy, ustawiono przypomnienie.",
+			"cookies-info": "Ta strona korzysta z ciasteczek. Kliknij 
+tutaj,
+ aby dowiedzie\u0107 si\u0119 wi\u0119cej. Je\u015bli wyra\u017casz na to zgod\u0119, kontynuuj przegl\u0105danie.",
+			"currency_suffix": "%{currency_code} z\u0142",
+			"disable": "wy\u0142\u0105cz",
+			"doctor_all_addresses": "Adresy (%{count})",
+			"doctor_all_addresses_one": "Adres",
+			"doctor_autocomplete": "Specjalista",
+			"doctor_edition_facility_type_header": "Rodzaj adresu",
+			"doctor_edition_online_office_name": "Nazwa gabinetu online",
+			"doctor_opinions_show_opinions": "Poka\u017c opinie",
+			"doctor_profile_add_opinion": "Dodaj opini\u0119",
+			"doctor_service": "Us\u0142uga",
+			"doctor_verificated_successfully": "Ten lekarz potwierdzi\u0142 wiarygodno\u015b\u0107 danych na swoim profilu",
+			"doctor_with_calendar": "Brak wizyt",
+			"edit": "edytuj",
+			"edit_visit_patient": "Edytuj pacjenta",
+			"enable": "w\u0142\u0105cz",
+			"errorTryLater": "Wyst\u0105pi\u0142 b\u0142\u0105d. Spr\u00f3buj jeszcze raz.",
+			"error_while_uploading_photos": "Nasz serwer ma problem z przetworzeniem Twoich zdj\u0119\u0107. Spr\u00f3buj zmniejszy\u0107 ich rozmiary lub dodawa\u0107 je pojedynczo.",
+			"expand_map": "Powi\u0119ksz map\u0119",
+			"facility": "Plac\u00f3wka",
+			"facility_listing_context_alert": "Zmiana specjalizacji, adresu b\u0105d\u017a wyb\u00f3r konkretnego lekarza mo\u017ce spowodowa\u0107, \u017ce wy\u015bwietlane terminy nie b\u0119d\u0105 spe\u0142nia\u0107 wybranych wcze\u015bniej kryteri\u00f3w (us\u0142uga czy ubezpieczenie).",
+			"facility_name_plaxeholder": "np. Specjalistyczny Gabinet Diagnostyki Ginekologiczno - Po\u0142o\u017cniczej",
+			"fieldNotEmpty": "To pole nie mo\u017ce by\u0107 puste",
+			"filter_info_box": "U\u017cyj filtr\u00f3w aby otrzyma\u0107 wyniki bardziej dostosowane do Twoich potrzeb.",
+			"finish": "Zako\u0144cz",
+			"forward": "Dalej",
+			"from": "Od",
+			"google_calendar_cancel_sync_text": "Czy na pewno chcesz anulowa\u0107 synchronizacj\u0119?",
+			"import_address_name": "Nazwa gabinetu",
+			"incorrect_date": "Nieprawid\u0142owa data!",
+			"insurance_box_title": "Szukasz lekarza z konkretnym planem ubezpieczeniowym? Sprawd\u017a poni\u017csze opcje",
+			"internal_number_warning": "Po rozpocz\u0119ciu po\u0142\u0105czenia wprowad\u017a numer wewn\u0119trzny:",
+			"less": "mniej",
+			"license_verification_doctor_profile_modal_body": "Perfil sob verifica\u00e7\u00e3o da Doctoralia. As informa\u00e7\u00f5es publicadas neste perfil foram geradas exclusivamente pelo usu\u00e1rio, e n\u00e3o foram apuradas ainda pela Doctoralia. At\u00e9 a verifica\u00e7\u00e3o deste perfil, sugerimos que confirme a veracidade junto ao conselho da especialidade correspondente, ex.: CFM, CFP, CFO.",
+			"link_doctor_to_clinic.choose_clinic.placeholder": "Zacznij wpisywa\u0107, aby wyszuka\u0107 plac\u00f3wk\u0119",
+			"link_doctor_to_clinic.choose_clinic.title": "Wybierz plac\u00f3wk\u0119, w kt\u00f3rej pracujesz",
+			"loadingWait": "Trwa \u0142adowanie. Prosz\u0119 czeka\u0107...",
+			"map": "mapa",
+			"map_empty_state_CTA": "Przybli\u017c map\u0119 lub poruszaj si\u0119 po niej, by zobaczy\u0107 wi\u0119cej wynik\u00f3w",
+			"map_empty_state_copy_generic": "Nie ma takich specjalist\u00f3w w okolicy",
+			"map_empty_state_copy_spec": "Brak %dentists% w tej okolicy",
+			"map_search": "Szukaj w tej okolicy",
+			"map_test_modal_CTA": "Wr\u00f3c do listy specjalist\u00f3w",
+			"map_test_modal_text": "Ju\u017c wkr\u00f3tce zostanie uruchomiona pe\u0142na wersja tej podstrony.",
+			"map_test_modal_text_headline": "Strona w budowie.",
+			"mobile_sign_as": "Podpisz si\u0119 jako",
+			"mobile_specialization": "Specjalizacja",
+			"mobile_visit_try_again": "Spr\u00f3buj ponownie",
+			"more": "wi\u0119cej",
+			"move_visit": "prze\u0142\u00f3\u017c wizyt\u0119",
+			"no": "Nie",
+			"no_calendar_in_your_location": "Brak kalendarza w Twojej lokalizacji.",
+			"no_open_slots": "Brak wolnych termin\u00f3w",
+			"no_results_for": "Nie znaleziono wynik\u00f3w wyszukiwania dla",
+			"no_slots_facility_cta": "Poka\u017c profil",
+			"no_slots_facility_info": "Brak dost\u0119pnych specjalist\u00f3w z wolnymi terminami w tym centrum medycznym.",
+			"online_consultation_doc_card_label": "Oferuje konsultacje online",
+			"pagination_next": "Nast\u0119pna",
+			"pagination_previous": "Poprzednia",
+			"panel_delete-me-modal_no": "Zatrzymaj konto",
+			"panel_delete-me-modal_yes": "Usu\u0144 konto",
+			"patient_visit_cancel_modal_confirm": "Czy na pewno chcesz odwo\u0142a\u0107 wizyt\u0119?",
+			"patients_marketing_consent_modal_cta_no": "Nie, dzi\u0119kuj\u0119",
+			"patients_marketing_consent_modal_cta_yes": "Tak, chc\u0119 dostawa\u0107 informacje od ZnanyLekarz",
+			"patients_marketing_consent_modal_desc": "Otrzymuj informacje o naszych nowych funkcjonalno\u015bciach i us\u0142ugach. Dzi\u0119ki temu w pe\u0142ni wykorzystasz ZnanyLekarz, aby dba\u0107 o zdrowie swoje i bliskich.",
+			"patients_marketing_consent_modal_legal_txt": "Aby m\u00f3c dzieli\u0107\u00a0si\u0119 z Tob\u0105 nowo\u015bciami na ZnanyLekarz, potrzebujemy Twojej zgody. Mo\u017cesz wycofa\u0107 j\u0105\u00a0w dowolnym momencie.",
+			"patients_marketing_consent_modal_legal_txt_learn_more": "Dowiedz si\u0119 wi\u0119cej w naszej polityce prywatno\u015bci.",
+			"patients_marketing_consent_modal_legal_txt_tooltip": "Potrzebujemy Twojej zgody, aby m\u00f3c zaoferowa\u0107 Ci najlepsze do\u015bwiadczenia w korzystaniu z naszego serwisu. Pami\u0119taj, \u017ce w ka\u017cdym momencie mo\u017cesz wycofa\u0107 zgod\u0119. 
+Dowiedz si\u0119 wi\u0119cej w naszej polityce prywatno\u015bci.
+",
+			"patients_marketing_consent_modal_title": "Nie przegap nowo\u015bci",
+			"price_from": "Od %price%",
+			"provide_visit_location": "Podaj miejsce wizyty",
+			"qna_question_delete_confirm": "Czy na pewno chcesz usun\u0105\u0107 to pytanie?",
+			"rate_error": "Aby doda\u0107 opini\u0119 musisz wybra\u0107 ocen\u0119.",
+			"registration.facility.user_position.doctor": "Lekarz",
+			"reminder_removed": "Przypomnienie zosta\u0142o usuni\u0119te",
+			"remove_slot_error_message": "Usuni\u0119cie terminu nie powiod\u0142o si\u0119",
+			"removing": "Usuwanie",
+			"reset_filters": "Wyczy\u015b\u0107",
+			"saving": "Zapisuj\u0119\u2026",
+			"search_all_filters": "Wszystkie filtry",
+			"search_calendar_missing": "Brak kalendarza",
+			"search_doctors": "Szukaj lekarzy",
+			"search_error_no_location": "Nie mo\u017cna ustali\u0107 lokalizacji u\u017cytkownika. ",
+			"search_filter_calendar": "Umawianie na ZnanyLekarz",
+			"search_filter_calendar_description": "Poka\u017c specjalist\u00f3w, do kt\u00f3rych mo\u017cesz um\u00f3wi\u0107 si\u0119\u00a0na portalu ZnanyLekarz",
+			"search_filter_clinics": "Centrum medyczne",
+			"search_filter_dates_per_date": "Termin wizyty",
+			"search_filter_diseases": "Choroby",
+			"search_filter_districts": "Dzielnice",
+			"search_filter_doctors": "Lekarze",
+			"search_filter_doctors_clinics": "Lekarze i centra medyczne",
+			"search_filter_entity_type": "Rodzaj wynik\u00f3w",
+			"search_filter_insurances": "Ubezpieczenia",
+			"search_filter_kids_friendly": "Przyjmuje dzieci",
+			"search_filter_kids_friendly_description": "Specjali\u015bci, kt\u00f3rzy przyjmuj\u0105 m\u0142odszych pacjent\u00f3w",
+			"search_filter_payment_methods": "Metody p\u0142atno\u015bci",
+			"search_filter_services": "Us\u0142ugi",
+			"search_filter_specializations": "Specjalizacje",
+			"search_in_doctors": "Znajd\u017a specjalist\u0119 \"%{QUERY}\"",
+			"search_in_facilities": "Znajd\u017a centrum medyczne \"%{QUERY}\"",
+			"search_see_profile": "Zobacz profil",
+			"search_sort_by": "Sortowanie",
+			"search_sorter": "Sortowanie",
+			"search_sorter_availability": "Najwcze\u015bniejszy wolny termin",
+			"search_sorter_factor_based": "Rekomendowani",
+			"search_sorter_rating": "Najlepiej ocenieni",
+			"search_sorter_recommended": "sugerowani",
+			"search_whole_website": "Szukaj \"%phrase%\" w ca\u0142ym serwisie",
+			"selectService": "Wybierz us\u0142ug\u0119",
+			"selectSpecialization": "Wybierz specjalizacj\u0119",
+			"select_choose": "---- wybierz ----",
+			"selected": "Wybranych",
+			"send_opinion": "Wy\u015blij opini\u0119",
+			"services_and_prices_no_price": "Brak ceny",
+			"set_visit_button": "Um\u00f3w wizyt\u0119",
+			"show_all_cities": "Wszystkie miasta",
+			"show_more": "zobacz wi\u0119cej",
+			"show_phone": "Poka\u017c numer",
+			"show_yesterday": "Poka\u017c wczorajszy dzie\u0144",
+			"super_doctor_mail_CTA_see_all_opinions": "Zobacz wszystkie opinie",
+			"terms_of_visits_addition": "Dodawanie termin\u00f3w wizyt",
+			"toast_remove_slot_title": "Termin usuni\u0119ty!",
+			"toast_undo_remove_slot_title": "Termin przywr\u00f3cony!",
+			"unexpected_error": "Wyst\u0105pi\u0142 nieoczekiwany b\u0142\u0105d!",
+			"unsaved_changes": "Wygl\u0105da na to, \u017ce wprowadzone przez Ciebie zmiany nie zosta\u0142y zapisane. Czy chcesz pozosta\u0107 na tej stronie, by m\u00f3c je zapisa\u0107?",
+			"validation.email": "Podaj prawid\u0142owy adres e-mail",
+			"validation.maxLength": "Ta warto\u015b\u0107 jest zbyt d\u0142uga. Powinna mie\u0107 %{max} lub mniej znak\u00f3w.",
+			"validation.minLength": "Ta warto\u015b\u0107 jest zbyt kr\u00f3tka. Powinna mie\u0107 %{min} lub wi\u0119cej znak\u00f3w. ",
+			"validation.required": "To pole jest wymagane",
+			"validator_email": "Podaj prawid\u0142owy adres e-mail",
+			"validator_required": "To pole jest wymagane",
+			"visit_details_saving_progress": "Trwa zapisywanie...",
+			"visit_details_visit_cancelled": "Wizyt\u0119 odwo\u0142ano",
+			"visit_out_of_schedule": "Termin poza grafikiem",
+			"visit_report_select_all": "Wybierz wszystko",
+			"visit_select_date": "Wybierz termin wizyty",
+			"wait_a_moment": "Poczekaj chwil\u0119...",
+			"warning": "Uwaga",
+			"we_are_checking_your_localization": "Szukamy Twojej lokalizacji...",
+			"widget_default_specialist": "specjalista",
+			"widget_show_reviews": "Poka\u017c opinie",
+			"yes": "Tak",
+			"you_have_x_custom_calendar_configs": "masz $amount tygodni ze zmienionym grafikiem",
+			"you_need_characters": "Musisz napisa\u0107 jeszcze: %{currentCount} znak\u00f3w.",
+			"your_account_demo_1": "Sprawd\u017a jak dzia\u0142a nowa lista wizyt",
+			"your_account_demo_2": "Zamiast przewija\u0107 list\u0119 mo\u017cesz wybra\u0107 odpowiedni dzie\u0144 z kalendarza",
+			"your_account_demo_3": "Jednym przyciskiem zapiszesz pacjenta na dowolny dost\u0119pny termin",
+			"your_account_demo_4": "Mo\u017cesz wybra\u0107 list\u0119 dla jednego z adres\u00f3w",
+			"your_account_demo_5": "Mo\u017cesz edytowa\u0107 wizyty wcze\u015bniej wpisane przez siebie",
+			"your_account_demo_6": "Kliknij w pozycj\u0119 na li\u015bcie, \u017ceby zobaczy\u0107 szczeg\u00f3\u0142owe informacje",
+			'all_specs': 'Wszystkie\u0020specjalizacje',
+			'banner_promote_app_cta_2': 'Przejd\u017A\u0020do\u0020aplikacji',
+			'banner_promote_app_text_1': 'Pobierz\u0020nasz\u0105\u0020aplikacj\u0119\u0020i\u0020odkryj\u0020przyjazn\u0105\u0020opiek\u0119\u0020medyczn\u0105.',
+			'call_center_info_placeholder_transport': 'np.\u0020\u0022Wej\u015Bcie\u0020od\u0020ty\u0142u\u0020budynku,\u0020naprzeciwko\u0020centrum\u0020handlowego,\u0020mo\u017Cna\u0020dojecha\u0107\u0020tramwajem\u0020nr\u00202,\u00205,\u00207\u0022',
+			'directions_parking': 'Wskaz\u00F3wki\u0020dojazdu\u0020i\u0020parking',
+			'docplanner_payments_action_required': 'P\u0142atno\u015Bci\u0020\u002D\u0020wymagana\u0020aktualizacja\u0020konta',
+			'docplanner_payments_action_required_tip1': 'Twoje\u0020konto\u0020wymaga\u0020aktualizacji.\u0020',
+			'docplanner_payments_action_required_tip2': 'Przejd\u017A\u0020na\u0020stron\u0119\u0020naszego\u0020operatora\u0020p\u0142atno\u015Bci\u0020w\u0020celu\u0020uzupe\u0142nienia\u0020niezb\u0119dnych\u0020informacji.',
+			'docplanner_payments_action_required_update_button': 'Zaktualizuj',
+			'doctor_edition_remote_instructions_header': 'Szczeg\u00F3\u0142y\u0020dotycz\u0105ce\u0020po\u0142\u0105czenia',
+			'doctor_edition_remote_instructions_placeholder': 'Wpisz\u0020instrukcje\u0020tutaj',
+			'doctor_edition_remote_instructions_tip': 'Podane\u0020przez\u0020Ciebie\u0020informacje\u0020\u0028numer\u0020telefonu,\u0020email\u0029\u0020b\u0119d\u0105\u0020widoczne\u0020dla\u0020pacjent\u00F3w\u0020dopiero\u0020po\u0020um\u00F3wieniu\u0020wizyty.',
+			'doctor_panel_address_details': 'Informacje,\u0020kt\u00F3re\u0020pacjent\u0020mo\u017Ce\u0020zobaczy\u0107\u0020po\u0020um\u00F3wieniu\u0020wizyty,\u0020a\u0020kt\u00F3re\u0020pomog\u0105\u0020mu\u0020dotrze\u0107\u0020do\u0020Twojego\u0020gabinetu,\u0020np.\u0020opis\u0020lokalizacji,\u0020wej\u015Bcia\u0020do\u0020budynku,\u0020dojazdu\u0020komunikacj\u0105\u0020miejsk\u0105\u0020lub\u0020samochodem.',
+			'has_unpaid_invoices_btn': 'Zap\u0142a\u0107',
+			'has_unpaid_invoices_content': 'Prosimy\u0020o\u0020dokonanie\u0020p\u0142atno\u015Bci\u0020online\u0020lub\u0020za\u0020po\u015Brednictwem\u0020przelewu\u0020bankowego.',
+			'has_unpaid_invoices_title': 'Na\u0020Twoim\u0020koncie\u0020jest\u0020nieop\u0142acona\u0020faktura.',
+			'marketplace_account_rejected_account_apology_information': 'Przepraszamy\u0020za\u0020niedogodno\u015Bci\u0020i\u0020dzi\u0119kujemy\u0020za\u0020cierpliwo\u015B\u0107.',
+			'marketplace_account_rejected_account_header': 'P\u0142atno\u015Bci\u0020\u002D\u0020Twoje\u0020konto\u0020zosta\u0142o\u0020tymczasowo\u0020zawieszone',
+			'marketplace_account_rejected_account_header_description': 'Twoje\u0020konto\u0020zosta\u0142o\u0020tymczasowo\u0020zawieszone\u0020przez\u0020naszego\u0020operatora\u0020p\u0142atno\u015Bci.',
+			'marketplace_account_rejected_account_work_in_progress': 'Pracujemy\u0020niestrudzenie,\u0020aby\u0020Twoje\u0020konto\u0020jak\u0020najszybciej\u0020by\u0142o\u0020w\u0020pe\u0142ni\u0020funkcjonalne.',
+			'modal-communication-price_increase-title': 'modal\u002Dcommunication\u002Dprice_increase\u002Dtitle',
+			'modal-communication-price_increase-descr': 'modal\u002Dcommunication\u002Dprice_increase\u002Ddescr',
+			'modal-communication-price_increase-cta-read_information': 'modal\u002Dcommunication\u002Dprice_increase\u002Dcta\u002Dread_information',
+			'month': {
+				'0': 'stycznia',
+				'1': 'lutego',
+				'2': 'marca',
+				'3': 'kwietnia',
+				'4': 'maja',
+				'5': 'czerwca',
+				'6': 'lipca',
+				'7': 'sierpnia',
+				'8': 'wrze\u015Bnia',
+				'9': 'pa\u017Adziernika',
+				'10': 'listopada',
+				'11': 'grudnia',
+			},
+			'monthShort': {
+				'0': 'Sty',
+				'1': 'Lut',
+				'2': 'Mar',
+				'3': 'Kwi',
+				'4': 'Maj',
+				'5': 'Cze',
+				'6': 'Lip',
+				'7': 'Sie',
+				'8': 'Wrz',
+				'9': 'Pa\u017A',
+				'10': 'Lis',
+				'11': 'Gru',
+			},
+			'month.0': 'stycznia',
+			'month.1': 'lutego',
+			'month.2': 'marca',
+			'month.3': 'kwietnia',
+			'month.4': 'maja',
+			'month.5': 'czerwca',
+			'month.6': 'lipca',
+			'month.7': 'sierpnia',
+			'month.8': 'wrze\u015Bnia',
+			'month.9': 'pa\u017Adziernika',
+			'month.10': 'listopada',
+			'month.11': 'grudnia',
+			'month_short.0': 'Sty',
+			'month_short.1': 'Lut',
+			'month_short.2': 'Mar',
+			'month_short.3': 'Kwi',
+			'month_short.4': 'Maj',
+			'month_short.5': 'Cze',
+			'month_short.6': 'Lip',
+			'month_short.7': 'Sie',
+			'month_short.8': 'Wrz',
+			'month_short.9': 'Pa\u017A',
+			'month_short.10': 'Lis',
+			'month_short.11': 'Gru',
+			'more': 'wi\u0119cej',
+			'online_consultation_check_box': 'Konsultacja\u0020online',
+			'search': 'Szukaj',
+			'search_placeholder_specialization': 'specjalizacja,\u0020badanie\u0020lub\u0020nazwisko',
+			'search_placeholder_where': 'miasto\u0020lub\u0020dzielnica',
+			'search_placeholder_where_city': 'miasto\u0020lub\u0020dzielnica',
+			'statistics_video_pro_modal_body': 'Odkryj,\u0020jak\u0020mo\u017Cemy\u0020Ci\u0020pom\u00F3c\u0020osi\u0105gn\u0105\u0107\u0020wyniki,\u0020kt\u00F3rych\u0020oczekujesz.',
+			'statistics_video_pro_modal_body_bold': 'Chcesz\u0020obejrze\u0107\u0020raport\u0020dotycz\u0105cy\u0020Twojego\u0020profilu\u0020na\u0020ZnanyLekarz.pl\u003F',
+			'statistics_video_pro_modal_cta': 'Dowiedz\u0020si\u0119\u0020wi\u0119cej',
+			'statistics_video_pro_modal_cta_lead': 'Inni\u0020\u0025\u007Bspecialization_name\u007D\u0020uzyskuj\u0105\u0020najlepsze\u0020rezultaty\u0020z\u0020Pakietem\u0020Premium',
+			'statistics_video_pro_modal_cta_lead_general': 'Inni\u0020specjali\u015Bci\u0020uzyskuj\u0105\u0020najlepsze\u0020rezultaty\u0020z\u0020Pakietem\u0020Premium',
+			'statistics_video_pro_modal_header': 'Przygotowali\u015Bmy\u0020dla\u0020Ciebie\u0020specjalny\u0020film',
+			'weekDay': {
+				'0': 'Poniedzia\u0142ek',
+				'1': 'Wtorek',
+				'2': '\u015Aroda',
+				'3': 'Czwartek',
+				'4': 'Pi\u0105tek',
+				'5': 'Sobota',
+				'6': 'Niedziela',
+			},
+			'weekDayShort': {
+				'0': 'Pon,',
+				'1': 'Wt,',
+				'2': '\u015Ar,',
+				'3': 'Czw,',
+				'4': 'Pt,',
+				'5': 'Sob,',
+				'6': 'Ndz,',
+			},
+			'weekday.0': 'poniedzia\u0142ek',
+			'weekday.1': 'wtorek',
+			'weekday.2': '\u015Broda',
+			'weekday.3': 'czwartek',
+			'weekday.4': 'pi\u0105tek',
+			'weekday.5': 'sobota',
+			'weekday.6': 'niedziela',
+			'weekday_short.0': 'Pon,',
+			'weekday_short.1': 'Wt,',
+			'weekday_short.2': '\u015Ar,',
+			'weekday_short.3': 'Czw,',
+			'weekday_short.4': 'Pt,',
+			'weekday_short.5': 'Sob,',
+			'weekday_short.6': 'Ndz,',
+		};
+		{
+			"@context": "http://schema.org",
+			"@type": "WebSite",
+			"name": "ZnanyLekarz",
+			"alternateName": "Znanylekarz Polska",
+			"url": "https://www.znanylekarz.pl/",
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": "https://www.znanylekarz.pl/szukaj?q={q}",
+				"query-input": "required name=q"
+			}
+		}
+		var oneTrackingPageData = {
+		'event': 'oneTrackingEvent',
+		'params': {
+			'category': 'generalData',
+			'action': 'page_data',
+			'properties': {
+				'service_category_name': '',
+				'service_category_id': '',
+				'service_subcategory_name': '',
+				'service_subcategory_id': '',
+				'experiment_name': [],
+			}
+		}
+	};
+	var dataLayerContainer = {};
+	dataLayerContainer['gtm-pageType'] = 'homepage';
+	dataLayerContainer['gtm-region'] = '';
+	dataLayerContainer['gtm-district'] = '';
+	dataLayerContainer['gtm-specialization'] = '';
+	dataLayerContainer['gtm-specializationId'] = '';
+	dataLayerContainer['gtm-fcategory'] = '';
+	dataLayerContainer['gtm-city'] = '';
+	dataLayerContainer['gtm-disease'] = '';
+	dataLayerContainer['gtm-service'] = '';
+	dataLayerContainer['gtm-isMetaIndex'] = '1';
+	dataLayerContainer['gtm-isMetaFollow'] = '1';
+	dataLayerContainer['gtm-redesignedNonCommercialProfile'] = '0';
+	dataLayerContainer['gtm-redesignedCommercialProfile'] = '0';
+	dataLayerContainer['gtm-country-code'] = 'pl';
+	dataLayerContainer['gtm-doctorIsOnOwnProfile'] = '0';
+	dataLayerContainer['gtm-is-webview'] = '0';
+			dataLayerContainer['gtm-is-logged-in'] = '0';
+	dataLayer = [oneTrackingPageData, dataLayerContainer];
+	var isE2ETest = document.cookie.match('(^|;)\\s*dp_test\\s*=\\s*([^;]+)') !== null;
+	if (!isE2ETest) {
+					(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.setAttributeNode(d.createAttribute('data-ot-ignore'));j.async=true;j.src=
+				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-PZ83PG');
+			}
+#onetrust-banner-sdk{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}#onetrust-banner-sdk .onetrust-vendors-list-handler{cursor:pointer;color:#1f96db;font-size:inherit;font-weight:bold;text-decoration:none;margin-left:5px}#onetrust-banner-sdk .onetrust-vendors-list-handler:hover{color:#1f96db}#onetrust-banner-sdk:focus{outline:2px solid #000;outline-offset:-2px}#onetrust-banner-sdk a:focus{outline:2px solid #000}#onetrust-banner-sdk #onetrust-accept-btn-handler,#onetrust-banner-sdk #onetrust-reject-all-handler,#onetrust-banner-sdk #onetrust-pc-btn-handler{outline-offset:1px}#onetrust-banner-sdk.ot-bnr-w-logo .ot-bnr-logo{height:64px;width:64px}#onetrust-banner-sdk .ot-close-icon,#onetrust-pc-sdk .ot-close-icon,#ot-sync-ntfy .ot-close-icon{background-image:url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMzQ4LjMzM3B4IiBoZWlnaHQ9IjM0OC4zMzNweCIgdmlld0JveD0iMCAwIDM0OC4zMzMgMzQ4LjMzNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzQ4LjMzMyAzNDguMzM0OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PHBhdGggZmlsbD0iIzU2NTY1NiIgZD0iTTMzNi41NTksNjguNjExTDIzMS4wMTYsMTc0LjE2NWwxMDUuNTQzLDEwNS41NDljMTUuNjk5LDE1LjcwNSwxNS42OTksNDEuMTQ1LDAsNTYuODVjLTcuODQ0LDcuODQ0LTE4LjEyOCwxMS43NjktMjguNDA3LDExLjc2OWMtMTAuMjk2LDAtMjAuNTgxLTMuOTE5LTI4LjQxOS0xMS43NjlMMTc0LjE2NywyMzEuMDAzTDY4LjYwOSwzMzYuNTYzYy03Ljg0Myw3Ljg0NC0xOC4xMjgsMTEuNzY5LTI4LjQxNiwxMS43NjljLTEwLjI4NSwwLTIwLjU2My0zLjkxOS0yOC40MTMtMTEuNzY5Yy0xNS42OTktMTUuNjk4LTE1LjY5OS00MS4xMzksMC01Ni44NWwxMDUuNTQtMTA1LjU0OUwxMS43NzQsNjguNjExYy0xNS42OTktMTUuNjk5LTE1LjY5OS00MS4xNDUsMC01Ni44NDRjMTUuNjk2LTE1LjY4Nyw0MS4xMjctMTUuNjg3LDU2LjgyOSwwbDEwNS41NjMsMTA1LjU1NEwyNzkuNzIxLDExLjc2N2MxNS43MDUtMTUuNjg3LDQxLjEzOS0xNS42ODcsNTYuODMyLDBDMzUyLjI1OCwyNy40NjYsMzUyLjI1OCw1Mi45MTIsMzM2LjU1OSw2OC42MTF6Ii8+PC9nPjwvc3ZnPg==");background-size:contain;background-repeat:no-repeat;background-position:center;height:12px;width:12px}#onetrust-banner-sdk .powered-by-logo,#onetrust-banner-sdk .ot-pc-footer-logo a,#onetrust-pc-sdk .powered-by-logo,#onetrust-pc-sdk .ot-pc-footer-logo a,#ot-sync-ntfy .powered-by-logo,#ot-sync-ntfy .ot-pc-footer-logo a{background-size:contain;background-repeat:no-repeat;background-position:center;height:25px;width:152px;display:block;text-decoration:none;font-size:0.75em}#onetrust-banner-sdk .powered-by-logo:hover,#onetrust-banner-sdk .ot-pc-footer-logo a:hover,#onetrust-pc-sdk .powered-by-logo:hover,#onetrust-pc-sdk .ot-pc-footer-logo a:hover,#ot-sync-ntfy .powered-by-logo:hover,#ot-sync-ntfy .ot-pc-footer-logo a:hover{color:#565656}#onetrust-banner-sdk h3 *,#onetrust-banner-sdk h4 *,#onetrust-banner-sdk h6 *,#onetrust-banner-sdk button *,#onetrust-banner-sdk a[data-parent-id] *,#onetrust-pc-sdk h3 *,#onetrust-pc-sdk h4 *,#onetrust-pc-sdk h6 *,#onetrust-pc-sdk button *,#onetrust-pc-sdk a[data-parent-id] *,#ot-sync-ntfy h3 *,#ot-sync-ntfy h4 *,#ot-sync-ntfy h6 *,#ot-sync-ntfy button *,#ot-sync-ntfy a[data-parent-id] *{font-size:inherit;font-weight:inherit;color:inherit}#onetrust-banner-sdk .ot-hide,#onetrust-pc-sdk .ot-hide,#ot-sync-ntfy .ot-hide{display:none !important}#onetrust-banner-sdk button.ot-link-btn:hover,#onetrust-pc-sdk button.ot-link-btn:hover,#ot-sync-ntfy button.ot-link-btn:hover{text-decoration:underline;opacity:1}#onetrust-pc-sdk .ot-sdk-row .ot-sdk-column{padding:0}#onetrust-pc-sdk .ot-sdk-container{padding-right:0}#onetrust-pc-sdk .ot-sdk-row{flex-direction:initial;width:100%}#onetrust-pc-sdk [type="checkbox"]:checked,#onetrust-pc-sdk [type="checkbox"]:not(:checked){pointer-events:initial}#onetrust-pc-sdk [type="checkbox"]:disabled+label::before,#onetrust-pc-sdk [type="checkbox"]:disabled+label:after,#onetrust-pc-sdk [type="checkbox"]:disabled+label{pointer-events:none;opacity:0.7}#onetrust-pc-sdk #vendor-list-content{transform:translate3d(0, 0, 0)}#onetrust-pc-sdk li input[type="checkbox"]{z-index:1}#onetrust-pc-sdk li .ot-checkbox label{z-index:2}#onetrust-pc-sdk li .ot-checkbox input[type="checkbox"]{height:auto;width:auto}#onetrust-pc-sdk li .host-title a,#onetrust-pc-sdk li .ot-host-name a,#onetrust-pc-sdk li .accordion-text,#onetrust-pc-sdk li .ot-acc-txt{z-index:2;position:relative}#onetrust-pc-sdk input{margin:3px 0.1ex}#onetrust-pc-sdk .pc-logo,#onetrust-pc-sdk .ot-pc-logo{height:60px;width:180px;background-position:center;background-size:contain;background-repeat:no-repeat}#onetrust-pc-sdk .screen-reader-only,#onetrust-pc-sdk .ot-scrn-rdr,.ot-sdk-cookie-policy .screen-reader-only,.ot-sdk-cookie-policy .ot-scrn-rdr{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}#onetrust-pc-sdk.ot-fade-in,.onetrust-pc-dark-filter.ot-fade-in,#onetrust-banner-sdk.ot-fade-in{animation-name:onetrust-fade-in;animation-duration:400ms;animation-timing-function:ease-in-out}#onetrust-pc-sdk.ot-hide{display:none !important}.onetrust-pc-dark-filter.ot-hide{display:none !important}#ot-sdk-btn.ot-sdk-show-settings,#ot-sdk-btn.optanon-show-settings{color:#68b631;border:1px solid #68b631;height:auto;white-space:normal;word-wrap:break-word;padding:0.8em 2em;font-size:0.8em;line-height:1.2;cursor:pointer;-moz-transition:0.1s ease;-o-transition:0.1s ease;-webkit-transition:1s ease;transition:0.1s ease}#ot-sdk-btn.ot-sdk-show-settings:hover,#ot-sdk-btn.optanon-show-settings:hover{color:#fff;background-color:#68b631}.onetrust-pc-dark-filter{background:rgba(0,0,0,0.5);z-index:2147483646;width:100%;height:100%;overflow:hidden;position:fixed;top:0;bottom:0;left:0}@keyframes onetrust-fade-in{0%{opacity:0}100%{opacity:1}}.ot-cookie-label{text-decoration:underline}@media only screen and (min-width: 426px) and (max-width: 896px) and (orientation: landscape){#onetrust-pc-sdk p{font-size:0.75em}}#onetrust-banner-sdk .banner-option-input:focus+label{outline:1px solid #000;outline-style:auto}.category-vendors-list-handler+a:focus,.category-vendors-list-handler+a:focus-visible{outline:2px solid #000}#onetrust-pc-sdk .ot-userid-title{margin-top:10px}#onetrust-pc-sdk .ot-userid-title>span,#onetrust-pc-sdk .ot-userid-timestamp>span{font-weight:700}#onetrust-pc-sdk .ot-userid-desc{font-style:italic}#onetrust-pc-sdk .ot-host-desc a{pointer-events:initial}#onetrust-pc-sdk .ot-ven-hdr>p a{position:relative;z-index:2;pointer-events:initial}#onetrust-pc-sdk .ot-vnd-serv .ot-vnd-item .ot-vnd-info a,#onetrust-pc-sdk .ot-vs-list .ot-vnd-item .ot-vnd-info a{margin-right:auto}
+#onetrust-banner-sdk,#onetrust-pc-sdk,#ot-sdk-cookie-policy,#ot-sync-ntfy{font-size:16px}#onetrust-banner-sdk *,#onetrust-banner-sdk ::after,#onetrust-banner-sdk ::before,#onetrust-pc-sdk *,#onetrust-pc-sdk ::after,#onetrust-pc-sdk ::before,#ot-sdk-cookie-policy *,#ot-sdk-cookie-policy ::after,#ot-sdk-cookie-policy ::before,#ot-sync-ntfy *,#ot-sync-ntfy ::after,#ot-sync-ntfy ::before{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}#onetrust-banner-sdk div,#onetrust-banner-sdk span,#onetrust-banner-sdk h1,#onetrust-banner-sdk h2,#onetrust-banner-sdk h3,#onetrust-banner-sdk h4,#onetrust-banner-sdk h5,#onetrust-banner-sdk h6,#onetrust-banner-sdk p,#onetrust-banner-sdk img,#onetrust-banner-sdk svg,#onetrust-banner-sdk button,#onetrust-banner-sdk section,#onetrust-banner-sdk a,#onetrust-banner-sdk label,#onetrust-banner-sdk input,#onetrust-banner-sdk ul,#onetrust-banner-sdk li,#onetrust-banner-sdk nav,#onetrust-banner-sdk table,#onetrust-banner-sdk thead,#onetrust-banner-sdk tr,#onetrust-banner-sdk td,#onetrust-banner-sdk tbody,#onetrust-banner-sdk .ot-main-content,#onetrust-banner-sdk .ot-toggle,#onetrust-banner-sdk #ot-content,#onetrust-banner-sdk #ot-pc-content,#onetrust-banner-sdk .checkbox,#onetrust-pc-sdk div,#onetrust-pc-sdk span,#onetrust-pc-sdk h1,#onetrust-pc-sdk h2,#onetrust-pc-sdk h3,#onetrust-pc-sdk h4,#onetrust-pc-sdk h5,#onetrust-pc-sdk h6,#onetrust-pc-sdk p,#onetrust-pc-sdk img,#onetrust-pc-sdk svg,#onetrust-pc-sdk button,#onetrust-pc-sdk section,#onetrust-pc-sdk a,#onetrust-pc-sdk label,#onetrust-pc-sdk input,#onetrust-pc-sdk ul,#onetrust-pc-sdk li,#onetrust-pc-sdk nav,#onetrust-pc-sdk table,#onetrust-pc-sdk thead,#onetrust-pc-sdk tr,#onetrust-pc-sdk td,#onetrust-pc-sdk tbody,#onetrust-pc-sdk .ot-main-content,#onetrust-pc-sdk .ot-toggle,#onetrust-pc-sdk #ot-content,#onetrust-pc-sdk #ot-pc-content,#onetrust-pc-sdk .checkbox,#ot-sdk-cookie-policy div,#ot-sdk-cookie-policy span,#ot-sdk-cookie-policy h1,#ot-sdk-cookie-policy h2,#ot-sdk-cookie-policy h3,#ot-sdk-cookie-policy h4,#ot-sdk-cookie-policy h5,#ot-sdk-cookie-policy h6,#ot-sdk-cookie-policy p,#ot-sdk-cookie-policy img,#ot-sdk-cookie-policy svg,#ot-sdk-cookie-policy button,#ot-sdk-cookie-policy section,#ot-sdk-cookie-policy a,#ot-sdk-cookie-policy label,#ot-sdk-cookie-policy input,#ot-sdk-cookie-policy ul,#ot-sdk-cookie-policy li,#ot-sdk-cookie-policy nav,#ot-sdk-cookie-policy table,#ot-sdk-cookie-policy thead,#ot-sdk-cookie-policy tr,#ot-sdk-cookie-policy td,#ot-sdk-cookie-policy tbody,#ot-sdk-cookie-policy .ot-main-content,#ot-sdk-cookie-policy .ot-toggle,#ot-sdk-cookie-policy #ot-content,#ot-sdk-cookie-policy #ot-pc-content,#ot-sdk-cookie-policy .checkbox,#ot-sync-ntfy div,#ot-sync-ntfy span,#ot-sync-ntfy h1,#ot-sync-ntfy h2,#ot-sync-ntfy h3,#ot-sync-ntfy h4,#ot-sync-ntfy h5,#ot-sync-ntfy h6,#ot-sync-ntfy p,#ot-sync-ntfy img,#ot-sync-ntfy svg,#ot-sync-ntfy button,#ot-sync-ntfy section,#ot-sync-ntfy a,#ot-sync-ntfy label,#ot-sync-ntfy input,#ot-sync-ntfy ul,#ot-sync-ntfy li,#ot-sync-ntfy nav,#ot-sync-ntfy table,#ot-sync-ntfy thead,#ot-sync-ntfy tr,#ot-sync-ntfy td,#ot-sync-ntfy tbody,#ot-sync-ntfy .ot-main-content,#ot-sync-ntfy .ot-toggle,#ot-sync-ntfy #ot-content,#ot-sync-ntfy #ot-pc-content,#ot-sync-ntfy .checkbox{font-family:inherit;font-weight:normal;-webkit-font-smoothing:auto;letter-spacing:normal;line-height:normal;padding:0;margin:0;height:auto;min-height:0;max-height:none;width:auto;min-width:0;max-width:none;border-radius:0;border:none;clear:none;float:none;position:static;bottom:auto;left:auto;right:auto;top:auto;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;white-space:normal;background:none;overflow:visible;vertical-align:baseline;visibility:visible;z-index:auto;box-shadow:none}#onetrust-banner-sdk label:before,#onetrust-banner-sdk label:after,#onetrust-banner-sdk .checkbox:after,#onetrust-banner-sdk .checkbox:before,#onetrust-pc-sdk label:before,#onetrust-pc-sdk label:after,#onetrust-pc-sdk .checkbox:after,#onetrust-pc-sdk .checkbox:before,#ot-sdk-cookie-policy label:before,#ot-sdk-cookie-policy label:after,#ot-sdk-cookie-policy .checkbox:after,#ot-sdk-cookie-policy .checkbox:before,#ot-sync-ntfy label:before,#ot-sync-ntfy label:after,#ot-sync-ntfy .checkbox:after,#ot-sync-ntfy .checkbox:before{content:"";content:none}
+#onetrust-banner-sdk .ot-sdk-container,#onetrust-pc-sdk .ot-sdk-container,#ot-sdk-cookie-policy .ot-sdk-container{position:relative;width:100%;max-width:100%;margin:0 auto;padding:0 20px;box-sizing:border-box}#onetrust-banner-sdk .ot-sdk-column,#onetrust-banner-sdk .ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-column,#onetrust-pc-sdk .ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-column,#ot-sdk-cookie-policy .ot-sdk-columns{width:100%;float:left;box-sizing:border-box;padding:0;display:initial}@media (min-width: 400px){#onetrust-banner-sdk .ot-sdk-container,#onetrust-pc-sdk .ot-sdk-container,#ot-sdk-cookie-policy .ot-sdk-container{width:90%;padding:0}}@media (min-width: 550px){#onetrust-banner-sdk .ot-sdk-container,#onetrust-pc-sdk .ot-sdk-container,#ot-sdk-cookie-policy .ot-sdk-container{width:100%}#onetrust-banner-sdk .ot-sdk-column,#onetrust-banner-sdk .ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-column,#onetrust-pc-sdk .ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-column,#ot-sdk-cookie-policy .ot-sdk-columns{margin-left:4%}#onetrust-banner-sdk .ot-sdk-column:first-child,#onetrust-banner-sdk .ot-sdk-columns:first-child,#onetrust-pc-sdk .ot-sdk-column:first-child,#onetrust-pc-sdk .ot-sdk-columns:first-child,#ot-sdk-cookie-policy .ot-sdk-column:first-child,#ot-sdk-cookie-policy .ot-sdk-columns:first-child{margin-left:0}#onetrust-banner-sdk .ot-sdk-two.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-two.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-two.ot-sdk-columns{width:13.3333333333%}#onetrust-banner-sdk .ot-sdk-three.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-three.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-three.ot-sdk-columns{width:22%}#onetrust-banner-sdk .ot-sdk-four.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-four.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-four.ot-sdk-columns{width:30.6666666667%}#onetrust-banner-sdk .ot-sdk-eight.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-eight.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-eight.ot-sdk-columns{width:65.3333333333%}#onetrust-banner-sdk .ot-sdk-nine.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-nine.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-nine.ot-sdk-columns{width:74%}#onetrust-banner-sdk .ot-sdk-ten.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-ten.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-ten.ot-sdk-columns{width:82.6666666667%}#onetrust-banner-sdk .ot-sdk-eleven.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-eleven.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-eleven.ot-sdk-columns{width:91.3333333333%}#onetrust-banner-sdk .ot-sdk-twelve.ot-sdk-columns,#onetrust-pc-sdk .ot-sdk-twelve.ot-sdk-columns,#ot-sdk-cookie-policy .ot-sdk-twelve.ot-sdk-columns{width:100%;margin-left:0}}#onetrust-banner-sdk h1,#onetrust-banner-sdk h2,#onetrust-banner-sdk h3,#onetrust-banner-sdk h4,#onetrust-banner-sdk h5,#onetrust-banner-sdk h6,#onetrust-pc-sdk h1,#onetrust-pc-sdk h2,#onetrust-pc-sdk h3,#onetrust-pc-sdk h4,#onetrust-pc-sdk h5,#onetrust-pc-sdk h6,#ot-sdk-cookie-policy h1,#ot-sdk-cookie-policy h2,#ot-sdk-cookie-policy h3,#ot-sdk-cookie-policy h4,#ot-sdk-cookie-policy h5,#ot-sdk-cookie-policy h6{margin-top:0;font-weight:600;font-family:inherit}#onetrust-banner-sdk h1,#onetrust-pc-sdk h1,#ot-sdk-cookie-policy h1{font-size:1.5rem;line-height:1.2}#onetrust-banner-sdk h2,#onetrust-pc-sdk h2,#ot-sdk-cookie-policy h2{font-size:1.5rem;line-height:1.25}#onetrust-banner-sdk h3,#onetrust-pc-sdk h3,#ot-sdk-cookie-policy h3{font-size:1.5rem;line-height:1.3}#onetrust-banner-sdk h4,#onetrust-pc-sdk h4,#ot-sdk-cookie-policy h4{font-size:1.5rem;line-height:1.35}#onetrust-banner-sdk h5,#onetrust-pc-sdk h5,#ot-sdk-cookie-policy h5{font-size:1.5rem;line-height:1.5}#onetrust-banner-sdk h6,#onetrust-pc-sdk h6,#ot-sdk-cookie-policy h6{font-size:1.5rem;line-height:1.6}@media (min-width: 550px){#onetrust-banner-sdk h1,#onetrust-pc-sdk h1,#ot-sdk-cookie-policy h1{font-size:1.5rem}#onetrust-banner-sdk h2,#onetrust-pc-sdk h2,#ot-sdk-cookie-policy h2{font-size:1.5rem}#onetrust-banner-sdk h3,#onetrust-pc-sdk h3,#ot-sdk-cookie-policy h3{font-size:1.5rem}#onetrust-banner-sdk h4,#onetrust-pc-sdk h4,#ot-sdk-cookie-policy h4{font-size:1.5rem}#onetrust-banner-sdk h5,#onetrust-pc-sdk h5,#ot-sdk-cookie-policy h5{font-size:1.5rem}#onetrust-banner-sdk h6,#onetrust-pc-sdk h6,#ot-sdk-cookie-policy h6{font-size:1.5rem}}#onetrust-banner-sdk p,#onetrust-pc-sdk p,#ot-sdk-cookie-policy p{margin:0 0 1em 0;font-family:inherit;line-height:normal}#onetrust-banner-sdk a,#onetrust-pc-sdk a,#ot-sdk-cookie-policy a{color:#565656;text-decoration:underline}#onetrust-banner-sdk a:hover,#onetrust-pc-sdk a:hover,#ot-sdk-cookie-policy a:hover{color:#565656;text-decoration:none}#onetrust-banner-sdk .ot-sdk-button,#onetrust-banner-sdk button,#onetrust-pc-sdk .ot-sdk-button,#onetrust-pc-sdk button,#ot-sdk-cookie-policy .ot-sdk-button,#ot-sdk-cookie-policy button{margin-bottom:1rem;font-family:inherit}#onetrust-banner-sdk .ot-sdk-button,#onetrust-banner-sdk button,#onetrust-pc-sdk .ot-sdk-button,#onetrust-pc-sdk button,#ot-sdk-cookie-policy .ot-sdk-button,#ot-sdk-cookie-policy button{display:inline-block;height:38px;padding:0 30px;color:#555;text-align:center;font-size:0.9em;font-weight:400;line-height:38px;letter-spacing:0.01em;text-decoration:none;white-space:nowrap;background-color:transparent;border-radius:2px;border:1px solid #bbb;cursor:pointer;box-sizing:border-box}#onetrust-banner-sdk .ot-sdk-button:hover,#onetrust-banner-sdk :not(.ot-leg-btn-container)>button:not(.ot-link-btn):hover,#onetrust-banner-sdk :not(.ot-leg-btn-container)>button:not(.ot-link-btn):focus,#onetrust-pc-sdk .ot-sdk-button:hover,#onetrust-pc-sdk :not(.ot-leg-btn-container)>button:not(.ot-link-btn):hover,#onetrust-pc-sdk :not(.ot-leg-btn-container)>button:not(.ot-link-btn):focus,#ot-sdk-cookie-policy .ot-sdk-button:hover,#ot-sdk-cookie-policy :not(.ot-leg-btn-container)>button:not(.ot-link-btn):hover,#ot-sdk-cookie-policy :not(.ot-leg-btn-container)>button:not(.ot-link-btn):focus{color:#333;border-color:#888;opacity:0.7}#onetrust-banner-sdk .ot-sdk-button:focus,#onetrust-banner-sdk :not(.ot-leg-btn-container)>button:focus,#onetrust-pc-sdk .ot-sdk-button:focus,#onetrust-pc-sdk :not(.ot-leg-btn-container)>button:focus,#ot-sdk-cookie-policy .ot-sdk-button:focus,#ot-sdk-cookie-policy :not(.ot-leg-btn-container)>button:focus{outline:2px solid #000}#onetrust-banner-sdk .ot-sdk-button.ot-sdk-button-primary,#onetrust-banner-sdk button.ot-sdk-button-primary,#onetrust-banner-sdk input[type="submit"].ot-sdk-button-primary,#onetrust-banner-sdk input[type="reset"].ot-sdk-button-primary,#onetrust-banner-sdk input[type="button"].ot-sdk-button-primary,#onetrust-pc-sdk .ot-sdk-button.ot-sdk-button-primary,#onetrust-pc-sdk button.ot-sdk-button-primary,#onetrust-pc-sdk input[type="submit"].ot-sdk-button-primary,#onetrust-pc-sdk input[type="reset"].ot-sdk-button-primary,#onetrust-pc-sdk input[type="button"].ot-sdk-button-primary,#ot-sdk-cookie-policy .ot-sdk-button.ot-sdk-button-primary,#ot-sdk-cookie-policy button.ot-sdk-button-primary,#ot-sdk-cookie-policy input[type="submit"].ot-sdk-button-primary,#ot-sdk-cookie-policy input[type="reset"].ot-sdk-button-primary,#ot-sdk-cookie-policy input[type="button"].ot-sdk-button-primary{color:#fff;background-color:#33c3f0;border-color:#33c3f0}#onetrust-banner-sdk .ot-sdk-button.ot-sdk-button-primary:hover,#onetrust-banner-sdk button.ot-sdk-button-primary:hover,#onetrust-banner-sdk input[type="submit"].ot-sdk-button-primary:hover,#onetrust-banner-sdk input[type="reset"].ot-sdk-button-primary:hover,#onetrust-banner-sdk input[type="button"].ot-sdk-button-primary:hover,#onetrust-banner-sdk .ot-sdk-button.ot-sdk-button-primary:focus,#onetrust-banner-sdk button.ot-sdk-button-primary:focus,#onetrust-banner-sdk input[type="submit"].ot-sdk-button-primary:focus,#onetrust-banner-sdk input[type="reset"].ot-sdk-button-primary:focus,#onetrust-banner-sdk input[type="button"].ot-sdk-button-primary:focus,#onetrust-pc-sdk .ot-sdk-button.ot-sdk-button-primary:hover,#onetrust-pc-sdk button.ot-sdk-button-primary:hover,#onetrust-pc-sdk input[type="submit"].ot-sdk-button-primary:hover,#onetrust-pc-sdk input[type="reset"].ot-sdk-button-primary:hover,#onetrust-pc-sdk input[type="button"].ot-sdk-button-primary:hover,#onetrust-pc-sdk .ot-sdk-button.ot-sdk-button-primary:focus,#onetrust-pc-sdk button.ot-sdk-button-primary:focus,#onetrust-pc-sdk input[type="submit"].ot-sdk-button-primary:focus,#onetrust-pc-sdk input[type="reset"].ot-sdk-button-primary:focus,#onetrust-pc-sdk input[type="button"].ot-sdk-button-primary:focus,#ot-sdk-cookie-policy .ot-sdk-button.ot-sdk-button-primary:hover,#ot-sdk-cookie-policy button.ot-sdk-button-primary:hover,#ot-sdk-cookie-policy input[type="submit"].ot-sdk-button-primary:hover,#ot-sdk-cookie-policy input[type="reset"].ot-sdk-button-primary:hover,#ot-sdk-cookie-policy input[type="button"].ot-sdk-button-primary:hover,#ot-sdk-cookie-policy .ot-sdk-button.ot-sdk-button-primary:focus,#ot-sdk-cookie-policy button.ot-sdk-button-primary:focus,#ot-sdk-cookie-policy input[type="submit"].ot-sdk-button-primary:focus,#ot-sdk-cookie-policy input[type="reset"].ot-sdk-button-primary:focus,#ot-sdk-cookie-policy input[type="button"].ot-sdk-button-primary:focus{color:#fff;background-color:#1eaedb;border-color:#1eaedb}#onetrust-banner-sdk input[type="text"],#onetrust-pc-sdk input[type="text"],#ot-sdk-cookie-policy input[type="text"]{height:38px;padding:6px 10px;background-color:#fff;border:1px solid #d1d1d1;border-radius:4px;box-shadow:none;box-sizing:border-box}#onetrust-banner-sdk input[type="text"],#onetrust-pc-sdk input[type="text"],#ot-sdk-cookie-policy input[type="text"]{-webkit-appearance:none;-moz-appearance:none;appearance:none}#onetrust-banner-sdk input[type="text"]:focus,#onetrust-pc-sdk input[type="text"]:focus,#ot-sdk-cookie-policy input[type="text"]:focus{border:1px solid #000;outline:0}#onetrust-banner-sdk label,#onetrust-pc-sdk label,#ot-sdk-cookie-policy label{display:block;margin-bottom:0.5rem;font-weight:600}#onetrust-banner-sdk input[type="checkbox"],#onetrust-pc-sdk input[type="checkbox"],#ot-sdk-cookie-policy input[type="checkbox"]{display:inline}#onetrust-banner-sdk ul,#onetrust-pc-sdk ul,#ot-sdk-cookie-policy ul{list-style:circle inside}#onetrust-banner-sdk ul,#onetrust-pc-sdk ul,#ot-sdk-cookie-policy ul{padding-left:0;margin-top:0}#onetrust-banner-sdk ul ul,#onetrust-pc-sdk ul ul,#ot-sdk-cookie-policy ul ul{margin:1.5rem 0 1.5rem 3rem;font-size:90%}#onetrust-banner-sdk li,#onetrust-pc-sdk li,#ot-sdk-cookie-policy li{margin-bottom:1rem}#onetrust-banner-sdk th,#onetrust-banner-sdk td,#onetrust-pc-sdk th,#onetrust-pc-sdk td,#ot-sdk-cookie-policy th,#ot-sdk-cookie-policy td{padding:12px 15px;text-align:left;border-bottom:1px solid #e1e1e1}#onetrust-banner-sdk button,#onetrust-pc-sdk button,#ot-sdk-cookie-policy button{margin-bottom:1rem;font-family:inherit}#onetrust-banner-sdk .ot-sdk-container:after,#onetrust-banner-sdk .ot-sdk-row:after,#onetrust-pc-sdk .ot-sdk-container:after,#onetrust-pc-sdk .ot-sdk-row:after,#ot-sdk-cookie-policy .ot-sdk-container:after,#ot-sdk-cookie-policy .ot-sdk-row:after{content:"";display:table;clear:both}#onetrust-banner-sdk .ot-sdk-row,#onetrust-pc-sdk .ot-sdk-row,#ot-sdk-cookie-policy .ot-sdk-row{margin:0;max-width:none;display:block}
+#onetrust-banner-sdk{box-shadow:0 0 18px rgba(0,0,0,.2)}#onetrust-banner-sdk.otCenterRounded{z-index:2147483645;top:10%;position:fixed;right:0;background-color:#fff;width:60%;max-width:650px;border-radius:2.5px;left:1em;margin:0 auto;font-size:14px;max-height:90%;overflow-x:hidden;overflow-y:auto}#onetrust-banner-sdk.otRelFont{font-size:.875rem}#onetrust-banner-sdk::-webkit-scrollbar{width:11px}#onetrust-banner-sdk::-webkit-scrollbar-thumb{border-radius:10px;background:#c1c1c1}#onetrust-banner-sdk{scrollbar-arrow-color:#c1c1c1;scrollbar-darkshadow-color:#c1c1c1;scrollbar-face-color:#c1c1c1;scrollbar-shadow-color:#c1c1c1}#onetrust-banner-sdk h3,#onetrust-banner-sdk p{color:dimgray}#onetrust-banner-sdk #onetrust-policy{margin-top:40px}#onetrust-banner-sdk #onetrust-policy-title{float:left;text-align:left;font-size:1em;line-height:1.4;margin-bottom:0;padding:0 0 10px 30px;width:calc(100% - 90px)}#onetrust-banner-sdk #onetrust-policy-text,#onetrust-banner-sdk .ot-b-addl-desc,#onetrust-banner-sdk .ot-gv-list-handler{clear:both;float:left;margin:0 30px 10px 30px;font-size:.813em;line-height:1.5}#onetrust-banner-sdk #onetrust-policy-text *,#onetrust-banner-sdk .ot-b-addl-desc *,#onetrust-banner-sdk .ot-gv-list-handler *{line-height:inherit;font-size:inherit;margin:0}#onetrust-banner-sdk .ot-gv-list-handler{padding:0;border:0;height:auto;width:auto}#onetrust-banner-sdk .ot-b-addl-desc{display:block}#onetrust-banner-sdk #onetrust-button-group-parent{padding:15px 30px;text-align:center}#onetrust-banner-sdk #onetrust-button-group-parent:not(.has-reject-all-button) #onetrust-button-group{text-align:right}#onetrust-banner-sdk #onetrust-button-group{text-align:center;display:inline-block;width:100%}#onetrust-banner-sdk #onetrust-reject-all-handler,#onetrust-banner-sdk #onetrust-pc-btn-handler{margin-right:1em}#onetrust-banner-sdk #onetrust-pc-btn-handler{border:1px solid #6cc04a;max-width:45%}#onetrust-banner-sdk .banner-actions-container{float:right;width:50%}#onetrust-banner-sdk #onetrust-pc-btn-handler.cookie-setting-link{background-color:#fff;border:none;color:#6cc04a;text-decoration:underline;padding-left:0;padding-right:0}#onetrust-banner-sdk #onetrust-accept-btn-handler,#onetrust-banner-sdk #onetrust-reject-all-handler,#onetrust-banner-sdk #onetrust-pc-btn-handler{background-color:#6cc04a;color:#fff;border-color:#6cc04a;min-width:135px;padding:12px 10px;letter-spacing:.05em;line-height:1.4;font-size:.813em;font-weight:600;height:auto;white-space:normal;word-break:break-word;word-wrap:break-word}#onetrust-banner-sdk .has-reject-all-button #onetrust-pc-btn-handler{float:left;max-width:calc(40% - 18px)}#onetrust-banner-sdk .has-reject-all-button #onetrust-pc-btn-handler.cookie-setting-link{text-align:left;margin-right:0}#onetrust-banner-sdk .has-reject-all-button .banner-actions-container{max-width:60%;width:auto}#onetrust-banner-sdk .ot-close-icon{width:44px;height:44px;background-size:12px;margin:-18px -18px 0 0;border:none;display:inline-block;padding:0}#onetrust-banner-sdk #onetrust-close-btn-container{position:absolute;right:24px;top:20px}#onetrust-banner-sdk .banner_logo{display:none}#onetrust-banner-sdk.ot-bnr-w-logo #onetrust-policy{margin-top:10px}#onetrust-banner-sdk.ot-bnr-w-logo .ot-bnr-logo{margin:4px 25px}#onetrust-banner-sdk #banner-options{float:left;padding:0 30px;width:calc(100% - 90px)}#onetrust-banner-sdk .banner-option{margin-bottom:10px}#onetrust-banner-sdk .banner-option-input{cursor:pointer;width:auto;height:auto;border:none;padding:0;padding-right:3px;margin:0 0 6px;font-size:.82em;line-height:1.4}#onetrust-banner-sdk .banner-option-input *{pointer-events:none;font-size:inherit;line-height:inherit}#onetrust-banner-sdk .banner-option-input[aria-expanded=true] .ot-arrow-container{transform:rotate(90deg)}#onetrust-banner-sdk .banner-option-input[aria-expanded=true]~.banner-option-details{height:auto;display:block}#onetrust-banner-sdk .banner-option-header{cursor:pointer;display:inline-block}#onetrust-banner-sdk .banner-option-header :first-child{color:dimgray;font-weight:bold;float:left}#onetrust-banner-sdk .ot-arrow-container,#onetrust-banner-sdk .banner-option-details{transition:all 300ms ease-in 0s;-webkit-transition:all 300ms ease-in 0s;-moz-transition:all 300ms ease-in 0s;-o-transition:all 300ms ease-in 0s}#onetrust-banner-sdk .ot-arrow-container{display:inline-block;border-top:6px solid transparent;border-bottom:6px solid transparent;border-left:6px solid dimgray;margin-left:10px;vertical-align:middle}#onetrust-banner-sdk .banner-option-details{display:none;font-size:.83em;line-height:1.5;height:0px;padding:10px 10px 5px 10px}#onetrust-banner-sdk .banner-option-details *{font-size:inherit;line-height:inherit;color:dimgray}#onetrust-banner-sdk .ot-dpd-container{float:left;margin:0 30px 10px 30px}#onetrust-banner-sdk .ot-dpd-title{font-weight:bold;padding-bottom:10px}#onetrust-banner-sdk .ot-dpd-title{font-size:1em;line-height:1.4}#onetrust-banner-sdk .ot-dpd-desc{font-size:.813em;line-height:1.5;margin-bottom:0}#onetrust-banner-sdk .ot-dpd-desc *{margin:0}#onetrust-banner-sdk .onetrust-vendors-list-handler{display:block;margin-left:0px;margin-top:5px;padding:0;margin-bottom:0;border:0;line-height:normal;height:auto;width:auto}#onetrust-banner-sdk :not(.ot-dpd-desc)>.ot-b-addl-desc{float:left;margin:0 30px 10px 30px}#onetrust-banner-sdk .ot-dpd-desc>.ot-b-addl-desc{margin-top:10px;margin-bottom:10px;font-size:1em;line-height:1.5;float:none}#onetrust-banner-sdk #onetrust-policy-text a{font-weight:bold;margin-left:5px}#onetrust-banner-sdk.ot-close-btn-link #onetrust-close-btn-container{top:15px;transform:none;right:15px}#onetrust-banner-sdk.ot-close-btn-link #onetrust-close-btn-container button{padding:0;white-space:pre-wrap;border:none;height:auto;line-height:1.5;text-decoration:underline;font-size:.75em}#onetrust-banner-sdk.ot-close-btn-link.ot-wo-title #onetrust-group-container{margin-top:20px}@media only screen and (max-width: 425px){#onetrust-banner-sdk #onetrust-accept-btn-handler,#onetrust-banner-sdk #onetrust-reject-all-handler,#onetrust-banner-sdk #onetrust-pc-btn-handler{width:100%;margin-bottom:10px}#onetrust-banner-sdk #onetrust-pc-btn-handler,#onetrust-banner-sdk #onetrust-reject-all-handler{margin-right:0}#onetrust-banner-sdk .has-reject-all-button #onetrust-pc-btn-handler.cookie-setting-link{text-align:center}#onetrust-banner-sdk .banner-actions-container,#onetrust-banner-sdk #onetrust-pc-btn-handler{width:100%;max-width:none}#onetrust-banner-sdk.otCenterRounded{left:0;width:95%;top:50%;transform:translateY(-50%);-webkit-transform:translateY(-50%)}}@media only screen and (max-width: 600px){#onetrust-banner-sdk .ot-sdk-container{width:auto;padding:0}#onetrust-banner-sdk #onetrust-policy-title{padding:0 22px 10px 22px}#onetrust-banner-sdk #onetrust-policy-text,#onetrust-banner-sdk :not(.ot-dpd-desc)>.ot-b-addl-desc,#onetrust-banner-sdk .ot-dpd-container{margin:0 22px 10px 22px;width:calc(100% - 44px)}#onetrust-banner-sdk #onetrust-button-group-parent{padding:15px 22px}#onetrust-banner-sdk #banner-options{padding:0 22px;width:calc(100% - 44px)}#onetrust-banner-sdk .banner-option{margin-bottom:6px}#onetrust-banner-sdk .has-reject-all-button #onetrust-pc-btn-handler{float:none;max-width:100%}#onetrust-banner-sdk .has-reject-all-button .banner-actions-container{width:100%;text-align:center;max-width:100%}#onetrust-banner-sdk.ot-close-btn-link #onetrust-group-container{margin-top:20px}}@media only screen and (min-width: 426px)and (max-width: 896px){#onetrust-banner-sdk.otCenterRounded{left:0;top:15%;transform:translateY(-13%);-webkit-transform:translateY(-13%);max-width:600px;width:95%}}
+        #onetrust-consent-sdk #onetrust-banner-sdk {background-color: #FFFFFF;}
+            #onetrust-consent-sdk #onetrust-policy-title,
+                    #onetrust-consent-sdk #onetrust-policy-text,
+                    #onetrust-consent-sdk .ot-b-addl-desc,
+                    #onetrust-consent-sdk .ot-dpd-desc,
+                    #onetrust-consent-sdk .ot-dpd-title,
+                    #onetrust-consent-sdk #onetrust-policy-text *:not(.onetrust-vendors-list-handler),
+                    #onetrust-consent-sdk .ot-dpd-desc *:not(.onetrust-vendors-list-handler),
+                    #onetrust-consent-sdk #onetrust-banner-sdk #banner-options *,
+                    #onetrust-banner-sdk .ot-cat-header {
+                        color: #627282;
+                    }
+            #onetrust-consent-sdk #onetrust-banner-sdk .banner-option-details {
+                    background-color: #FFFFFF;}
+             #onetrust-consent-sdk #onetrust-banner-sdk a[href],
+                    #onetrust-consent-sdk #onetrust-banner-sdk a[href] font,
+                    #onetrust-consent-sdk #onetrust-banner-sdk .ot-link-btn
+                        {
+                            color: #3860BE;
+                        }#onetrust-consent-sdk #onetrust-accept-btn-handler,
+                         #onetrust-banner-sdk #onetrust-reject-all-handler {
+                            background-color: #3D83DF;border-color: #3D83DF;
+                color: #FFFFFF;
+            }
+            #onetrust-consent-sdk #onetrust-banner-sdk *:focus,
+            #onetrust-consent-sdk #onetrust-banner-sdk:focus {
+               outline-color: #000000;
+               outline-width: 1px;
+            }
+            #onetrust-consent-sdk #onetrust-pc-btn-handler,
+            #onetrust-consent-sdk #onetrust-pc-btn-handler.cookie-setting-link {
+                color: #1662C6; border-color: #1662C6;
+                background-color:
+                #FFFFFF;
+            }@media only screen and (max-width: 425px) {
+	#onetrust-consent-sdk #onetrust-banner-sdk {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		bottom: 0;
+		height: auto;
+		max-height: calc(var(--vh, 1vh)*100 - 30px);
+		left: 0;
+		right: 0;
+		overflow: hidden;
+		position: fixed;
+		top: unset;
+		transform: none;
+		-webkit-transform: none;
+		width: 100%;
+	}
+	#onetrust-consent-sdk #onetrust-policy-title {
+		border-top-left-radius: 20px;
+		border-top-right-radius: 20px;
+	}
+	#onetrust-consent-sdk #onetrust-group-container {
+		overflow-y: scroll;
+		float: none;
+	}
+	#onetrust-consent-sdk #onetrust-policy-text {
+		float: none;
+		margin: 0;
+		max-height: 55vh;
+		overflow-y: scroll;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		padding: 20px 22px 120px 22px;
+	}
+	#onetrust-consent-sdk #onetrust-policy-text::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+	}
+	#onetrust-banner-sdk #onetrust-button-group-parent {
+		bottom: 0;
+		display: block;
+		position: absolute;
+	}
+	#onetrust-banner-sdk #onetrust-pc-btn-handler.cookie-setting-link {
+		margin-bottom: 0;
+		padding: 6px 0;
+	}
+@keyframes slide-up {
+  0% {
+    transform: translateY(110vh);
+  }
+  100% {
+    transform: translateY(0vh);
+  }
+}
+#onetrust-banner-sdk {
+  transform: translateY(110vh);
+  animation: slide-up 1s forwards;
+}
+}
+#onetrust-consent-sdk #onetrust-banner-sdk {
+	border-radius: 6px;
+}
+#onetrust-consent-sdk #onetrust-banner-sdk button:focus {
+	opacity: 1;
+	outline: none;
+}
+#onetrust-banner-sdk button {
+	margin-bottom: 0;
+}
+#onetrust-consent-sdk #onetrust-policy-title {
+	background-color: white;
+	border-bottom: 1px solid #e9e9e9;
+	color: #1B2734;
+	font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 23px;
+	padding: 15px 20px;
+	width: 100%;
+}
+#onetrust-consent-sdk #onetrust-policy-text {
+	color: #627282;
+	font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 22px;
+}
+#onetrust-banner-sdk #onetrust-button-group-parent {
+	background: white;
+	border-top: 1px solid #e9e9e9;
+	padding: 10px 10px;
+}
+#onetrust-banner-sdk #onetrust-policy {
+	margin-top: 0;
+}
+#onetrust-banner-sdk #onetrust-pc-btn-handler {
+	border: 1px solid #DCDFE3;
+	box-sizing: border-box;
+	border-radius: 3px;
+	color: #1B2734;
+	font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+	font-weight: normal;
+	font-size: 15px;
+}
+#onetrust-banner-sdk #onetrust-accept-btn-handler {
+	border-radius: 3px;
+	font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+	font-weight: normal;
+	font-size: 15px;
+	padding: 8.5px 10px;
+}
+#onetrust-banner-sdk #onetrust-accept-btn-handler:hover {
+	background-color: #2f7add;
+	opacity: 1;
+}
+@media only screen and (min-width: 425px) {
+	#onetrust-banner-sdk .banner-actions-container {
+		width: auto;
+	}
+	#onetrust-consent-sdk #onetrust-policy-text {
+		padding: 25px 0;
+	}
+	#onetrust-consent-sdk #onetrust-policy-text::before {
+		display: block;
+		text-align: center;
+		padding: 10px 0 20px 0;
+		content: url("data:image/svg+xml; utf8, 
+");
+	}
+}
+#onetrust-reject-all-handler {
+	font-size: 15px;
+	font-weight: normal;
+}.ot-sdk-cookie-policy{font-family:inherit;font-size:16px}.ot-sdk-cookie-policy.otRelFont{font-size:1rem}.ot-sdk-cookie-policy h3,.ot-sdk-cookie-policy h4,.ot-sdk-cookie-policy h6,.ot-sdk-cookie-policy p,.ot-sdk-cookie-policy li,.ot-sdk-cookie-policy a,.ot-sdk-cookie-policy th,.ot-sdk-cookie-policy #cookie-policy-description,.ot-sdk-cookie-policy .ot-sdk-cookie-policy-group,.ot-sdk-cookie-policy #cookie-policy-title{color:dimgray}.ot-sdk-cookie-policy #cookie-policy-description{margin-bottom:1em}.ot-sdk-cookie-policy h4{font-size:1.2em}.ot-sdk-cookie-policy h6{font-size:1em;margin-top:2em}.ot-sdk-cookie-policy th{min-width:75px}.ot-sdk-cookie-policy a,.ot-sdk-cookie-policy a:hover{background:#fff}.ot-sdk-cookie-policy thead{background-color:#f6f6f4;font-weight:bold}.ot-sdk-cookie-policy .ot-mobile-border{display:none}.ot-sdk-cookie-policy section{margin-bottom:2em}.ot-sdk-cookie-policy table{border-collapse:inherit}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy{font-family:inherit;font-size:1rem}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy h3,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy h4,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy h6,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy p,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy li,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy a,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy th,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-description,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-cookie-policy-group,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-title{color:dimgray}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-description{margin-bottom:1em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-subgroup{margin-left:1.5em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-description,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-cookie-policy-group-desc,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-table-header,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy a,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy span,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td{font-size:.9em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td span,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td a{font-size:inherit}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-cookie-policy-group{font-size:1em;margin-bottom:.6em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-cookie-policy-title{margin-bottom:1.2em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy>section{margin-bottom:1em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy th{min-width:75px}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy a,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy a:hover{background:#fff}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy thead{background-color:#f6f6f4;font-weight:bold}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-mobile-border{display:none}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy section{margin-bottom:2em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-subgroup ul li{list-style:disc;margin-left:1.5em}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-subgroup ul li h4{display:inline-block}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table{border-collapse:inherit;margin:auto;border:1px solid #d7d7d7;border-radius:5px;border-spacing:initial;width:100%;overflow:hidden}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table th,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table td{border-bottom:1px solid #d7d7d7;border-right:1px solid #d7d7d7}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table tr:last-child td{border-bottom:0px}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table tr th:last-child,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table tr td:last-child{border-right:0px}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table .ot-host,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table .ot-cookies-type{width:25%}.ot-sdk-cookie-policy[dir=rtl]{text-align:left}#ot-sdk-cookie-policy h3{font-size:1.5em}@media only screen and (max-width: 530px){.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) table,.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) thead,.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) tbody,.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) th,.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) td,.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) tr{display:block}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) thead tr{position:absolute;top:-9999px;left:-9999px}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) tr{margin:0 0 1em 0}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) tr:nth-child(odd),.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) tr:nth-child(odd) a{background:#f6f6f4}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) td{border:none;border-bottom:1px solid #eee;position:relative;padding-left:50%}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) td:before{position:absolute;height:100%;left:6px;width:40%;padding-right:10px}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) .ot-mobile-border{display:inline-block;background-color:#e4e4e4;position:absolute;height:100%;top:0;left:45%;width:2px}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) td:before{content:attr(data-label);font-weight:bold}.ot-sdk-cookie-policy:not(#ot-sdk-cookie-policy-v2) li{word-break:break-word;word-wrap:break-word}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table{overflow:hidden}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table td{border:none;border-bottom:1px solid #d7d7d7}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy thead,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy tbody,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy th,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy tr{display:block}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table .ot-host,#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table .ot-cookies-type{width:auto}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy tr{margin:0 0 1em 0}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td:before{height:100%;width:40%;padding-right:10px}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td:before{content:attr(data-label);font-weight:bold}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy li{word-break:break-word;word-wrap:break-word}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy thead tr{position:absolute;top:-9999px;left:-9999px;z-index:-9999}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table tr:last-child td{border-bottom:1px solid #d7d7d7;border-right:0px}#ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table tr:last-child td:last-child{border-bottom:0px}}
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy h5,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy h6,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy li,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy p,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy a,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy span,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy td,
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-description {
+                        color: #696969;
+                    }
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy th {
+                        color: #696969;
+                    }
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy .ot-sdk-cookie-policy-group {
+                        color: #696969;
+                    }
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy #cookie-policy-title {
+                            color: #696969;
+                        }
+                    #ot-sdk-cookie-policy-v2.ot-sdk-cookie-policy table th {
+                            background-color: #F8F8F8;
+                        }
+            .ot-floating-button__front{background-image:url('https://cookie-cdn.cookiepro.com/logos/static/ot_persistent_cookie_icon.png')}
+  var alert = document.createElement('div');
+  var icon = document.createElement('div');
+  var message = document.createElement('div');
+  alert.setAttribute('class', 'd-flex flex-row align-items-center py-1-5 pl-2 bg-white');
+  icon.setAttribute('class', 'p-1 d-flex align-center justify-content-center');
+  message.setAttribute('class', 'px-1-5 text-muted');
+  icon.innerHTML = '
+';
+  message.innerHTML = 'Niestety nasza strona nie działa w tej przeglądarce. Bezpłatnie 
+pobierz naszą aplikację mobilną
+ lub 
+spróbuj z nową przeglądarką
+, aby korzystać ze wszystkich zalet ZnanyLekarz.';
+  alert.appendChild(icon);
+  alert.appendChild(message);
+  document.body.insertBefore(alert, document.body.firstChild);
+		.patient-app-banner-relative-placeholder {
+			height: 125px;
+		}
+		@media only screen and (min-width: 576px) {
+			.patient-app-banner-relative-placeholder {
+				display: none;
+			}
+		}
+Toggle navigation
+			Prywatność danych
+				Zapytaj lekarza
+		Zarejestruj się za darmo
+Zarejestruj się za darmo
+jako pacjent
+jako lekarz
+jako placówka
+			Zaloguj się
+				Dla profesjonalistów
+				Dla profesjonalistów
+Dla profesjonalistów
+Zarejestruj się za darmo
+ZnanyLekarz Pro
+.abandoned-cart-app {
+	height: 147px;
+}
+@media(min-width:992px) {
+	.abandoned-cart-app {
+		height: 78px;
+	}
+}
+	(function() {
+		var element = document.querySelector('[data-id="abandoned-cart-vue-app"]');
+		var data = ZLApp.Storage.local['booking-data'];
+		if (!(element instanceof HTMLElement) || !data || typeof JSON.parse(data) !== 'object') {
+			return;
+		}
+		function hasVisitSlotDateValid() {
+			var timestamp = new Date().getTime();
+			var bookingData = JSON.parse(data);
+			var visitTimestamp;
+			if (!bookingData.visitSlotDateWithTimezone) {
+				return false;
+			}
+			visitTimestamp = new Date(bookingData.visitSlotDateWithTimezone).getTime();
+			return timestamp < visitTimestamp;
+		}
+		function renderTemplate() {
+			var template = '\u003Cdiv\u0020class\u003D\u0022container\u002Dfluid\u0020p\u002D0\u0020bg\u002Dgray\u002D200\u0022\u003E\n\t\t\u003Cdiv\u0020class\u003D\u0022container\u0020py\u002D2\u0020px\u002D2\u0020px\u002Dmd\u002D1\u0022\u003E\n\t\t\t\u003Cdiv\u0020class\u003D\u0022d\u002Dflex\u0020justify\u002Dcontent\u002Dbetween\u0020small\u0020text\u002Dmuted\u0020mb\u002D0\u002D5\u0022\u003E\n\t\t\t\t\u003Cspan\u0020class\u003D\u0022pb\u002D0\u002D5\u0020text\u002Duppercase\u0020font\u002Dweight\u002Dbold\u0022\u003EUmawianie\u0020w\u0020trakcie\u0020\u003C\/span\u003E\n\t\t\t\t\u003Cspan\u0020class\u003D\u0022pb\u002D0\u002D5\u0022\u0020role\u003D\u0022button\u0022\u0020data\u002Did\u003D\u0022abandoned\u002Dcart\u002Dclose\u0022\u003EZamknij\u003C\/span\u003E\n\t\t\t\u003C\/div\u003E\n\t\t\t\u003Cdiv\u0020class\u003D\u0022card\u0020card\u002Dshadow\u002D1\u0020mx\u002D0\u0020card\u002Dborder\u0022\u003E\n\t\t\t\t\u003Cabandoned\u002Dcart\n\t\t\t\t\tclass\u003D\u0022abandoned\u002Dcart\u002Dapp\u0022\n\t\t\t\t\t\u003Atranslations\u003D\u0022\u007B\u0026quot\u003Babandonment_widget_title\u0026quot\u003B\u003A\u0026quot\u003BUmawianie\u0020w\u0020trakcie\u0020\u0026quot\u003B,\u0026quot\u003Bdismiss\u002Dgeneric\u0026quot\u003B\u003A\u0026quot\u003BZamknij\u0026quot\u003B,\u0026quot\u003Babandonment_widget_button\u0026quot\u003B\u003A\u0026quot\u003BUmawiaj\u0020dalej\u0026quot\u003B,\u0026quot\u003Bopinion_numeral\u0026quot\u003B\u003A\u0026quot\u003Bopinia\u007Copinie\u007Copinii\u0026quot\u003B\u007D\u0022\n\t\t\t\t\u003E\n\t\t\t\t\t\u003Cdiv\u0020class\u003D\u0022h\u002D100\u0020d\u002Dflex\u0020align\u002Ditems\u002Dcenter\u0020justify\u002Dcontent\u002Dcenter\u0022\u003E\n\t\t\t\t\t\t\u003Ci\u0020class\u003D\u0022svg\u002Dicon\u0020svg\u002Dicon\u002Dspinner\u0020svg\u002Dicon\u002Dsize\u002D20\u0020spinner\u0022\u0020\u003E\u003Csvg\u0020xmlns\u003D\u0022http\u003A\/\/www.w3.org\/2000\/svg\u0022\u0020width\u003D\u002224\u0022\u0020height\u003D\u002224\u0022\u0020fill\u003D\u0022none\u0022\u0020viewBox\u003D\u00220\u00200\u002024\u002024\u0022\u003E\u003Cpath\u0020fill\u003D\u0022url\u0028\u0023spinner\u002Dsvg\u002Da\u0029\u0022\u0020d\u003D\u0022M12\u00203c0\u002D.552.449\u002D1.005.998\u002D.95A10\u002010\u00200\u00200\u00201\u002012\u002022v\u002D2a7.999\u00207.999\u00200\u00200\u00200\u0020.997\u002D15.938C12.45\u00203.994\u002012\u00203.552\u002012\u00203Z\u0022\/\u003E\u003Cpath\u0020fill\u003D\u0022url\u0028\u0023spinner\u002Dsvg\u002Db\u0029\u0022\u0020d\u003D\u0022M12\u002022A10\u002010\u00200\u00200\u00201\u00205.344\u00204.537c.412\u002D.368\u00201.041\u002D.265\u00201.366.182.325.447.22\u00201.068\u002D.183\u00201.446A8\u00208\u00200\u00200\u00200\u002012\u002020v2Z\u0022\/\u003E\u003Cdefs\u003E\u003ClinearGradient\u0020id\u003D\u0022spinner\u002Dsvg\u002Da\u0022\u0020x1\u003D\u002212\u0022\u0020x2\u003D\u002212\u0022\u0020y1\u003D\u002220\u0022\u0020y2\u003D\u00223.5\u0022\u0020gradientUnits\u003D\u0022userSpaceOnUse\u0022\u003E\u003Cstop\u0020class\u003D\u0022spinner\u002Dstop\u002Dcolor\u0022\/\u003E\u003Cstop\u0020class\u003D\u0022spinner\u002Dstop\u002Dcolor\u0022\u0020offset\u003D\u00221\u0022\u0020stop\u002Dopacity\u003D\u00220\u0022\/\u003E\u003C\/linearGradient\u003E\u003ClinearGradient\u0020id\u003D\u0022spinner\u002Dsvg\u002Db\u0022\u0020x1\u003D\u002212\u0022\u0020x2\u003D\u002212\u0022\u0020y1\u003D\u00224.5\u0022\u0020y2\u003D\u002220\u0022\u0020gradientUnits\u003D\u0022userSpaceOnUse\u0022\u003E\u003Cstop\u0020class\u003D\u0022spinner\u002Dstop\u002Dcolor\u0022\/\u003E\u003Cstop\u0020class\u003D\u0022spinner\u002Dstop\u002Dcolor\u0022\u0020offset\u003D\u00221\u0022\/\u003E\u003C\/linearGradient\u003E\u003C\/defs\u003E\u003C\/svg\u003E\u003C\/i\u003E\n\t\t\t\t\t\u003C\/div\u003E\n\t\t\t\t\u003C\/abandoned\u002Dcart\u003E\n\t\t\t\u003C\/div\u003E\n\t\t\u003C\/div\u003E\n\t\u003C\/div\u003E';
+			element.insertAdjacentHTML('beforeend', template);
+		}
+		if(!hasVisitSlotDateValid()) {
+			ZLApp.Storage.local.removeItem('booking-data');
+			return;
+		}
+		requestAnimationFrame(renderTemplate);
+	}())
+					Znajdź lekarza i umów wizytę
+					Szukaj wśród 146 000 lekarzy.
+W gabinecie
+Online
+              logopeda
+        Specjalizacja
+              logorytmika
+        Usługa
+              Logoterapia
+        Usługa
+              konsultacja logopedyczna
+        Usługa
+              terapia logopedyczna
+        Usługa
+              diagnoza logopedyczna
+        Usługa
+              konsultacja logopedyczna dzieci
+        Usługa
+              terapia logopedyczna dzieci
+        Usługa
+              opinia logopedyczna
+        Usługa
+              konsultacja logopedyczna (weekend)
+        Usługa
+              Olgierd Stefański
+              neurolog
+        Specjalista
+              Olga Nowakowska - Godziuk
+              psychoterapeuta
+        Specjalista
+              Olga Błaszczak-Galewska
+              ginekolog
+        Specjalista
+              Olga Zawadzka
+              stomatolog
+        Specjalista
+              Olga Rybicka
+              lekarz rodzinny
+        Specjalista
+              Dentic Art Olga Marciniak Jan Marciniak
+              Warszawa
+        Centrum medyczne
+              Specjalistyczny Okulistyczny - Usługi Optyczne Oftalmed prof. dr. hab. med. Olgierd Palacz
+              Szczecin
+        Centrum medyczne
+              Olga DeFatta
+              Gdynia
+        Centrum medyczne
+              Olo - Dent Przychodnia Stomatologiczna Aleksandra Pietrzak
+              Chorzów
+        Centrum medyczne
+              Gabinet Dietetyczny dr inż. Olga Paluchowska
+              Warszawa
+        Centrum medyczne
+              Znajdź specjalistę "olog"
+              Znajdź centrum medyczne "olog"
+Warszawa
+Kraków
+Łódź
+Wrocław
+Poznań
+Gdańsk
+Szczecin
+Bydgoszcz
+Lublin
+    Więcej
+      Szukaj
+          Wybierz specjalizację
+          alergolog
+          androlog
+          anestezjolog
+          audiolog, foniatra
+          chirurg
+          chirurg plastyczny
+          dermatolog
+          endokrynolog
+          gastrolog
+          genetyk
+          geriatra
+          ginekolog
+          hematolog
+          histopatolog
+          internista
+          kardiolog
+          laryngolog
+          bariatra
+          lekarz medycyny pracy
+          lekarz rodzinny
+          biegły sądowy
+          lekarz sportowy
+          nefrolog
+          neurochirurg
+          neurolog
+          terapeuta
+          okulista
+          onkolog
+          ortodonta
+          ortopeda
+          patomorfolog
+          pediatra
+          położna/położny
+          proktolog
+          psychiatra
+          pulmonolog
+          radiolog
+          fizjoterapeuta
+          reumatolog
+          seksuolog
+          urolog
+          weterynarz
+          psycholog
+          diabetolog
+          diagnostyk
+          dietetyk
+          lekarz wykonujący zabiegi medycyny estetycznej
+          stomatolog
+          logopeda
+          lekarz rehabilitacji medycznej
+          chirurg naczyniowy
+          chirurg szczękowo-twarzowy
+          lekarz chorób zakaźnych
+          specjalista medycyny naturalnej
+          neurolog dziecięcy
+          chirurg dziecięcy
+          kardiolog dziecięcy
+          stomatolog dziecięcy
+          laryngolog dziecięcy
+          flebolog
+          immunolog
+          hipertensjolog
+          protetyk stomatologiczny
+          neonatolog
+          kardiochirurg
+          lekarz w trakcie specjalizacji
+          ortopeda dziecięcy
+          okulista dziecięcy
+          psychiatra dziecięcy
+          transplantolog
+          psychoterapeuta
+          lekarz medycyny ratunkowej
+          urolog dziecięcy
+          optometrysta
+          hepatolog
+          chirurg stomatologiczny
+          gastrolog dziecięcy
+          psycholog dziecięcy
+          angiochirurg
+          higienistka stomatologiczna
+          angiolog
+          endokrynolog dziecięcy
+          ginekolog dziecięcy
+          neurochirurg dziecięcy
+          diabetolog dziecięcy
+          alergolog dziecięcy
+          pulmonolog dziecięcy
+          nefrolog dziecięcy
+          perinatolog
+          osteopata
+          ortoptysta
+          wenerolog
+          ultrasonografista
+          hematolog dziecięcy
+          onkolog dziecięcy
+          radioterapeuta onkologiczny
+          fizjoterapeuta dziecięcy
+          Covid Test
+          chirurg klatki piersiowej
+          reumatolog dziecięcy
+          psychoonkolog
+          psychotraumatolog
+          Dermatolog dziecięcy
+          ginekolog onkologiczny
+          chirurg onkologiczny
+          pielęgniarka/pielęgniarz
+          lekarz bez specjalizacji
+          periodontolog
+          lekarz medycyny paliatywnej
+        Brak wyników do wyświetlenia
+List is empty.
+      Szukaj
+ Czym jest konsultacja online? 
+		Popularne kategorie
+Wszystkie
+Ginekolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Ortopeda
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Psycholog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Stomatolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Psychiatra
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Chirurg
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Dermatolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Laryngolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Fizjoterapeuta
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Neurolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Okulista
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Pediatra
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Urolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Kardiolog
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+Dietetyk
+Online
+,
+Kraków
+, 																															
+Warszawa
+, 																															
+Wrocław
+, 																															
+Poznań
+						Ginekolog
+						Ortopeda
+						Psycholog
+						Stomatolog
+						Psychiatra
+						Chirurg
+						Dermatolog
+						Laryngolog
+						Fizjoterapeuta
+						Neurolog
+						Okulista
+						Pediatra
+						Urolog
+						Kardiolog
+						Dietetyk
+Więcej
+		Popularne usługi i zabiegi
+Masaż
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Powiększanie ust
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Badania krwi
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Medycyna estetyczna
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Tomografia komputerowa
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Szczepienie
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Rezonans magnetyczny
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+Depilacja laserowa
+Kraków
+, 										
+Warszawa
+, 										
+Wrocław
+, 										
+Poznań
+						Masaż
+						Powiększanie ust
+						Badania krwi
+						Medycyna estetyczna
+						Tomografia komputerowa
+						Szczepienie
+						Rezonans magnetyczny
+						Depilacja laserowa
+Więcej
+Znajdź specjalistę
+Wybierz spośród ponad 146&nbsp;000 lekarzy i specjalistów. Przeglądaj opinie innych pacjentów.
+Łatwo umów wizytę
+Wybierz odpowiadający Ci termin, podaj swoje dane, potwierdź... i już. Wizyta umówiona!
+Przyjdź na wizytę
+O wybranym terminie przypomnimy ci automatycznie w wiadomości sms i mailu.
+Usługa jest bezpłatna
+Korzystanie z serwisu ZnanyLekarz.pl jest dla pacjentów zupełnie bezpłatne.
+Porady
+							Dzień dobry,
+Od 4 miesięcy mam ból mięśni i stawów. Do tego jest bardzo osłabiona i senna mimo, że śpie 9-10 h. Podejrzewam, że to może wynikać ze stresu. Co powinnam zrobić aby pozbyć…
+ODPOWIEDŹ LEKARZA:
+								mgr Szymon Szymczonek
+							Dzień dobry, 
+Na początku zalecałbym wizytę u lekarza pierwszego kontaktu i przeprowadzenie kompleksowych badań krwi. W przypadku wykluczenia przyczyn organicznych warto skorzystać z wizyty u…
+									Więcej
+							Witam zauważyliśmy z mężem że syn w domu nie umie normalnie chodzić tylko cały czas biega tak samo gdy idziemy na spacer to biega albo podskakuje Jak ma coś wykonać stara się wykonywać czynności…
+ODPOWIEDŹ LEKARZA:
+								mgr Szymon Szymczonek
+							Dzień dobry,
+Zdecydowanie jest to zbyt mało informacji aby stwierdzić czy może być to ADHD.
+Jeżeli martwi Państwa sytuacja syna to warto porozmawiać z psychologiem szkolnym bądź skontaktować…
+									Więcej
+Najnowsze opinie
+																Łukasz Michalski
+Profesjonalny w podejściu do pacjenta, zaangażowany specjalista. Dokładna i rzeczowa wizyta.
+Łukasz
+																Marcin Kasprowicz
+Po każdej wizycie wychodze zadowolony.Moj kręgosłup przy regularnych wizytach jest w coraz lepszej formie.Polecam 
+Sławek
+																Marcin Łata
+Podczas wizyty dowiedziałam się, w jaki sposób będziemy działać, by udało mi się wrócić do zdrowia sprzed miesięcy. Jestem pełna nadziei na owocną współpracę....
+Magda
+Od niedawna na ZnanyLekarz
+slide 
+1 to 2
+  of 20
+												dr n. med. Piotr Krajewski
+	Chirurg onkologiczny, Szczecin
+Pokaż profil
+												mgr Katarzyna Jabłońska
+	Psycholog, Gdańsk
+Pokaż profil
+												mgr Ewa Aniołowicz-Piedziewicz
+	Psycholog, Kraków
+Pokaż profil
+												mgr Grzegorz Nasiorowski
+	Fizjoterapeuta, Gdańsk
+Pokaż profil
+												lek. Katarzyna Piszcz
+	Flebolog, Warszawa
+Pokaż profil
+												mgr Kamila Klonowska
+	Fizjoterapeuta, Sosnowiec
+Pokaż profil
+												mgr Magdalena Żurawska
+	Psycholog, Warszawa
+Pokaż profil
+												mgr Karolina Łuczak
+	Psycholog, Izbica Kujawska
+Pokaż profil
+												mgr Joanna Kozyra
+	Psycholog, Kraków
+Pokaż profil
+												lek. Aleksandra Słupczyńska
+	Lekarz wykonujący zabiegi medycyny estetycznej, Warszawa
+Pokaż profil
+												lek. dent. Tomasz Staśkiewicz
+	Stomatolog, Gruszczyn
+Pokaż profil
+												 Beata Kot
+	Fizjoterapeuta, Kraków
+Pokaż profil
+												 Dominika Cichońska-Musioł
+	Diabetolog, Warszawa
+Pokaż profil
+												mgr Beata Chmiel
+	Psycholog dziecięcy, Kraków
+Pokaż profil
+												lek. Katarzyna Spławska
+	W trakcie specjalizacji (Pediatra), Poznań
+Pokaż profil
+												mgr Izabela Krasnopolska
+	Psycholog, Warszawa
+Pokaż profil
+												mgr Maria Przybyło
+	Fizjoterapeuta, Kraków
+Pokaż profil
+												mgr Magdalena Olkiewicz
+	Fizjoterapeuta, Wrocław
+Pokaż profil
+												mgr Marta Wojtowicz
+	Psycholog, Toruń
+Pokaż profil
+												lek. Paweł Sitny
+	W trakcie specjalizacji (Radiolog), Wrocław
+Pokaż profil
+				Prowadzisz własny gabinet lub placówkę i szukasz nowych pacjentów?
+					Dotrzyj do pacjentów, którzy szukają specjalistów w Twojej okolicy.
+					Pozwól im zapisać się na wizytę o każdej porze dnia i nocy. Koniec z czekaniem na otwarcie recepcji.
+					Zbuduj reputację w Internecie pozyskując wiarygodne opinie.
+					Odkryj ZnanyLekarz Pro
+		ZLApp.APICredentials = {
+	'ACCESS_TOKEN': 'MjY5MzBjMzA4YzU5MWMzNDg0NmZhNWY2MDdkNTdiOWZhMTBkYjExYTc5YjFiODhkOTc2NmUxNDlhMDgwZDJmMA',
+	'ACCESS_TOKEN_EXPIRATION_TIME': '1707269984',
+	'REFRESH_TOKEN': '',
+	'REFRESH_TOKEN_EXPIRATION_TIME': '',
+	'TOKEN_URL': 'https\u003A\/\/l.znanylekarz.pl\/oauth\/v2\/token'
+};
+		ZLApp.AppConfig = {
+			SEARCH_PATH: "https:\/\/www.znanylekarz.pl\/szukaj",
+			TRANSLATIONS: {"home_online_consultation_choose_speciality":"Wybierz specjalizacj\u0119","home_online_consultation_search":"Szukaj","home_online_consultation_tip":"Czym jest konsultacja online? ","home_online_consultation_tip_modal_body":"Konsultacja online pozwala Ci po\u0142\u0105czy\u0107 si\u0119\u00a0ze specjalist\u0105\u00a0na odleg\u0142o\u015b\u0107. To jak tradycyjna konsultacja, ale bez potrzeby wychodzenia z domu.","home_online_consultation_tip_modal_header":"Czym jest konsultacja online? ","there_is_no_content_to_show":"Brak wynik\u00f3w do wy\u015bwietlenia","hp-flu-vaccination":"Szczepienie na gryp\u0119","hp-flu-vaccination-location":"Lokalizacja szczepienia na gryp\u0119","hp-covid-test-location":"Lokalizacja test\u00f3w COVID-19","login_before_save_doctor_header":"Zapisywanie specjalisty","login_before_save_doctor_text":"Aby zapisa\u0107 specjalist\u0119, utw\u00f3rz konto na ZnanyLekarz.","login_before_save_doctor_or":"lub","login_before_save_doctor_email":"U\u017cyj adresu e-mail","login_before_save_doctor_already":"Masz ju\u017c konto?","login_before_save_doctor_login":"Zaloguj si\u0119","login_with_apple":"Kontynuuj z Apple","login_with_facebook":"Kontynuuj z Facebook","login_with_google":"Kontynuuj z Google","banner_promote_app_doctor_homepage_test_title":"ZnanyLekarz jest lepszy w aplikacji","banner_promote_app_doctor_homepage_test_tag":"Polecane","banner_promote_app_doctor_homepage_test_app_title":"Aplikacja ZnanyLekarz","banner_promote_app_doctor_homepage_test_cta":"Otw\u00f3rz","banner_promote_app_doctor_homepage_test_browser_title":"Przegl\u0105darka","banner_promote_app_doctor_homepage_test_cta2":"Kontynuuj","banner_promote_app_doctor_homepage_test_cta3":"Otw\u00f3rz aplikacj\u0119","banner_promote_app_doctor_homepage_test_cta4":"Kontynuuj w przegl\u0105darce","banner_promote_app_listing_nocalendar_test_title":"Potrzebujesz specjalisty?","banner_promote_app_listing_nocalendar_test_text":"Dbanie o zdrowie jest prostsze z aplikacj\u0105. Odkryj j\u0105 teraz!","banner_promote_app_listing_nocalendar_test_cta":"Wypr\u00f3buj aplikacj\u0119","banner_promote_app_listing_nocalendar_test_cta2":"Kontynuuj w przegl\u0105darce","banner_promote_app_listing_nocalendar_test_title2":"Zadbaj o swoje zdrowie dzi\u0119ki aplikacji","banner_promote_app_listing_nocalendar_test_text2":"Znajd\u017a specjalist\u00f3w w pobli\u017cu","banner_promote_app_listing_nocalendar_test_text3":"Um\u00f3w wizyt\u0119, kiedy tylko jej potrzebujesz","banner_promote_app_listing_nocalendar_test_tcta3":"Zainstaluj aplikacj\u0119","banner_promote_app_profile_nocalendar_test_title":"Potrzebujesz specjalisty?","banner_promote_app_profile_nocalendar_test_text":"Dbanie o zdrowie jest prostsze z aplikacj\u0105. Odkryj j\u0105 teraz!","banner_promote_app_profile_nocalendar_test_cta":"Wypr\u00f3buj aplikacj\u0119","banner_promote_app_profile_nocalendar_test_cta2":"Kontynuuj w przegl\u0105darce","banner_promote_app_profile_nocalendar_test_title2":"\u0141atwe umawianie wizyt w aplikacji","banner_promote_app_profile_nocalendar_test_cta3":"Otw\u00f3rz aplikacj\u0119","banner_promote_app_content_page_test_title":"Martwi\u0105 ci\u0119 jakie\u015b dolegliwo\u015bci zdrowotne?","banner_promote_app_content_page_test_text":"Pobierz aplikacj\u0119 i otrzymaj odpowiedzi bezpo\u015brednio od specjalisty","banner_promote_app_content_page_test_cta":"Wypr\u00f3buj aplikacj\u0119","banner_promote_app_content_page_test_cta2":"Kontynuuj w przegl\u0105darce","banner_promote_app_content_page_test_title2":"Zadbaj o swoje zdrowie za pomoc\u0105 aplikacji","banner_promote_app_content_page_test_cta3":"Otw\u00f3rz","banner_promote_app_content_booking_confirmation_V1":"Dzie\u0144 dobry, oto szczeg\u00f3\u0142y wizyty. S\u0105 dost\u0119pne r\u00f3wnie\u017c w aplikacji, razem z przypomnieniami o wizycie.","banner_promote_app_content_booking_confirmation_cta_V1":"Kontynuuj w aplikacji","banner_promote_app_content_booking_confirmation_V2":"Dzie\u0144 dobry, dzi\u0119kuj\u0119\u00a0za um\u00f3wienie wizyty. ","download-app-generic":"Pobierz aplikacj\u0119","banner_promote_app_content_booking_confirmation_V3":"\u015aled\u017a szczeg\u00f3\u0142y swoich wizyt","banner_promote_app_content_opinion_thank_you_page_title_V1":"Wiadomo\u015b\u0107 od specjalisty","banner_promote_app_content_opinion_thank_you_page_V1":"Dzie\u0144 dobry, dzi\u0119kuj\u0119 za podzielenie si\u0119 opini\u0105. Je\u015bli chcesz wys\u0142a\u0107 mi wiadomo\u015b\u0107, zapraszam do pobrania aplikacji.","banner_promote_app_email_footer":"Zarz\u0105dzaj swoimi wizytami w aplikacji. Otrzymuj przypomnienia i wysy\u0142aj wiadomo\u015bci do specjalist\u00f3w.","confirm-generic":"Potwierd\u017a","ok-generic":"OK","specialization_in_progress":"W trakcie specjalizacji (%specialization%)"},
+		};
+	{"@context":"https:\/\/schema.org","@type":"Organization","url":"https:\/\/www.znanylekarz.pl\/","logo":"https:\/\/www.znanylekarz.pl\/img\/pl\/logo\/logo-default-pl.svg?v=4","legalName":"ZnanyLekarz Sp. z o.o.","brand":{"@type":"Brand","name":"ZnanyLekarz"}}
+					Serwis
+Cookies
+O nas
+Kontakt
+Praca 
+Rekrutujemy!
+Regulamin
+Partnerzy
+Centrum prasowe
+Dane osobowe
+Jak działają wyniki wyszukiwania
+					Dla pacjentów
+Lekarze
+Placówki medyczne
+Pytania i odpowiedzi
+Usługi i zabiegi
+Choroby
+Pomoc
+Aplikacje mobilne
+Blog dla pacjentów
+Badania
+					Dla profesjonalistów
+									Cennik
+									Dla lekarzy
+Baza wiedzy
+									Dla placówek medycznych
+									Centrum Pomocy dla Specjalisty
+Konsultacje online
+					ZnanyLekarz Sp. z o.o.
+					ul. Kolejowa 5/7
+					01-217 Warszawa, Polska
+NIP: 7010224868
+KRS: 0000347997
+REGON: 142276657
+Sąd Rejonowy dla m.st. Warszawy w Warszawie XII Wydział Gospodarczy KRS
+Polska
+,
+Türkiye
+,
+España
+,
+Italia
+,
+Deutschland
+,
+Česko
+,
+Portugal
+,
+México
+,
+Chile
+,
+Brasil
+,
+Argentina
+,
+Perú
+,
+Colombia
+				www.znanylekarz.pl © 2024 -
+				Znajdź lekarza i umów wizytę
+	function downloadJSAtOnload() {
+      var event;
+      if(typeof(Event) === 'function') {
+        event = new Event('deferLoading');
+      } else {
+        event = document.createEvent('Event');
+        event.initEvent('deferLoading', true, true);
+      }
+      document.dispatchEvent(event);
+	}
+	// Check for browser support of event handling capability
+	if (window.addEventListener)
+		window.addEventListener("load", downloadJSAtOnload, false);
+	else if (window.attachEvent)
+		window.attachEvent("onload", downloadJSAtOnload);
+	else window.onload = downloadJSAtOnload;
+ZnanyLekarz korzysta z ciasteczek
+Klikając "zaakceptuj", pozwalasz nam w pełni dostosować serwis ZnanyLekarz do Twoich preferencji. Korzystamy z plików cookies głównie po to, aby zwiększyć użyteczność serwisu ZnanyLekarz, zapewnić bezpieczeństwo na stronie oraz zbierać dane statystyczne. Zawsze możesz zmienić zdanie i edytować ustawienia cookies. Jeżeli chcesz uzyskać więcej informacji odnośnie cookies i przetwarzania danych osobowych, zapoznaj się z naszą
+polityką cookies i polityką przetwarzania danych osobowych.
+Zaakceptuj
+Edytuj ustawienia

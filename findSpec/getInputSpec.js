@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 
 async function wpiszISprawdz(page, inputSelector, wartoscDoWprowadzenia) {
-    //await page.type(inputSelector, wartoscDoWprowadzenia);
     await inputSelector.type(strings[i]);
     await page.waitForTimeout(1000);
   
@@ -18,9 +17,9 @@ const findTypeOfDoctors = async (webName, inputId) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(webName);
-    strings = ['olog', 'atra']
+    strings = ['olog', 'atra', 'chirurg']
 
-    const initialHtml = await page.content();
+    await page.content();
     inputElements = await page.$$('input');
 
     fs.mkdirSync('result/spec');

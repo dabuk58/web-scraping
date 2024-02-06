@@ -53,6 +53,13 @@ def count_specializations(data, model):
 
     count_specializations = sum(1 for prediction in predictions if prediction >= 0.4)
 
+    # Zapisz słowa do pliku
+    filename = sys.argv[1].split("/")[-1]
+    words_above_threshold = [word for word, prediction in zip(data, predictions) if prediction >= 0.4]
+    with open(f'wykryte_spec_{filename}.txt', 'w', encoding='utf-8') as file:
+        file.write('\n'.join(words_above_threshold))
+
+
     return count_specializations
 
 if __name__ == "__main__":

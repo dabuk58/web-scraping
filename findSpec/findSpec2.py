@@ -1,19 +1,17 @@
 import subprocess
 import shutil
 import os
-import nbformat
-from nbconvert import PythonExporter
-from IPython.display import display, HTML
 
 webName1 = 'https://www.znanylekarz.pl/'
 webName2 = 'https://znajdzlekarza.abczdrowie.pl/'
 webName3 = 'https://centrum.med.pl/znajdz-lekarza/'
-webName4 = 'https://lekarzebezkolejki.pl/#0'
+webName4 = 'https://lekarzebezkolejki.pl/'
 
 def removeTmpFiles():
-   for filename in os.getcwd():
+   current_folder = os.getcwd()
+   for filename in os.listdir(current_folder):
         if filename.startswith("cleared") or filename.startswith("specFromInput"):
-            file_path = os.path.join(folder_path, filename)
+            file_path = os.path.join(current_folder, filename)
             try:
                 os.remove(file_path)
             except Exception as e:
@@ -33,7 +31,7 @@ def createResultFolder():
 def compareHtml():
    #compare html files
     for i in range(numberOfInputElements):
-     fileBefore = 'result/before/before.txt'
+     fileBefore = f"result/before/{i}.txt"
      fileAfter = f"result/after/{i}.txt"
      fileDiff = f"result/{i}.txt"
      command = ['python', 'findSpec/compare.py', fileBefore, fileAfter, fileDiff]
@@ -67,7 +65,32 @@ def readInput(webName):
 def findAllSpecFromInput(webName, input_id):
    js_file = "findSpec/getInputSpec.js"
    command = ["node", js_file, webName, str(input_id)]
-   result = subprocess.run(command, capture_output=True, text=True)
+   subprocess.run(command, capture_output=True, text=True)
+  
+   count_specializations_result = useScript(f'result/spec/olog.txt', '-olog') 
+   count_specializations_result = useScript(f'result/spec/atra.txt', '-atra') 
+
+
+
+def useScript(file_name, input_id):
+   command = ['python', 'findSpec/findSpecBySuffix.py', str(file_name), str(input_id)]
+   subprocess.call(command)
+   with open('wynik.txt', 'r') as result_file:
+        count_specializations_result = int(result_file.read())
+
+   print(f"Suffix dla {input_id}: {count_specializations_result}")
+   return count_specializations_result
+
+def findSpecInput():
+   count_specializations =0
+   input_id = 0
+   for i in range(numberOfInputElements):
+       count_specializations_result = useScript(f'result/{input_id}.txt', i) 
+       print(f"\n\nInputId/countSpec: {i} / {count_specializations_result}\n")
+       if count_specializations_result > count_specializations:
+        count_specializations = count_specializations_result
+        input_id=i  
+   return input_id
 
 #######################################################################
 webName = webName1
@@ -84,15 +107,5 @@ else:
    numberOfInputElements = readInput(webName)
    compareHtml()
 
-#use model to find specializations input
-   count_specializations =0
-   input_id = 0
-   for i in range(numberOfInputElements):
-       count_specializations_result = useModel(i) 
-       print(f"\n\nInputId/countSpec: {i} / {count_specializations_result}\n")
-       if count_specializations_result > count_specializations:
-        count_specializations = count_specializations_result
-        input_id=i
-        
-
-   #findAllSpecFromInput(webName, input_id)
+   input_id = findSpecInput()      
+   findAllSpecFromInput(webName, input_id)

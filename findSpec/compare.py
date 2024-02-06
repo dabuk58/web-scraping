@@ -2,13 +2,13 @@ import sys
 
 def compare_files(fileBefore, fileAfter, fileResult, kodowanie='utf-8'):
     with open(fileBefore, 'r', encoding=kodowanie) as file1, open(fileAfter, 'r', encoding=kodowanie) as file2:
-        lines_file1 = set(file1.readlines())
-        lines_file2 = set(file2.readlines())
+        lines_file2 = list(file1.readlines())
+        lines_file1 = list(file2.readlines())
 
-        new_lines = lines_file2 - lines_file1
+        result = [item for item in lines_file1 if item not in lines_file2]
 
     with open(fileResult, 'w', encoding=kodowanie) as res_file:
-        for line in new_lines:
+        for line in result:
             res_file.write(line)
 
 if __name__ == "__main__":

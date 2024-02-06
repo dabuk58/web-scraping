@@ -1,33 +1,42 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+timeout = 5000
 
 const findTypeOfDoctors = async (webName) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
+
+  await page.setCacheEnabled(false);
   await page.goto(webName);
 
-  const initialHtml = await page.content();
+  await page.content();
+  await page.waitForTimeout(timeout)
   inputElements = await page.$$('input');
-  fs.mkdirSync('result/before');
-  saveToFile('result/before/before.txt', initialHtml);
+  await page.waitForTimeout(timeout)
 
+  fs.mkdirSync('result/before');
   fs.mkdirSync('result/after');
   for (i = 0; i < inputElements.length; i++) {
-    await page.reload();
+  //for (i = 1; i >=  0; i--) {
+   
+    const initialHtml = await page.content();
+    
+    saveToFile(`result/before/${i}.txt`, initialHtml);
     inputElements = await page.$$('input');
 
-    await inputElements[i].type('olog');
+    await inputElements[i].type('chirurg');
 
-    await page.waitForTimeout(1000);
-
-    const htmlAfterTyping = await page.content();
+    await page.waitForTimeout(timeout);
+    
+    htmlAfterTyping = await page.content();
 
     //const htmlDiff = getHtmlDiff(initialHtml, htmlAfterTyping);
 
     saveToFile(`result/after/${i}.txt`, htmlAfterTyping);
-    //saveToFile('wynik/' + i + '.txt', htmlDiff);
-
     await inputElements[i].type('', { delay: 50 });
+    await page.waitForTimeout(10000)
+    htmlAfterTyping = ""
+    await page.reload(); ///////////////
   }
 
   await browser.close();
