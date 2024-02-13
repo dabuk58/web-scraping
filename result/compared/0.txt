@@ -1,0 +1,125 @@
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url(https://fonts.wpcdn.pl/roboto/woff2/Roboto-Regular.woff2) format("woff2"),url(https://fonts.wpcdn.pl/roboto/woff/Roboto-Regular.woff) format("woff"),url(https://fonts.wpcdn.pl/roboto/ttf/Roboto-Regular.ttf) format("truetype")
+}
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-display: block;
+  font-display: fallback;
+  src: url(https://fonts.wpcdn.pl/roboto/woff2/Roboto-Light.woff2) format("woff2"),url(https://fonts.wpcdn.pl/roboto/woff/Roboto-Light.woff) format("woff"),url(https://fonts.wpcdn.pl/roboto/ttf/Roboto-Light.ttf) format("truetype")
+}
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 700;
+  font-display: fallback;
+  src: url(https://fonts.wpcdn.pl/roboto/woff2/Roboto-Bold.woff2) format("woff2"),url(https://fonts.wpcdn.pl/roboto/woff/Roboto-Bold.woff) format("woff"),url(https://fonts.wpcdn.pl/roboto/ttf/Roboto-Bold.ttf) format("truetype")
+}
+.fucfi4x{display:none !important;}.pavlrfi{position:fixed;filter:none!important;top:0px;left:0px;width:100%;height:100%;z-index:2147483647;background:transparent;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-moz-font-smoothing:grayscale;}.pavlrfi a{background:none!important;}.pavlrfi *{box-sizing:border-box;letter-spacing:0;color:#181818;font-family:Roboto,Arial,sans-serif!important;font-weight:400;font-size:16px;line-height:20px;margin:0px;}.y6uknbw{}.o4o968u{width:140px;min-width:140px;padding-top:24px;}.vb1azw8{display:flex;position:relative;flex-direction:column;width:800px;min-width:800px;}.pavlrfi ul{list-style:disc;padding-left:30px;}.r0jccnh{cursor:pointer;margin:0px;margin-right:24px;margin-top:0px;margin-bottom:0px;height:50px;padding:16px 18px;font-size:14px;font-weight:500;line-height:18px;border-radius:4px;border:1px solid transparent;background-color:#003696;outline-color:#003696;color:#fff;}.r0jccnh:hover{background-color:#002b75!important;}.rxn4oe8{background-color:#fff!important;color:#003696!important;border-color:#003696!important;}.rxn4oe8:hover{background-color:#eaeff6!important;}.iuh1gvc{padding-left:32px;padding-right:32px;}.kqy9996{position:relative;width:100%;padding-top:20px;padding-bottom:4px;}.o5l3ar8{position:fixed;width:100%;bottom:0px;left:0px;padding:6px 16px;background:#fff;z-index:3;}.vn0a66w{color:#059!important;text-decoration:underline;}.cehxkhp{width:100%;padding:0 0 6px;overflow:auto;}.d3lw0xp{padding-right:24px;padding-bottom:16px;}.d3lw0xp>h3{margin:0px;padding-bottom:15px;font-size:28px;line-height:33px;}.yj3mx83>*{padding-right:12px!important;}.yj3mx83>p>strong{font-weight:bold;}.yj3mx83>br{content:' ';margin:10px 0;display:block;}.yj3mx83>p{margin:0px;padding:0px;}.yj3mx83>ol{margin:0px;padding:0px;margin-top:7px;list-style-type:decimal;}.yj3mx83>ol>li{margin:0px;padding:0px;margin-left:27px;}.yj3mx83>h3{margin:0px;font-size:28px;font-weight:normal;line-height:33px;padding:2px 0 15px 0;}.yj3mx83 span{text-decoration:underline;color:#059;cursor:pointer;}.yj3mx83 a{text-decoration:underline;color:#059;cursor:pointer;}.fsf3ke0{width:100%;height:52px;margin:auto;background-image:url(https://v.wpimg.pl/X2xvZ28ud1MZFCwBFw56RlpMeFFIHQdBDBJ4HhoAeghaWTNfWRI9QVcRPkJKWi9CJxo1VVdbKFwfVCc);background-size:contain;background-position:top;background-repeat:no-repeat;}.aelit3t>*{padding-right:12px;margin:10px 0;}.ujh7977{padding:15px 10px;font-size:14px;text-align:left;color:#059;}.ujh7977:hover{cursor:pointer;color:#002b75;}.kjmsgex{display:flex;}.tw8cr34{line-height:42px;margin-left:10px;font-weight:bold;}.ljhgurx{position:relative;display:block;flex-wrap:wrap-reverse;height:auto;width:100%;margin:0;padding:0px;padding-bottom:24px;z-index:20;bottom:auto;}.mpyvmzz{display:block;width:100%;padding:24px 0 0 0;background-color:#fff;font-size:28px;font-weight:normal;line-height:24px;z-index:3;}.kmu0kgi{display:flex;align-items:center;padding-right:0px;}.kmu0kgi>*{display:inline-block;}.kmu0kgi>*:first-child{width:557px;text-align:left;}.kmu0kgi>*:nth-child(2){margin-left:auto;width:82px;}.kmu0kgi>*:nth-child(3){width:140px;}.pq6lwy6{transform:rotate(180deg);}.djbycb5{width:100%;margin-bottom:20px;border-bottom:1px solid #e9e9e9;}.djbycb5 *{font-size:14px;line-height:20px;}.djbycb5 a{color:#003696;text-decoration:underline;}.m13j8ks{position:absolute;width:24px;height:58px;top:0px;right:0px;background:#fff;box-shadow:0 5px 5px -5px #c5c5c5;z-index:3;}.ev6nmnu{position:sticky;width:100%;height:35px;top:-1px;background-color:#fff;z-index:2;}.ev6nmnu>*{text-align:center;font-size:12px;font-weight:500;}.ev6nmnu>*:first-child{padding:0px;font-size:18px;}.t48bduh{color:#828282;font-size:16px;font-weight:500;margin:10px 0;}.k5uki9n{background-color:#f8f8f8;margin-bottom:2px;border:none;border-radius:0px;}.l2xmc1s{padding:13px;cursor:pointer;}.zrj2spx{display:inline-block;width:10px;height:10px;margin-left:6px;background:url(https://v.wpimg.pl/bWluaS5zTTYNFxdgGgFAI05PQzBFEj0kGBFDfxcPQG1OWgg-VB0HJEMSBSNHVRR6ARwPOhsJFDBOCA) center no-repeat;}.antcahf{min-width:40px;height:18px;background:url(https://v.wpimg.pl/aWxlLnN2TjYZDjpdYUlDI1pWbg0-Wj4kDAhuQmxHQ21aQyUDL1UEJFcLKB48HREjGR82CyUfDDgaBSALYEEXMFoR) center no-repeat;}.fu90tpn{width:557px;padding:0 0 16px 28px;background:inherit;border-radius:0px;}.fu90tpn *{font-size:12px;line-height:20px;}.fu90tpn>*:not(:first-child){margin-top:8px;}.fu90tpn p{width:730px;}.fu90tpn strong{font-weight:bold;}.yv72wtf{display:flex;padding:10px 30px;justify-content:space-between;background:#fff;border-radius:4px;}.tkbji3p{color:#003696;margin:6px 0;cursor:pointer;}.k6kx2h8{padding-left:8px;width:740px;}.k6kx2h8>span{display:inline-block;width:33%;padding-right:10px;vertical-align:top;font-size:12px;line-height:21px;}.jcp35rp{display:inline-block;width:10px;height:10px;margin-left:6px;background:url(https://v.wpimg.pl/bHVlLnN2TSk3DjpdYUlAPHRWbg0-Wj07IghuQmxHQHJ0QyUDL1UHO3kLKB48HRRlOwUiB2NQDj0zQj8YKRAf) center no-repeat;}.wbewpek{padding-left:15px;text-indent:-15px;}.yiyh4f9{padding-left:23px;text-indent:-23px;}.u3z0ibd{box-shadow:0 -5px 5px -5px #c5c5c5;}.g30gm6n{position:absolute;width:inherit;height:24px;bottom:0px;z-index:2;}.crqlqfw{box-shadow:0 5px 5px -5px #c5c5c5;}.m3aggot{position:absolute;width:inherit;height:24px;top:-24px;z-index:2;}.ajmli6a{z-index:3!important;}.x8gr0c1{width:100%;}.ollelzx{display:flex;justify-content:center;align-items:center;height:20px;}.ollelzx>span{font-size:12px;line-height:14px;margin-left:8px;text-align:left;white-space:pre;}.t9ehn7d{display:inline-block;position:relative;width:33px;height:20px;background-color:#a8b2b9;border-radius:10px;}.t9ehn7d:hover{cursor:pointer;}.tkhc69t{background-color:#003696;}.tkhc69t>div{border-color:#003696;left:13px;}.gvpmpm6{display:inline-block;width:20px;height:20px;position:absolute;left:0px;border-width:1px;border-style:solid;border-color:#a8b2b9;border-radius:10px;background-color:#fff;transition:left 0.2s;}.qi06aga{opacity:0.15;cursor:default!important;background-color:black!important;}.qi06aga>div{border-color:black!important;}.lpugt5s{display:block;position:relative;margin:3px 0;padding-right:18px;padding-left:24px;cursor:pointer;}.lpugt5s:last-child{margin-top:12px;}.qh2qs9r{font-size:14px;line-height:normal;}.yh09o5q{display:inline-block;width:16px;height:16px;position:absolute;top:3px;left:0px;border:1px solid #b2cce0;}.yh09o5q:after{content:a;display:none;position:absolute;width:10px;height:4px;top:5px;left:5px;border:2x solid #333;transform:rotate(45deg);}.lpugt5s>input{position:absolute;opacity:0;}.lpugt5s>input:checked ~span{border-color:#005599;background:url('https://v.wpimg.pl/MTZ4MTYuYjU7Vjtndg5vIHgObzcpHRInLlBveHsAb254GyQ5OBIoJ3VTKSQrWjk9OV9gZW8NfGJ0Rzszewg') center no-repeat;}.o4au1ib{overflow:hidden!important;position:static;height:100%;}.k6o1f56{position:absolute!important;width:100%!important;height:100%!important;left:0px!important;top:0px!important;overflow:hidden!important;}.u4tttfv{position:absolute;display:flex;justify-content:center;width:100%;height:500px;bottom:0px;background-color:#fff;box-shadow:0 0 20px 3px rgba(30,30,30,0.5);text-align:left;min-height:360px;max-height:600px;}.wl2p9i3{display:flex;align-items:center;justify-content:center;background-repeat:no-repeat;background-image:url(https://v.wpimg.pl/MTZ4MTYuYjU7Vjtndg5vIHgObzcpHRInLlBveHsAb254GyQ5OBIoJ3VTKSQrWiwmKFs6eTUQKyB3BXssaENjJyxTbyk);background-position:12px center;padding-left:28px!important;}
+×
+Chirurg ogólny
+Neurochirurg
+Chirurg dziecięcy
+Chirurg naczyniowy
+Chirurg onkolog
+Chirurg plastyczny
+Chirurg ręki
+Kardiochirurg
+Chirurg stomatolog
+Chirurg szczękowo-twarzowy
+SI Gabinet Chirurgii Naczyniowej Centrum Zdrowia Rodziny
+Chirurg naczyniowy
+Cenimy Twoją prywatność
+Kliknij 
+"AKCEPTUJĘ I&nbsp;PRZECHODZĘ DO&nbsp;SERWISU"
+, aby wyrazić zgodę na&nbsp;korzystanie w&nbsp;Internecie z&nbsp;technologii automatycznego gromadzenia i&nbsp;wykorzystywania danych oraz&nbsp;na&nbsp;przetwarzanie Twoich danych osobowych przez 
+Wirtualną Polskę
+, 
+Zaufanych Partnerów IAB
+ (772 partnerów) oraz&nbsp;pozostałych 
+Zaufanych Partnerów
+ (392 partnerów) a&nbsp;także&nbsp;udostępnienie przez nas ww. Zaufanym Partnerom przypisanych Ci identyfikatorów w&nbsp;celach marketingowych (w&nbsp;tym&nbsp;do&nbsp;zautomatyzowanego dopasowania reklam do&nbsp;Twoich zainteresowań i&nbsp;mierzenia ich&nbsp;skuteczności) i&nbsp;pozostałych, które wskazujemy poniżej. Możesz również podjąć decyzję w&nbsp;sprawie udzielenia zgody w&nbsp;ramach 
+ustawień zaawansowanych
+.
+Na&nbsp;podstawie udzielonej przez Ciebie zgody 
+Wirtualna Polska
+ będzie przetwarzać Twoje dane osobowe zbierane w&nbsp;Internecie (m.in. na&nbsp;serwisach partnerów e-commerce), w&nbsp;tym&nbsp;za&nbsp;pośrednictwem formularzy, takie jak&nbsp;adresy IP, identyfikatory Twoich urządzeń i&nbsp;identyfikatory plików cookies, informacje o&nbsp;Twoich wyszukiwaniach w&nbsp;Internecie będą przetwarzane przez 
+Wirtualną Polskę
+, 
+Zaufanych Partnerów IAB
+ oraz&nbsp;pozostałych 
+Zaufanych Partnerów
+ w&nbsp;celu: przechowywania informacji na&nbsp;urządzeniu lub&nbsp;dostęp do&nbsp;nich, wykorzystywania ograniczonych danych do&nbsp;wyboru reklam, tworzenia profili związanych z&nbsp;personalizacją reklam, wykorzystania profili do&nbsp;wyboru spersonalizowanych reklam, tworzenia profili z&nbsp;myślą o&nbsp;personalizacji treści, wykorzystywania profili w&nbsp;doborze spersonalizowanych treści, pomiaru wydajności reklam, pomiaru wydajności treści, poznawaniu odbiorców dzięki statystyce lub&nbsp;kombinacji danych z&nbsp;różnych źródeł, opracowywania i&nbsp;ulepszania usług, wykorzystywania ograniczonych danych do&nbsp;wyboru treści.
+W&nbsp;ramach funkcji i&nbsp;funkcji specjalnych 
+Wirtualna Polska
+ może&nbsp;podejmować następujące działania:
+Dopasowanie i&nbsp;łączenie danych z&nbsp;innych źródeł
+Łączenie różnych urządzeń
+Identyfikacja urządzeń na&nbsp;podstawie informacji przesyłanych automatycznie
+Aktywne skanowanie charakterystyki urządzenia do&nbsp;celów identyfikacji
+Cele przetwarzania Twoich danych przez 
+Zaufanych Partnerów IAB
+ oraz&nbsp;pozostałych 
+Zaufanych Partnerów
+ są następujące:
+Przechowywanie informacji na&nbsp;urządzeniu lub&nbsp;dostęp do&nbsp;nich
+Wykorzystywanie ograniczonych danych do&nbsp;wyboru reklam
+Tworzenie profili w&nbsp;celu spersonalizowanych reklam
+Wykorzystanie profili do&nbsp;wyboru spersonalizowanych reklam
+Tworzenie profili w&nbsp;celu personalizacji treści
+Wykorzystywanie profili w&nbsp;celu doboru spersonalizowanych treści
+Pomiar efektywności reklam
+Pomiar efektywności treści
+Rozumienie odbiorców dzięki statystyce lub&nbsp;kombinacji danych z&nbsp;różnych źródeł
+Rozwój i&nbsp;ulepszanie usług
+Wykorzystywanie ograniczonych danych do&nbsp;wyboru treści
+Zapewnienie bezpieczeństwa, zapobieganie oszustwom i&nbsp;naprawianie błędów
+Dostarczanie i&nbsp;prezentowanie reklam i&nbsp;treści
+W&nbsp;ramach funkcji i&nbsp;funkcji specjalnych nasi 
+Zaufani Partnerzy IAB
+ oraz&nbsp;pozostali 
+Zaufani Partnerzy
+ mogą podejmować następujące działania:
+Dopasowanie i&nbsp;łączenie danych z&nbsp;innych źródeł
+Łączenie różnych urządzeń
+Identyfikacja urządzeń na&nbsp;podstawie informacji przesyłanych automatycznie
+Aktywne skanowanie charakterystyki urządzenia do&nbsp;celów identyfikacji
+Dla podjęcia powyższych działań nasi 
+Zaufani Partnerzy IAB
+ oraz&nbsp;pozostali 
+Zaufani Partnerzy
+ również potrzebują Twojej zgody, którą możesz udzielić poprzez kliknięcie w&nbsp;przycisk 
+"AKCEPTUJĘ I&nbsp;PRZECHODZĘ DO&nbsp;SERWISU"
+ lub&nbsp;podjąć decyzję w&nbsp;sprawie udzielenia zgody w&nbsp;ramach 
+ustawień zaawansowanych
+.
+Cele przetwarzania Twoich danych bez konieczności uzyskania Twojej zgody w&nbsp;oparciu o&nbsp;uzasadniony interes 
+Wirtualnej Polski
+, 
+Zaufanych Partnerów IAB
+ oraz&nbsp;możliwość sprzeciwienia się takiemu przetwarzaniu znajdziesz w&nbsp;
+ustawieniach zaawansowanych
+.
+Cele, cele specjalne, funkcje i&nbsp;funkcje specjalne przetwarzania szczegółowo opisujemy w&nbsp;
+ustawieniach zaawansowanych
+.
+Serwisy partnerów e-commerce, z&nbsp;których możemy przetwarzać Twoje dane osobowe na&nbsp;podstawie udzielonej przez Ciebie zgody 
+znajdziesz tutaj
+.
+Zgoda jest dobrowolna i&nbsp;możesz ją w&nbsp;dowolnym momencie wycofać w&nbsp;
+ustawieniach zaawansowanych
+.
+Pamiętaj, że udzielając zgody Twoje dane będą mogły być przekazywane do&nbsp;naszych Zaufanych Partnerów z&nbsp;państw trzecich tj. z&nbsp;państw spoza Europejskiego Obszaru Gospodarczego.
+Masz prawo żądania dostępu, sprostowania, usunięcia, ograniczenia, przeniesienia przetwarzania danych, złożenia sprzeciwu, złożenia skargi do&nbsp;organu nadzorczego na&nbsp;zasadach określonych w&nbsp;
+polityce prywatności
+.
+Korzystanie z&nbsp;witryny bez zmiany ustawień Twojej przeglądarki oznacza, że pliki cookies będą umieszczane w&nbsp;Twoim urządzeniu końcowym. W&nbsp;
+polityce prywatności
+ możesz zmienić powyższe ustawienia oraz&nbsp;znajdziesz szczegółowe informacje na&nbsp;temat przetwarzania Twoich danych osobowych.
+USTAWIENIA ZAAWANSOWANE
+AKCEPTUJĘ I PRZECHODZĘ DO SERWISU

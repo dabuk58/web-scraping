@@ -56,7 +56,7 @@ def count_specializations(data, model):
     # Zapisz słowa do pliku
     filename = sys.argv[1].split("/")[-1]
     words_above_threshold = [word for word, prediction in zip(data, predictions) if prediction >= 0.4]
-    with open(f'wykryte_spec_{filename}.txt', 'w', encoding='utf-8') as file:
+    with open(f'wykryte_spec_{filename}', 'w', encoding='utf-8') as file:
         file.write('\n'.join(words_above_threshold))
 
 

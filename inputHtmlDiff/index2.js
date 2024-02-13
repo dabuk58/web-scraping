@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-timeout = 5000
+timeout = 10000;
 
 const findTypeOfDoctors = async (webName) => {
   const browser = await puppeteer.launch({headless: false});
@@ -17,8 +17,7 @@ const findTypeOfDoctors = async (webName) => {
   fs.mkdirSync('result/before');
   fs.mkdirSync('result/after');
   for (i = 0; i < inputElements.length; i++) {
-  //for (i = 1; i >=  0; i--) {
-   
+    await page.reload(); 
     const initialHtml = await page.content();
     
     saveToFile(`result/before/${i}.txt`, initialHtml);
@@ -30,13 +29,13 @@ const findTypeOfDoctors = async (webName) => {
     
     htmlAfterTyping = await page.content();
 
-    //const htmlDiff = getHtmlDiff(initialHtml, htmlAfterTyping);
+    //const htmlDiff = getHtmlDiff(initialHtml, htmlAfterTyping, i);
 
     saveToFile(`result/after/${i}.txt`, htmlAfterTyping);
-    await inputElements[i].type('', { delay: 50 });
+    //await inputElements[i].type('', { delay: 50 });
     await page.waitForTimeout(10000)
-    htmlAfterTyping = ""
-    await page.reload(); ///////////////
+    //htmlAfterTyping = ""
+    
   }
 
   await browser.close();
@@ -44,14 +43,20 @@ const findTypeOfDoctors = async (webName) => {
 };
 
 // Function to calculate HTML difference
-const getHtmlDiff = (before, after) => {
-  return after.length > before.length ? after.slice(before.length) : '';
+const getHtmlDiff = (before, after, id) => {
+  const diff = after.length > before.length ? after.slice(before.length) : '';
+
+  // Zapisz różnicę do pliku
+  if (`abc${id}.txt`) {
+      fs.writeFileSync(`abc${id}.txt`, diff, 'utf-8');
+  }
+
+  return diff;
 };
 
-function saveToFile(nazwaPliku, dane) {
+function saveToFile(fileName, data) {
   try {
-    fs.writeFileSync(nazwaPliku, dane, 'utf-8');
-   // console.log(`Dane zapisane do pliku ${nazwaPliku}`);
+    fs.writeFileSync(fileName, data, 'utf-8');
   } catch (error) {
     console.error('Błąd podczas zapisywania do pliku:', error.message);
   }

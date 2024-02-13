@@ -1,36 +1,27 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-
-async function wpiszISprawdz(page, inputSelector, wartoscDoWprowadzenia) {
-    await inputSelector.type(strings[i]);
-    await page.waitForTimeout(1000);
-  
-   
-    const wynikiSelector = '.wyniki';
-    const wyniki = await page.$eval(wynikiSelector, (element) => element.textContent);
-  
-    
-    console.log(`Wyniki dla "${wartoscDoWprowadzenia}": ${wyniki}`);
-  }
+timeout = 5000;
 
 const findTypeOfDoctors = async (webName, inputId) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     await page.goto(webName);
     strings = ['olog', 'atra', 'chirurg']
 
     await page.content();
-    inputElements = await page.$$('input');
+    
 
     fs.mkdirSync('result/spec');
     for (i = 0; i < strings.length; i++) {
+        inputElements = await page.$$('input');
+        await page.waitForTimeout(timeout)
         await inputElements[inputId].type(strings[i]);
         await page.waitForTimeout(1000);
         const htmlAfterTyping = await page.content();
         saveToFile(`result/spec/${strings[i]}.txt`, htmlAfterTyping);
-        await inputElements[i].type('', { delay: 50 });   
-
-        wpiszISprawdz(page,inputElements[inputId], strings[i])
+        //await inputElements[i].type('', { delay: 50 });   
+        await inputElements[inputId].type('', { delay: 50 });
+        await page.reload(); 
     }
 
     await browser.close();
@@ -38,9 +29,9 @@ const findTypeOfDoctors = async (webName, inputId) => {
 };
 
 
-function saveToFile(nazwaPliku, dane) {
+function saveToFile(fileName, data) {
     try {
-        fs.writeFileSync(nazwaPliku, dane, 'utf-8');
+        fs.writeFileSync(fileName, data, 'utf-8');
     } catch (error) {
         console.error('Błąd podczas zapisywania do pliku:', error.message);
     }
