@@ -1,0 +1,11 @@
+chirurg dziecięcy
+chirurg naczyniowy
+chirurg plastyczny
+chirurg stomatologiczny
+chirurg szczękowo-twarzowy
+endokrynolog
+fizjoterapeuta
+neurolog
+pediatra
+psychoterapeuta
+transplantolog

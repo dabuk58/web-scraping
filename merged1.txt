@@ -1,0 +1,78 @@
+alergolog
+alergolog dziecięcy
+androlog
+anestezjolog
+angiochirurg
+angiolog
+audiolog
+bariatra
+chirurg
+chirurg dziecięcy
+chirurg klatki piersiowej
+chirurg naczyniowy
+chirurg onkologiczny
+chirurg plastyczny
+chirurg stomatologiczny
+chirurg szczękowo-twarzowy
+dermatolog
+dermatolog dziecięcy
+diabetolog
+diabetolog dziecięcy
+endokrynolog
+endokrynolog dziecięcy
+fizjoterapeuta
+fizjoterapeuta dziecięcy
+flebolog
+foniatra
+gastrolog
+gastrolog dziecięcy
+geriatra
+ginekolog
+ginekolog dziecięcy
+ginekolog onkologiczny
+hematolog
+hematolog dziecięcy
+hepatolog
+hipertensjolog
+histopatolog
+immunolog
+kardiochirurg
+kardiolog
+kardiolog dziecięcy
+laryngolog
+laryngolog dziecięcy
+nefrolog
+nefrolog dziecięcy
+neonatolog
+neurochirurg
+neurochirurg dziecięcy
+neurolog
+neurolog dziecięcy
+onkolog
+onkolog dziecięcy
+patomorfolog
+pediatra
+perinatolog
+periodontolog
+proktolog
+psychiatra
+psychiatra dziecięcy
+psycholog
+psycholog dziecięcy
+psychoonkolog
+psychoterapeuta
+psychotraumatolog
+pulmonolog
+pulmonolog dziecięcy
+radiolog
+radioterapeuta onkologiczny
+reumatolog
+reumatolog dziecięcy
+seksuolog
+stomatolog
+stomatolog dziecięcy
+terapeuta
+transplantolog
+urolog
+urolog dziecięcy
+wenerolog
